@@ -1,6 +1,6 @@
 package com.brass_amber.ba_bt.client.renderer.golem;
 
-import com.brass_amber.ba_bt.BrassAmberBattleTowers;
+import com.brass_amber.ba_bt.BABTMain;
 import com.brass_amber.ba_bt.entity.hostile.golem.BTAbstractGolem;
 
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -8,8 +8,8 @@ import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.resources.ResourceLocation;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
 public abstract class AbstractBTGolemRenderer<E extends BTAbstractGolem, M extends EntityModel<E>> extends MobRenderer<E, M> {
@@ -41,6 +41,6 @@ public abstract class AbstractBTGolemRenderer<E extends BTAbstractGolem, M exten
 	}
 	
 	protected ResourceLocation setGolemTexture(String textureName) {
-		return BrassAmberBattleTowers.locate("textures/entity/golem/" + this.golemType + "/" + textureName + ".png");
+		return BABTMain.locate("textures/entity/golem/" + this.golemType + "/" + textureName + ".png");
 	}
 }

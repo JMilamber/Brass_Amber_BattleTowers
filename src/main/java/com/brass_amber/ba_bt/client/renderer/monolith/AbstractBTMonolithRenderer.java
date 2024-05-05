@@ -2,7 +2,7 @@ package com.brass_amber.ba_bt.client.renderer.monolith;
 
 import java.util.List;
 
-import com.brass_amber.ba_bt.BrassAmberBattleTowers;
+import com.brass_amber.ba_bt.BABTMain;
 import com.brass_amber.ba_bt.entity.block.BTMonolith;
 import com.brass_amber.ba_bt.client.model.block.MonolithModel;
 import com.google.common.collect.Lists;
@@ -18,8 +18,8 @@ import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
 public abstract class AbstractBTMonolithRenderer extends EntityRenderer<BTMonolith> {
@@ -110,7 +110,7 @@ public abstract class AbstractBTMonolithRenderer extends EntityRenderer<BTMonoli
 	}
 
 	private ResourceLocation setMonolithTextureLocation(String textureName) {
-		return BrassAmberBattleTowers.locate("entity/monolith/" + this.monolithType + "/" + textureName + ".png");
+		return BABTMain.locate("entity/monolith/" + this.monolithType + "/" + textureName + ".png");
 	}
 
 	/**

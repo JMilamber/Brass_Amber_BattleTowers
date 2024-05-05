@@ -7,6 +7,6 @@ import net.minecraft.world.level.block.state.BlockState;
 public class BTOceanSpawnerEntity extends BTAbstractSpawnerBlockEntity {
 
     public BTOceanSpawnerEntity(BlockPos blockPos, BlockState blockState) {
-        super(blockPos, blockState, BTBlockEntityType.BT_OCEAN_MOB_SPAWNER.get());
+        super(blockPos, blockState, BTBlockEntityType.OCEAN_MOB_SPAWNER.get());
     }
 }

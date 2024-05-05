@@ -1,30 +1,40 @@
 package com.brass_amber.ba_bt.init;
 
-import com.brass_amber.ba_bt.BrassAmberBattleTowers;
+import com.brass_amber.ba_bt.BABTMain;
 import com.brass_amber.ba_bt.block.blockentity.spawner.*;
 import com.brass_amber.ba_bt.block.blockentity.GolemChestBlockEntity;
 import com.brass_amber.ba_bt.block.blockentity.TowerChestBlockEntity;
 
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.world.level.block.entity.BlockEntityType;
-import net.neoforged.bus.api.IEventBus;
-import net.neoforged.neoforge.registries.DeferredHolder;
-import net.neoforged.neoforge.registries.DeferredRegister;
+import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.registries.DeferredRegister;
+import net.minecraftforge.registries.RegistryObject;
+
 
 public class BTBlockEntityType {
-	public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITY_TYPES = DeferredRegister.create(BuiltInRegistries.BLOCK_ENTITY_TYPE, BrassAmberBattleTowers.MODID);
+	public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITY_TYPES = DeferredRegister.create(Registries.BLOCK_ENTITY_TYPE, BABTMain.MODID);
 
-	public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<GolemChestBlockEntity>> LAND_GOLEM_CHEST = BLOCK_ENTITY_TYPES.register("land_golem_chest", () -> BlockEntityType.Builder.of(GolemChestBlockEntity::new, BTBlocks.LAND_GOLEM_CHEST.get()).build(null));
-	public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<TowerChestBlockEntity>> LAND_CHEST = BLOCK_ENTITY_TYPES.register("land_chest", () -> BlockEntityType.Builder.of(TowerChestBlockEntity::new, BTBlocks.LAND_CHEST.get()).build(null));
-	public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<GolemChestBlockEntity>> OCEAN_GOLEM_CHEST = BLOCK_ENTITY_TYPES.register("ocean_golem_chest", () -> BlockEntityType.Builder.of(GolemChestBlockEntity::new, BTBlocks.OCEAN_GOLEM_CHEST.get()).build(null));
-	public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<TowerChestBlockEntity>> OCEAN_CHEST = BLOCK_ENTITY_TYPES.register("ocean_chest", () -> BlockEntityType.Builder.of(TowerChestBlockEntity::new, BTBlocks.OCEAN_CHEST.get()).build(null));
+	public static final RegistryObject<BlockEntityType<GolemChestBlockEntity>> LAND_GOLEM_CHEST = BLOCK_ENTITY_TYPES.register("land_golem_chest", () -> BlockEntityType.Builder.of(GolemChestBlockEntity::new, BTBlocks.LAND_GOLEM_CHEST.get()).build(null));
+	public static final RegistryObject<BlockEntityType<TowerChestBlockEntity>> LAND_CHEST = BLOCK_ENTITY_TYPES.register("land_chest", () -> BlockEntityType.Builder.of(TowerChestBlockEntity::new, BTBlocks.LAND_CHEST.get()).build(null));
+	public static final RegistryObject<BlockEntityType<GolemChestBlockEntity>> OCEAN_GOLEM_CHEST = BLOCK_ENTITY_TYPES.register("ocean_golem_chest", () -> BlockEntityType.Builder.of(GolemChestBlockEntity::new, BTBlocks.OCEAN_GOLEM_CHEST.get()).build(null));
+	public static final RegistryObject<BlockEntityType<TowerChestBlockEntity>> OCEAN_CHEST = BLOCK_ENTITY_TYPES.register("ocean_chest", () -> BlockEntityType.Builder.of(TowerChestBlockEntity::new, BTBlocks.OCEAN_CHEST.get()).build(null));
+	public static final RegistryObject<BlockEntityType<GolemChestBlockEntity>> CORE_GOLEM_CHEST = BLOCK_ENTITY_TYPES.register("core_golem_chest", () -> BlockEntityType.Builder.of(GolemChestBlockEntity::new, BTBlocks.CORE_GOLEM_CHEST.get()).build(null));
+	public static final RegistryObject<BlockEntityType<TowerChestBlockEntity>> CORE_CHEST = BLOCK_ENTITY_TYPES.register("core_chest", () -> BlockEntityType.Builder.of(TowerChestBlockEntity::new, BTBlocks.CORE_CHEST.get()).build(null));
+	public static final RegistryObject<BlockEntityType<GolemChestBlockEntity>> NETHER_GOLEM_CHEST = BLOCK_ENTITY_TYPES.register("nether_golem_chest", () -> BlockEntityType.Builder.of(GolemChestBlockEntity::new, BTBlocks.NETHER_GOLEM_CHEST.get()).build(null));
+	public static final RegistryObject<BlockEntityType<TowerChestBlockEntity>> NETHER_CHEST = BLOCK_ENTITY_TYPES.register("nether_chest", () -> BlockEntityType.Builder.of(TowerChestBlockEntity::new, BTBlocks.NETHER_CHEST.get()).build(null));
+	public static final RegistryObject<BlockEntityType<GolemChestBlockEntity>> END_GOLEM_CHEST = BLOCK_ENTITY_TYPES.register("end_golem_chest", () -> BlockEntityType.Builder.of(GolemChestBlockEntity::new, BTBlocks.END_GOLEM_CHEST.get()).build(null));
+	public static final RegistryObject<BlockEntityType<TowerChestBlockEntity>> END_CHEST = BLOCK_ENTITY_TYPES.register("end_chest", () -> BlockEntityType.Builder.of(TowerChestBlockEntity::new, BTBlocks.END_CHEST.get()).build(null));
+	public static final RegistryObject<BlockEntityType<GolemChestBlockEntity>> SKY_GOLEM_CHEST = BLOCK_ENTITY_TYPES.register("sky_golem_chest", () -> BlockEntityType.Builder.of(GolemChestBlockEntity::new, BTBlocks.SKY_GOLEM_CHEST.get()).build(null));
+	public static final RegistryObject<BlockEntityType<TowerChestBlockEntity>> SKY_CHEST = BLOCK_ENTITY_TYPES.register("sky_chest", () -> BlockEntityType.Builder.of(TowerChestBlockEntity::new, BTBlocks.SKY_CHEST.get()).build(null));
 
-	public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<BTLandSpawnerEntity>> BT_LAND_MOB_SPAWNER = BLOCK_ENTITY_TYPES.register("bt_l_spawner", () -> BlockEntityType.Builder.of(BTLandSpawnerEntity::new, BTBlocks.BT_LAND_SPAWNER.get()).build(null));
-	public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<BTOceanSpawnerEntity>> BT_OCEAN_MOB_SPAWNER = BLOCK_ENTITY_TYPES.register("bt_o_spawner", () -> BlockEntityType.Builder.of(BTOceanSpawnerEntity::new, BTBlocks.BT_OCEAN_SPAWNER.get()).build(null));
-	public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<BTCoreSpawnerEntity>> BT_CORE_MOB_SPAWNER = BLOCK_ENTITY_TYPES.register("bt_c_spawner", () -> BlockEntityType.Builder.of(BTCoreSpawnerEntity::new, BTBlocks.BT_CORE_SPAWNER.get()).build(null));
-	public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<BTNetherSpawnerEntity>> BT_NETHER_MOB_SPAWNER = BLOCK_ENTITY_TYPES.register("bt_n_spawner", () -> BlockEntityType.Builder.of(BTNetherSpawnerEntity::new, BTBlocks.BT_NETHER_SPAWNER.get()).build(null));
-	public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<BTEndSpawnerEntity>> BT_END_MOB_SPAWNER = BLOCK_ENTITY_TYPES.register("bt_e_spawner", () -> BlockEntityType.Builder.of(BTEndSpawnerEntity::new, BTBlocks.BT_END_SPAWNER.get()).build(null));
-	public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<BTSkySpawnerEntity>> BT_SKY_MOB_SPAWNER = BLOCK_ENTITY_TYPES.register("bt_s_spawner", () -> BlockEntityType.Builder.of(BTSkySpawnerEntity::new, BTBlocks.BT_SKY_SPAWNER.get()).build(null));
+	public static final RegistryObject<BlockEntityType<BTLandSpawnerEntity>> LAND_MOB_SPAWNER = BLOCK_ENTITY_TYPES.register("l_spawner", () -> BlockEntityType.Builder.of(BTLandSpawnerEntity::new, BTBlocks.LAND_SPAWNER.get()).build(null));
+	public static final RegistryObject<BlockEntityType<BTOceanSpawnerEntity>> OCEAN_MOB_SPAWNER = BLOCK_ENTITY_TYPES.register("o_spawner", () -> BlockEntityType.Builder.of(BTOceanSpawnerEntity::new, BTBlocks.OCEAN_SPAWNER.get()).build(null));
+	public static final RegistryObject<BlockEntityType<BTCoreSpawnerEntity>> CORE_MOB_SPAWNER = BLOCK_ENTITY_TYPES.register("c_spawner", () -> BlockEntityType.Builder.of(BTCoreSpawnerEntity::new, BTBlocks.CORE_SPAWNER.get()).build(null));
+	public static final RegistryObject<BlockEntityType<BTNetherSpawnerEntity>> NETHER_MOB_SPAWNER = BLOCK_ENTITY_TYPES.register("n_spawner", () -> BlockEntityType.Builder.of(BTNetherSpawnerEntity::new, BTBlocks.NETHER_SPAWNER.get()).build(null));
+	public static final RegistryObject<BlockEntityType<BTEndSpawnerEntity>> END_MOB_SPAWNER = BLOCK_ENTITY_TYPES.register("e_spawner", () -> BlockEntityType.Builder.of(BTEndSpawnerEntity::new, BTBlocks.END_SPAWNER.get()).build(null));
+	public static final RegistryObject<BlockEntityType<BTSkySpawnerEntity>> SKY_MOB_SPAWNER = BLOCK_ENTITY_TYPES.register("s_spawner", () -> BlockEntityType.Builder.of(BTSkySpawnerEntity::new, BTBlocks.SKY_SPAWNER.get()).build(null));
 
 	public static void register(IEventBus eventBus) {
 		BLOCK_ENTITY_TYPES.register(eventBus);

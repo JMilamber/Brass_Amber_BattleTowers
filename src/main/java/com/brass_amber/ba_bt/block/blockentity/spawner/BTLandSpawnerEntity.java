@@ -7,6 +7,6 @@ import net.minecraft.world.level.block.state.BlockState;
 public class BTLandSpawnerEntity extends BTAbstractSpawnerBlockEntity {
 
     public BTLandSpawnerEntity(BlockPos blockPos, BlockState blockState) {
-        super(blockPos, blockState, BTBlockEntityType.BT_LAND_MOB_SPAWNER.get());
+        super(blockPos, blockState, BTBlockEntityType.LAND_MOB_SPAWNER.get());
     }
 }

@@ -1,17 +1,16 @@
 package com.brass_amber.ba_bt.block.block;
 
 import java.util.Optional;
-import java.util.Random;
 import java.util.function.Supplier;
 
 import javax.annotation.Nullable;
 
 import com.brass_amber.ba_bt.block.blockentity.GolemChestBlockEntity;
 
+import com.brass_amber.ba_bt.util.GolemType;
 import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.contents.TranslatableContents;
 import net.minecraft.util.RandomSource;
 import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.CompoundContainer;
@@ -73,6 +72,11 @@ public class GolemChestBlock extends ChestBlock {
 
 	public GolemChestBlock(BTChestType chestType, Supplier<BlockEntityType<? extends ChestBlockEntity>> chestSupplier, Properties properties) {
 		super(properties, chestSupplier);
+		this.chestType = chestType;
+	}
+
+	public GolemChestBlock(BTChestType chestType, GolemType type, Properties properties) {
+		super(properties, GolemType.getGolemChestType(type));
 		this.chestType = chestType;
 	}
 

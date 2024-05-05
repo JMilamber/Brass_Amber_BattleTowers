@@ -1,13 +1,12 @@
 package com.brass_amber.ba_bt.item;
 
-import com.brass_amber.ba_bt.BrassAmberBattleTowers;
+import com.brass_amber.ba_bt.BABTMain;
 import com.brass_amber.ba_bt.block.block.TowerChestBlock;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
@@ -31,7 +30,7 @@ public class ChestBlockItem extends BlockItem {
                 tooltip.add(Component.translatable("tooltip.ba_bt.golem_chest").withStyle(ChatFormatting.ITALIC).withStyle(ChatFormatting.GRAY));
             }
         } else {
-            tooltip.add(BrassAmberBattleTowers.HOLD_SHIFT_TOOLTIP);
+            tooltip.add(BABTMain.HOLD_SHIFT_TOOLTIP);
         }
     }
 }

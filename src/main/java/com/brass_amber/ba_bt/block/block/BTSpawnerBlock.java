@@ -26,22 +26,22 @@ public class BTSpawnerBlock extends SpawnerBlock implements EntityBlock {
 
     public BlockEntity newBlockEntity(BlockPos blockPos, BlockState blockState) {
 
-        if (this == BTBlocks.BT_LAND_SPAWNER.get()) {
+        if (this == BTBlocks.LAND_SPAWNER.get()) {
             return new BTLandSpawnerEntity(blockPos, blockState);
 
-        } else if (this == BTBlocks.BT_OCEAN_SPAWNER.get()) {
+        } else if (this == BTBlocks.OCEAN_SPAWNER.get()) {
             return new BTOceanSpawnerEntity(blockPos, blockState);
 
-        } else if (this == BTBlocks.BT_CORE_SPAWNER.get()) {
+        } else if (this == BTBlocks.CORE_SPAWNER.get()) {
             return new BTCoreSpawnerEntity(blockPos, blockState);
 
-        } else if (this == BTBlocks.BT_NETHER_SPAWNER.get()) {
+        } else if (this == BTBlocks.NETHER_SPAWNER.get()) {
             return new BTNetherSpawnerEntity(blockPos, blockState);
 
-        } else if (this == BTBlocks.BT_END_SPAWNER.get()) {
+        } else if (this == BTBlocks.END_SPAWNER.get()) {
             return new BTEndSpawnerEntity(blockPos, blockState);
 
-        } else if (this == BTBlocks.BT_SKY_SPAWNER.get()) {
+        } else if (this == BTBlocks.SKY_SPAWNER.get()) {
             return new BTSkySpawnerEntity(blockPos, blockState);
         } else {
             return new BTLandSpawnerEntity(blockPos, blockState);
@@ -52,26 +52,26 @@ public class BTSpawnerBlock extends SpawnerBlock implements EntityBlock {
 
     @Nullable
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(net.minecraft.world.level.Level level, BlockState blockState, BlockEntityType<T> blockEntityType) {
-        if (this == BTBlocks.BT_LAND_SPAWNER.get()) {
-            return createTickerHelper(blockEntityType, BTBlockEntityType.BT_LAND_MOB_SPAWNER.get(), level.isClientSide ? BTAbstractSpawnerBlockEntity::clientTick : BTAbstractSpawnerBlockEntity::serverTick);
+        if (this == BTBlocks.LAND_SPAWNER.get()) {
+            return createTickerHelper(blockEntityType, BTBlockEntityType.LAND_MOB_SPAWNER.get(), level.isClientSide ? BTAbstractSpawnerBlockEntity::clientTick : BTAbstractSpawnerBlockEntity::serverTick);
 
-        } else if (this == BTBlocks.BT_OCEAN_SPAWNER.get()) {
-            return createTickerHelper(blockEntityType, BTBlockEntityType.BT_OCEAN_MOB_SPAWNER.get(), level.isClientSide ? BTAbstractSpawnerBlockEntity::clientTick : BTAbstractSpawnerBlockEntity::serverTick);
+        } else if (this == BTBlocks.OCEAN_SPAWNER.get()) {
+            return createTickerHelper(blockEntityType, BTBlockEntityType.OCEAN_MOB_SPAWNER.get(), level.isClientSide ? BTAbstractSpawnerBlockEntity::clientTick : BTAbstractSpawnerBlockEntity::serverTick);
 
-        } else if (this == BTBlocks.BT_CORE_SPAWNER.get()) {
-            return createTickerHelper(blockEntityType, BTBlockEntityType.BT_CORE_MOB_SPAWNER.get(), level.isClientSide ? BTAbstractSpawnerBlockEntity::clientTick : BTAbstractSpawnerBlockEntity::serverTick);
+        } else if (this == BTBlocks.CORE_SPAWNER.get()) {
+            return createTickerHelper(blockEntityType, BTBlockEntityType.CORE_MOB_SPAWNER.get(), level.isClientSide ? BTAbstractSpawnerBlockEntity::clientTick : BTAbstractSpawnerBlockEntity::serverTick);
 
-        } else if (this == BTBlocks.BT_NETHER_SPAWNER.get()) {
-            return createTickerHelper(blockEntityType, BTBlockEntityType.BT_NETHER_MOB_SPAWNER.get(), level.isClientSide ? BTAbstractSpawnerBlockEntity::clientTick : BTAbstractSpawnerBlockEntity::serverTick);
+        } else if (this == BTBlocks.NETHER_SPAWNER.get()) {
+            return createTickerHelper(blockEntityType, BTBlockEntityType.NETHER_MOB_SPAWNER.get(), level.isClientSide ? BTAbstractSpawnerBlockEntity::clientTick : BTAbstractSpawnerBlockEntity::serverTick);
 
-        } else if (this == BTBlocks.BT_END_SPAWNER.get()) {
-            return createTickerHelper(blockEntityType, BTBlockEntityType.BT_END_MOB_SPAWNER.get(), level.isClientSide ? BTAbstractSpawnerBlockEntity::clientTick : BTAbstractSpawnerBlockEntity::serverTick);
+        } else if (this == BTBlocks.END_SPAWNER.get()) {
+            return createTickerHelper(blockEntityType, BTBlockEntityType.END_MOB_SPAWNER.get(), level.isClientSide ? BTAbstractSpawnerBlockEntity::clientTick : BTAbstractSpawnerBlockEntity::serverTick);
 
-        } else if (this == BTBlocks.BT_SKY_SPAWNER.get()) {
-            return createTickerHelper(blockEntityType, BTBlockEntityType.BT_SKY_MOB_SPAWNER.get(), level.isClientSide ? BTAbstractSpawnerBlockEntity::clientTick : BTAbstractSpawnerBlockEntity::serverTick);
+        } else if (this == BTBlocks.SKY_SPAWNER.get()) {
+            return createTickerHelper(blockEntityType, BTBlockEntityType.SKY_MOB_SPAWNER.get(), level.isClientSide ? BTAbstractSpawnerBlockEntity::clientTick : BTAbstractSpawnerBlockEntity::serverTick);
 
         } else {
-            return createTickerHelper(blockEntityType, BTBlockEntityType.BT_LAND_MOB_SPAWNER.get(), level.isClientSide ? BTAbstractSpawnerBlockEntity::clientTick : BTAbstractSpawnerBlockEntity::serverTick);
+            return createTickerHelper(blockEntityType, BTBlockEntityType.LAND_MOB_SPAWNER.get(), level.isClientSide ? BTAbstractSpawnerBlockEntity::clientTick : BTAbstractSpawnerBlockEntity::serverTick);
 
         }
 

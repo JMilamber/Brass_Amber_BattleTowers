@@ -1,16 +1,13 @@
 package com.brass_amber.ba_bt.client;
 
-import com.brass_amber.ba_bt.BrassAmberBattleTowers;
+import com.brass_amber.ba_bt.BABTMain;
 import com.brass_amber.ba_bt.client.model.block.MonolithModel;
 import com.brass_amber.ba_bt.client.model.block.ObeliskModel;
 import com.brass_amber.ba_bt.client.renderer.BTCultistRenderer;
 import com.brass_amber.ba_bt.client.renderer.BTSpawnerBlockEntityRenderer;
 import com.brass_amber.ba_bt.client.renderer.NoRenderEntity;
 import com.brass_amber.ba_bt.client.renderer.SkyMinionRenderer;
-import com.brass_amber.ba_bt.client.renderer.chest.LandBTChestRenderer;
-import com.brass_amber.ba_bt.client.renderer.chest.LandBTGolemChestRenderer;
-import com.brass_amber.ba_bt.client.renderer.chest.OceanBTChestRenderer;
-import com.brass_amber.ba_bt.client.renderer.chest.OceanBTGolemChestRenderer;
+import com.brass_amber.ba_bt.client.renderer.chest.*;
 import com.brass_amber.ba_bt.client.renderer.monolith.CoreBTMonolithRenderer;
 import com.brass_amber.ba_bt.client.renderer.monolith.LandBTMonolithRenderer;
 import com.brass_amber.ba_bt.client.model.hostile.*;
@@ -27,14 +24,16 @@ import com.brass_amber.ba_bt.client.renderer.golem.LandBTGolemRenderer;
 import com.brass_amber.ba_bt.client.renderer.golem.NetherBTGolemRenderer;
 import com.brass_amber.ba_bt.client.renderer.golem.OceanBTGolemRenderer;
 import com.brass_amber.ba_bt.client.renderer.golem.SkyBTGolemRenderer;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
-import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.common.Mod;
-import net.neoforged.neoforge.client.event.EntityRenderersEvent;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.client.event.EntityRenderersEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod;
+
+import java.util.Objects;
 
 
-@Mod.EventBusSubscriber(modid = BrassAmberBattleTowers.MODID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
+@Mod.EventBusSubscriber(modid = BABTMain.MODID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
 public class ClientEvents {
 
 	private ClientEvents() {}
@@ -60,7 +59,6 @@ public class ClientEvents {
 		event.registerEntityRenderer(BTEntityType.END_MONOLITH.get(), EndBTMonolithRenderer::new);
 		event.registerEntityRenderer(BTEntityType.SKY_MONOLITH.get(), SkyBTMonolithRenderer::new);
 
-
 		event.registerEntityRenderer(BTEntityType.LAND_OBELISK.get(), LandBTObeliskRenderer::new);
 		event.registerEntityRenderer(BTEntityType.OCEAN_OBELISK.get(), OceanBTObeliskRenderer::new);
 		event.registerEntityRenderer(BTEntityType.CORE_OBELISK.get(), CoreBTObeliskRenderer::new);
@@ -73,17 +71,25 @@ public class ClientEvents {
 		event.registerEntityRenderer(BTEntityType.PHYSICS_EXPLOSION.get(), NoRenderEntity::new);
 
 		// BLOCK ENTITIES
-		event.registerBlockEntityRenderer(BTBlockEntityType.LAND_CHEST.get(), LandBTChestRenderer::new);
-		event.registerBlockEntityRenderer(BTBlockEntityType.LAND_GOLEM_CHEST.get(), LandBTGolemChestRenderer::new);
-		event.registerBlockEntityRenderer(BTBlockEntityType.OCEAN_CHEST.get(), OceanBTChestRenderer::new);
-		event.registerBlockEntityRenderer(BTBlockEntityType.OCEAN_GOLEM_CHEST.get(), OceanBTGolemChestRenderer::new);
+		event.registerBlockEntityRenderer(BTBlockEntityType.LAND_CHEST.get(), LandChestRenderer::new);
+		event.registerBlockEntityRenderer(BTBlockEntityType.LAND_GOLEM_CHEST.get(), LandGolemChestRenderer::new);
+		event.registerBlockEntityRenderer(BTBlockEntityType.OCEAN_CHEST.get(), OceanChestRenderer::new);
+		event.registerBlockEntityRenderer(BTBlockEntityType.OCEAN_GOLEM_CHEST.get(), OceanGolemChestRenderer::new);
+		event.registerBlockEntityRenderer(BTBlockEntityType.CORE_CHEST.get(), CoreChestRenderer::new);
+		event.registerBlockEntityRenderer(BTBlockEntityType.CORE_GOLEM_CHEST.get(), CoreGolemChestRenderer::new);
+		event.registerBlockEntityRenderer(BTBlockEntityType.NETHER_CHEST.get(), NetherChestRenderer::new);
+		event.registerBlockEntityRenderer(BTBlockEntityType.NETHER_GOLEM_CHEST.get(), NetherGolemChestRenderer::new);
+		event.registerBlockEntityRenderer(BTBlockEntityType.END_CHEST.get(), EndChestRenderer::new);
+		event.registerBlockEntityRenderer(BTBlockEntityType.END_GOLEM_CHEST.get(), EndGolemChestRenderer::new);
+		event.registerBlockEntityRenderer(BTBlockEntityType.SKY_CHEST.get(), SkyChestRenderer::new);
+		event.registerBlockEntityRenderer(BTBlockEntityType.SKY_GOLEM_CHEST.get(), SkyGolemChestRenderer::new);
 		
-		event.registerBlockEntityRenderer(BTBlockEntityType.BT_LAND_MOB_SPAWNER.get(), BTSpawnerBlockEntityRenderer::new);
-		event.registerBlockEntityRenderer(BTBlockEntityType.BT_OCEAN_MOB_SPAWNER.get(), BTSpawnerBlockEntityRenderer::new);
-		event.registerBlockEntityRenderer(BTBlockEntityType.BT_CORE_MOB_SPAWNER.get(), BTSpawnerBlockEntityRenderer::new);
-		event.registerBlockEntityRenderer(BTBlockEntityType.BT_NETHER_MOB_SPAWNER.get(), BTSpawnerBlockEntityRenderer::new);
-		event.registerBlockEntityRenderer(BTBlockEntityType.BT_END_MOB_SPAWNER.get(), BTSpawnerBlockEntityRenderer::new);
-		event.registerBlockEntityRenderer(BTBlockEntityType.BT_SKY_MOB_SPAWNER.get(), BTSpawnerBlockEntityRenderer::new);
+		event.registerBlockEntityRenderer(BTBlockEntityType.LAND_MOB_SPAWNER.get(), BTSpawnerBlockEntityRenderer::new);
+		event.registerBlockEntityRenderer(BTBlockEntityType.OCEAN_MOB_SPAWNER.get(), BTSpawnerBlockEntityRenderer::new);
+		event.registerBlockEntityRenderer(BTBlockEntityType.CORE_MOB_SPAWNER.get(), BTSpawnerBlockEntityRenderer::new);
+		event.registerBlockEntityRenderer(BTBlockEntityType.NETHER_MOB_SPAWNER.get(), BTSpawnerBlockEntityRenderer::new);
+		event.registerBlockEntityRenderer(BTBlockEntityType.END_MOB_SPAWNER.get(), BTSpawnerBlockEntityRenderer::new);
+		event.registerBlockEntityRenderer(BTBlockEntityType.SKY_MOB_SPAWNER.get(), BTSpawnerBlockEntityRenderer::new);
 	}
 
 	@OnlyIn(Dist.CLIENT)
@@ -113,33 +119,33 @@ public class ClientEvents {
 		event.registerLayerDefinition(SkyBTGolemRenderer.LAYER, SkyGolemModel::createBodyLayer);
 		event.registerLayerDefinition(OceanBTGolemRenderer.LAYER, OceanGolemModel::createBodyLayer);
 
-		event.registerLayerDefinition(BTChestTextures.locateChestLayer("tower", "land", 0),
-				LandBTChestRenderer::createSingleBodyLayer);
-		event.registerLayerDefinition(BTChestTextures.locateChestLayer("tower", "land", 1),
-				LandBTChestRenderer::createDoubleBodyLeftLayer);
-		event.registerLayerDefinition(BTChestTextures.locateChestLayer("tower", "land", 2),
-				LandBTChestRenderer::createDoubleBodyRightLayer);
+		event.registerLayerDefinition(Objects.requireNonNull(BTChestTextures.locateChestLayer("tower", "land", 0)),
+				AbstractBTChestRenderer::createSingleBodyLayer);
+		event.registerLayerDefinition(Objects.requireNonNull(BTChestTextures.locateChestLayer("tower", "land", 1)),
+				AbstractBTChestRenderer::createDoubleBodyLeftLayer);
+		event.registerLayerDefinition(Objects.requireNonNull(BTChestTextures.locateChestLayer("tower", "land", 2)),
+				AbstractBTChestRenderer::createDoubleBodyRightLayer);
 
-		event.registerLayerDefinition(BTChestTextures.locateChestLayer("golem", "land_golem", 0),
-				LandBTGolemChestRenderer::createSingleBodyLayer);
-		event.registerLayerDefinition(BTChestTextures.locateChestLayer("golem", "land_golem", 1),
-				LandBTGolemChestRenderer::createDoubleBodyLeftLayer);
-		event.registerLayerDefinition(BTChestTextures.locateChestLayer("golem", "land_golem", 2),
-				LandBTGolemChestRenderer::createDoubleBodyRightLayer);
+		event.registerLayerDefinition(Objects.requireNonNull(BTChestTextures.locateChestLayer("golem", "land_golem", 0)),
+				AbstractBTChestRenderer::createSingleBodyLayer);
+		event.registerLayerDefinition(Objects.requireNonNull(BTChestTextures.locateChestLayer("golem", "land_golem", 1)),
+				AbstractBTChestRenderer::createDoubleBodyLeftLayer);
+		event.registerLayerDefinition(Objects.requireNonNull(BTChestTextures.locateChestLayer("golem", "land_golem", 2)),
+				AbstractBTChestRenderer::createDoubleBodyRightLayer);
 
-		event.registerLayerDefinition(BTChestTextures.locateChestLayer("tower", "ocean", 0),
-				OceanBTChestRenderer::createSingleBodyLayer);
-		event.registerLayerDefinition(BTChestTextures.locateChestLayer("tower", "ocean", 1),
-				OceanBTChestRenderer::createDoubleBodyLeftLayer);
-		event.registerLayerDefinition(BTChestTextures.locateChestLayer("tower", "ocean", 2),
-				OceanBTChestRenderer::createDoubleBodyRightLayer);
+		event.registerLayerDefinition(Objects.requireNonNull(BTChestTextures.locateChestLayer("tower", "ocean", 0)),
+				AbstractBTChestRenderer::createSingleBodyLayer);
+		event.registerLayerDefinition(Objects.requireNonNull(BTChestTextures.locateChestLayer("tower", "ocean", 1)),
+				AbstractBTChestRenderer::createDoubleBodyLeftLayer);
+		event.registerLayerDefinition(Objects.requireNonNull(BTChestTextures.locateChestLayer("tower", "ocean", 2)),
+				AbstractBTChestRenderer::createDoubleBodyRightLayer);
 
-		event.registerLayerDefinition(BTChestTextures.locateChestLayer("golem", "ocean_golem", 0),
-				OceanBTGolemChestRenderer::createSingleBodyLayer);
-		event.registerLayerDefinition(BTChestTextures.locateChestLayer("golem", "ocean_golem", 1),
-				OceanBTGolemChestRenderer::createDoubleBodyLeftLayer);
-		event.registerLayerDefinition(BTChestTextures.locateChestLayer("golem", "ocean_golem", 2),
-				OceanBTGolemChestRenderer::createDoubleBodyRightLayer);
+		event.registerLayerDefinition(Objects.requireNonNull(BTChestTextures.locateChestLayer("golem", "ocean_golem", 0)),
+				AbstractBTChestRenderer::createSingleBodyLayer);
+		event.registerLayerDefinition(Objects.requireNonNull(BTChestTextures.locateChestLayer("golem", "ocean_golem", 1)),
+				AbstractBTChestRenderer::createDoubleBodyLeftLayer);
+		event.registerLayerDefinition(Objects.requireNonNull(BTChestTextures.locateChestLayer("golem", "ocean_golem", 2)),
+				AbstractBTChestRenderer::createDoubleBodyRightLayer);
 		}
 
 

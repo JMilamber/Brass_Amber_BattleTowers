@@ -8,13 +8,10 @@ import com.brass_amber.ba_bt.init.BTEntityType;
 import com.brass_amber.ba_bt.sound.BTSoundEvents;
 import com.brass_amber.ba_bt.util.BTUtil;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.sounds.MusicManager;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
-import net.minecraft.network.protocol.Packet;
-import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -23,7 +20,7 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 
-import com.brass_amber.ba_bt.BrassAmberBattleTowers;
+import com.brass_amber.ba_bt.BABTMain;
 import com.brass_amber.ba_bt.util.GolemType;
 import com.brass_amber.ba_bt.util.TowerSpecs;
 
@@ -104,7 +101,7 @@ public class LandDestructionEntity extends Entity {
     }
 
     private void init() {
-    	BrassAmberBattleTowers.LOGGER.debug("Initializing");
+    	BABTMain.LOGGER.debug("Initializing");
         this.specs = TowerSpecs.getTowerFromGolem(this.golemType); // Get tower specifics (height, crumble speed)
         this.setCrumbleSpeed(this.specs.getCrumbleSpeed());
         this.setCrumbleBottom(
@@ -247,7 +244,7 @@ public class LandDestructionEntity extends Entity {
                 }
             } else if (this.getCurrentRow() >= this.rows){
                 // stop if we have done the final row already
-                BrassAmberBattleTowers.LOGGER.debug("In Ending Sequence");
+                BABTMain.LOGGER.debug("In Ending Sequence");
                 this.getNextRow();
                 for (int i = 0; i < 60; i++) {
                     if (this.blocksToRemove.isEmpty()) {

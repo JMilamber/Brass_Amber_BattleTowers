@@ -1,6 +1,6 @@
 package com.brass_amber.ba_bt.client.renderer.obelisk;
 
-import com.brass_amber.ba_bt.BrassAmberBattleTowers;
+import com.brass_amber.ba_bt.BABTMain;
 import com.brass_amber.ba_bt.client.model.block.ObeliskModel;
 import com.brass_amber.ba_bt.entity.block.BTAbstractObelisk;
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -62,6 +62,6 @@ public class AbstractBTObeliskRenderer extends EntityRenderer<BTAbstractObelisk>
     }
 
     private ResourceLocation setObeliskTextureLocation() {
-        return BrassAmberBattleTowers.locate("textures/entity/obelisk/" + this.obeliskType + ".png");
+        return BABTMain.locate("textures/entity/obelisk/" + this.obeliskType + ".png");
     }
 }

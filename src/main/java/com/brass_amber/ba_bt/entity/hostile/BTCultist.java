@@ -1,7 +1,7 @@
 package com.brass_amber.ba_bt.entity.hostile;
 
 
-import com.brass_amber.ba_bt.BrassAmberBattleTowers;
+import com.brass_amber.ba_bt.BABTMain;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
@@ -28,7 +28,7 @@ import net.minecraft.world.item.ProjectileWeaponItem;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.Blocks;
-import net.neoforged.neoforge.common.CommonHooks;
+import net.minecraftforge.common.ForgeHooks;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
@@ -119,7 +119,7 @@ public class BTCultist extends AbstractIllager implements RangedAttackMob {
         ItemStack itemstack = Items.TIPPED_ARROW.getDefaultInstance();
         AbstractArrow abstractarrow = this.getArrow(itemstack, power);
         if (this.getMainHandItem().getItem() instanceof net.minecraft.world.item.BowItem)
-            abstractarrow = ((net.minecraft.world.item.BowItem)this.getMainHandItem().getItem()).customArrow(abstractarrow, itemstack);
+            abstractarrow = ((net.minecraft.world.item.BowItem)this.getMainHandItem().getItem()).customArrow(abstractarrow);
         double d0 = entity.getX() - this.getX();
         double d1 = entity.getY(0.3333333333333333D) - abstractarrow.getY();
         double d2 = entity.getZ() - this.getZ();
@@ -151,7 +151,7 @@ public class BTCultist extends AbstractIllager implements RangedAttackMob {
 
     @Override
     public void die(DamageSource damageSource) {
-        if (CommonHooks.onLivingDeath(this, damageSource)) return;
+        if (ForgeHooks.onLivingDeath(this, damageSource)) return;
         if (!this.isRemoved() && !this.dead) {
             Entity entity = damageSource.getEntity();
             LivingEntity livingentity = this.getKillCredit();
@@ -164,7 +164,7 @@ public class BTCultist extends AbstractIllager implements RangedAttackMob {
             }
 
             if (!this.level().isClientSide && this.hasCustomName()) {
-                BrassAmberBattleTowers.LOGGER.info("Named entity {} died: {}", this, this.getCombatTracker().getDeathMessage().getString());
+                BABTMain.LOGGER.info("Named entity {} died: {}", this, this.getCombatTracker().getDeathMessage().getString());
             }
 
             this.dead = true;

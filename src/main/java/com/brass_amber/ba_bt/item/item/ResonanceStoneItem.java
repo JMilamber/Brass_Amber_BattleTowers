@@ -1,6 +1,6 @@
 package com.brass_amber.ba_bt.item.item;
 
-import com.brass_amber.ba_bt.BrassAmberBattleTowers;
+import com.brass_amber.ba_bt.BABTMain;
 import com.brass_amber.ba_bt.init.BTExtras;
 import com.brass_amber.ba_bt.util.BTUtil;
 import com.brass_amber.ba_bt.util.GolemType;
@@ -59,7 +59,7 @@ public class ResonanceStoneItem extends RecordItem {
         int i = this.getUseDuration(itemStack) - time;
         if (i > 4 && !level.isClientSide()) {
             this.effectOn = !this.effectOn;
-            BrassAmberBattleTowers.LOGGER.info("Resonance effect: " + this.effectOn);
+            BABTMain.LOGGER.info("Resonance effect: " + this.effectOn);
         }
         super.releaseUsing(itemStack, level, entity, time);
     }

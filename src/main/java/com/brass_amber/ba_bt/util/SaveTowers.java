@@ -1,6 +1,6 @@
 package com.brass_amber.ba_bt.util;
 
-import com.brass_amber.ba_bt.BrassAmberBattleTowers;
+import com.brass_amber.ba_bt.BABTMain;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.storage.LevelResource;
@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static java.lang.Integer.parseInt;
-import static net.neoforged.fml.loading.FMLPaths.getOrCreateGameRelativePath;
+import static net.minecraftforge.fml.loading.FMLPaths.getOrCreateGameRelativePath;
 
 public class SaveTowers {
 
@@ -30,7 +30,7 @@ public class SaveTowers {
     public SaveTowers() {}
 
     public void setServer(MinecraftServer newServer) {
-        BrassAmberBattleTowers.LOGGER.info("Server: " + newServer);
+        BABTMain.LOGGER.info("Server: " + newServer);
         server = newServer;
         towers.get(0).clear();
         towers.get(1).clear();

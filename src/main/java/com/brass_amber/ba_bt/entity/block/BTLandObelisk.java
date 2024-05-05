@@ -32,7 +32,7 @@ public class BTLandObelisk extends BTAbstractObelisk {
         this.currentFloorY = this.getBlockY() - 1;
         this.chestBlock = BTBlocks.LAND_CHEST.get();
         this.golemChestBlock = BTBlocks.LAND_GOLEM_CHEST.get();
-        this.spawnerBlock = BTBlocks.BT_LAND_SPAWNER.get();
+        this.spawnerBlock = BTBlocks.LAND_SPAWNER.get();
         this.spawnerFillBlock = Blocks.STONE_BRICKS;
         super.serverInitialize();
     }

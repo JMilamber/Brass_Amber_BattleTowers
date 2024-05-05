@@ -40,7 +40,7 @@ public class DepthDropperEnchantment extends Enchantment {
 
     @Override
     public boolean canEnchant(ItemStack itemStack) {
-        return itemStack.is(BTItems.BT_LAND_RESONANCE_CRYSTAL.get());
+        return itemStack.is(BTItems.LAND_RESONANCE_CRYSTAL.get());
     }
 
     @Override

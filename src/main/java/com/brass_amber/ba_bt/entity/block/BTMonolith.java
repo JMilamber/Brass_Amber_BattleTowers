@@ -1,7 +1,7 @@
 package com.brass_amber.ba_bt.entity.block;
 
+import com.brass_amber.ba_bt.BABTMain;
 import com.brass_amber.ba_bt.BattleTowersConfig;
-import com.brass_amber.ba_bt.BrassAmberBattleTowers;
 import com.brass_amber.ba_bt.init.BTEntityType;
 import com.brass_amber.ba_bt.entity.hostile.golem.BTAbstractGolem;
 import com.brass_amber.ba_bt.sound.BTSoundEvents;
@@ -31,8 +31,8 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.PushReaction;
 import net.minecraft.world.phys.HitResult;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.NotNull;
 
 /*
@@ -263,7 +263,7 @@ public class BTMonolith extends Entity {
 				obelisk.setPos(this.getX(), this.getY() - BattleTowersConfig.landObeliskSpawnDistance.get(), this.getZ());
 			}
 			case OCEAN -> {
-				BrassAmberBattleTowers.LOGGER.info("Ocean Obelisk");
+				BABTMain.LOGGER.info("Ocean Obelisk");
 				obelisk = new BTOceanObelisk(this.level());
 				obelisk.setPos(this.getX(), this.getY() + 87, this.getZ());
 			}
@@ -379,7 +379,7 @@ public class BTMonolith extends Entity {
 	@Override
 	public void kill() {
 		// Do nothing to prevent people deleting a Monolith by accident.
-		BrassAmberBattleTowers.LOGGER.info("Used the /kill command. However, a Monolith has been saved at: " + Math.round(this.getX()) + "X " + Math.round(this.getY()) + "Y " + Math.round(this.getZ()) + "Z.");
+		BABTMain.LOGGER.info("Used the /kill command. However, a Monolith has been saved at: " + Math.round(this.getX()) + "X " + Math.round(this.getY()) + "Y " + Math.round(this.getZ()) + "Z.");
 	}
 
 	/**

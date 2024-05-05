@@ -43,13 +43,18 @@ import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.FireBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.gameevent.GameEvent;
+import net.minecraft.world.level.storage.loot.LootPool;
+import net.minecraft.world.level.storage.loot.LootTable;
+import net.minecraft.world.level.storage.loot.entries.LootItem;
+import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.scores.PlayerTeam;
-import net.neoforged.neoforge.common.NeoForge;
-import net.neoforged.neoforge.common.NeoForgeMod;
-import net.neoforged.neoforge.event.EventHooks;
+import net.minecraftforge.common.ForgeMod;
+import net.minecraftforge.event.ForgeEventFactory;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.Objects;
 
 
 /**
@@ -95,7 +100,7 @@ public abstract class BTAbstractGolem extends Monster {
 	}
 
 	public static AttributeSupplier.Builder createBattleGolemAttributes() {
-		return Monster.createMonsterAttributes().add(NeoForgeMod.STEP_HEIGHT.value(), 1f);
+		return Monster.createMonsterAttributes().add(ForgeMod.STEP_HEIGHT_ADDITION.get(), 1f);
 	}
 
 	/**
@@ -301,7 +306,7 @@ public abstract class BTAbstractGolem extends Monster {
 	}
 
 	private void destroyBlocksNearby() {
-		if(EventHooks.getMobGriefingEvent(this.level(), this) && this.getTarget() != null && this.isAwake()) {
+		if(ForgeEventFactory.getMobGriefingEvent(this.level(), this) && this.getTarget() != null && this.isAwake()) {
 			final Vec3 offset = this.getLookAngle().normalize().scale(0.5);
 			
 			int ox = Mth.floor(this.getX() + offset.x);
@@ -318,7 +323,7 @@ public abstract class BTAbstractGolem extends Monster {
 						BlockState state = this.level().getBlockState(pos);
 						boolean isChest = state.getBlock() instanceof GolemChestBlock || state.getBlock() instanceof TowerChestBlock;
 						if (!isChest) {
-							if(state.canEntityDestroy(this.level(), pos, this) && EventHooks.onEntityDestroyBlock(this, pos, state)) {
+							if(state.canEntityDestroy(this.level(), pos, this) && ForgeEventFactory.onEntityDestroyBlock(this, pos, state)) {
 								playEffectFlag |= this.level().destroyBlock(pos, true, this);
 							}
 							if (state.getBlock() instanceof FireBlock) {
@@ -772,5 +777,6 @@ public abstract class BTAbstractGolem extends Monster {
 	public boolean isEnragedBasedOnHP() {
 		return this.getHealth() / this.getMaxHealth() < 0.33F;
 	}
-	
+
+
 }

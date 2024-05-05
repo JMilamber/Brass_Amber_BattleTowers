@@ -2,15 +2,18 @@ package com.brass_amber.ba_bt.util;
 
 import javax.annotation.Nullable;
 
+import com.brass_amber.ba_bt.client.BTChestTextures;
 import com.brass_amber.ba_bt.entity.LandDestructionEntity;
 import com.brass_amber.ba_bt.entity.OceanDestructionEntity;
 import com.brass_amber.ba_bt.entity.block.BTAbstractObelisk;
 import com.brass_amber.ba_bt.entity.block.BTMonolith;
 import com.brass_amber.ba_bt.entity.hostile.BTCultist;
+import com.brass_amber.ba_bt.init.BTBlockEntityType;
 import com.brass_amber.ba_bt.init.BTEntityType;
 import com.brass_amber.ba_bt.init.BTItems;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.entity.Entity;
@@ -18,7 +21,11 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.monster.*;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.entity.ChestBlockEntity;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.function.Supplier;
 
 public enum GolemType implements StringRepresentable {
 	EMPTY("empty", Component.literal("Empty")),
@@ -167,12 +174,12 @@ public enum GolemType implements StringRepresentable {
 	public static Item getKeyFor(GolemType golemType) {
 		return switch (golemType) {
 			default -> null;
-			case LAND -> BTItems.LAND_MONOLOITH_KEY.get();
-			case OCEAN -> BTItems.OCEAN_MONOLOITH_KEY.get();
-			case CORE -> BTItems.CORE_MONOLOITH_KEY.get();
-			case NETHER -> BTItems.NETHER_MONOLOITH_KEY.get();
-			case END -> BTItems.END_MONOLOITH_KEY.get();
-			case SKY -> BTItems.SKY_MONOLOITH_KEY.get();
+			case LAND -> BTItems.LAND_MONOLITH_KEY.get();
+			case OCEAN -> BTItems.OCEAN_MONOLITH_KEY.get();
+			case CORE -> BTItems.CORE_MONOLITH_KEY.get();
+			case NETHER -> BTItems.NETHER_MONOLITH_KEY.get();
+			case END -> BTItems.END_MONOLITH_KEY.get();
+			case SKY -> BTItems.SKY_MONOLITH_KEY.get();
 		};
 	}
 
@@ -268,5 +275,49 @@ public enum GolemType implements StringRepresentable {
 
 	public Component getDisplayName() {
 		return this.displayName;
+	}
+
+    public static Supplier<BlockEntityType<? extends ChestBlockEntity>> getGolemChestType(GolemType golemType) {
+		return switch (golemType) {
+			default -> BTBlockEntityType.LAND_GOLEM_CHEST::get;
+			case OCEAN -> BTBlockEntityType.OCEAN_GOLEM_CHEST::get;
+			case CORE -> BTBlockEntityType.CORE_GOLEM_CHEST::get;
+			case NETHER -> BTBlockEntityType.NETHER_GOLEM_CHEST::get;
+			case END -> BTBlockEntityType.END_GOLEM_CHEST::get;
+			case SKY -> BTBlockEntityType.SKY_GOLEM_CHEST::get;
+		};
+    }
+
+	public static Supplier<BlockEntityType<? extends ChestBlockEntity>> getChestType(GolemType golemType) {
+		return switch (golemType) {
+			default  -> BTBlockEntityType.LAND_CHEST::get;
+			case OCEAN -> BTBlockEntityType.OCEAN_CHEST::get;
+			case CORE -> BTBlockEntityType.CORE_CHEST::get;
+			case NETHER -> BTBlockEntityType.NETHER_CHEST::get;
+			case END -> BTBlockEntityType.END_CHEST::get;
+			case SKY -> BTBlockEntityType.SKY_CHEST::get;
+		};
+	}
+
+	public static ResourceLocation[] getGolemChestTextures(GolemType golemType) {
+		return switch (golemType) {
+			default  -> BTChestTextures.LAND_CHEST_TEXTURES;
+			case OCEAN -> BTChestTextures.OCEAN_CHEST_TEXTURES;
+			case CORE -> BTChestTextures.CORE_CHEST_TEXTURES;
+			case NETHER -> BTChestTextures.NETHER_CHEST_TEXTURES;
+			case END -> BTChestTextures.END_CHEST_TEXTURES;
+			case SKY -> BTChestTextures.SKY_CHEST_TEXTURES;
+		};
+	}
+
+	public static ResourceLocation[] getChestTextures(GolemType golemType) {
+		return switch (golemType) {
+			default  -> BTChestTextures.LAND_GOLEM_CHEST_TEXTURES;
+			case OCEAN -> BTChestTextures.OCEAN_GOLEM_CHEST_TEXTURES;
+			case CORE -> BTChestTextures.CORE_GOLEM_CHEST_TEXTURES;
+			case NETHER -> BTChestTextures.NETHER_GOLEM_CHEST_TEXTURES;
+			case END -> BTChestTextures.END_GOLEM_CHEST_TEXTURES;
+			case SKY -> BTChestTextures.SKY_GOLEM_CHEST_TEXTURES;
+		};
 	}
 }

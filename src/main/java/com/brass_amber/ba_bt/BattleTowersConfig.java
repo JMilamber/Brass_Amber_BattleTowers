@@ -5,41 +5,42 @@ import java.util.Objects;
 import java.util.function.Predicate;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
-import net.neoforged.neoforge.common.ModConfigSpec;
+import net.minecraftforge.common.ForgeConfigSpec;
+
 
 public class BattleTowersConfig {
 
-    public static final ModConfigSpec.Builder BUILDER = new ModConfigSpec.Builder();
-    public static final ModConfigSpec SPEC;
+    public static final ForgeConfigSpec.Builder BUILDER = new ForgeConfigSpec.Builder();
+    public static final ForgeConfigSpec SPEC;
 
-    public static final ModConfigSpec.ConfigValue<Integer> firstTowerDistance;
-    public static final ModConfigSpec.ConfigValue<Integer> landAverageSeperationModifier;
-    public static final ModConfigSpec.ConfigValue<Integer> landMinimumSeperation;
-    public static final ModConfigSpec.ConfigValue<Integer> oceanAverageSeperationModifier;
-    public static final ModConfigSpec.ConfigValue<Integer> oceanMinimumSeperation;
-    public static final ModConfigSpec.ConfigValue<Boolean> terralithBiomeSpawning;
-    public static final ModConfigSpec.ConfigValue<Boolean> biomesOfPlentyBiomeSpawning;
-    public static final ModConfigSpec.ConfigValue<Boolean> biomesYoullGoBiomeSpawning;
+    public static final ForgeConfigSpec.ConfigValue<Integer> firstTowerDistance;
+    public static final ForgeConfigSpec.ConfigValue<Integer> landAverageSeperationModifier;
+    public static final ForgeConfigSpec.ConfigValue<Integer> landMinimumSeperation;
+    public static final ForgeConfigSpec.ConfigValue<Integer> oceanAverageSeperationModifier;
+    public static final ForgeConfigSpec.ConfigValue<Integer> oceanMinimumSeperation;
+    public static final ForgeConfigSpec.ConfigValue<Boolean> terralithBiomeSpawning;
+    public static final ForgeConfigSpec.ConfigValue<Boolean> biomesOfPlentyBiomeSpawning;
+    public static final ForgeConfigSpec.ConfigValue<Boolean> biomesYoullGoBiomeSpawning;
 
-    public static final ModConfigSpec.ConfigValue<Integer> landTimeBeforeCollapse;
-    public static final ModConfigSpec.ConfigValue<Integer> oceanTimeBeforeCollapse;
-    public static final ModConfigSpec.ConfigValue<Double> landTowerCrumblePercent;
-    public static final ModConfigSpec.ConfigValue<Double> oceanTowerCrumblePercent;
+    public static final ForgeConfigSpec.ConfigValue<Integer> landTimeBeforeCollapse;
+    public static final ForgeConfigSpec.ConfigValue<Integer> oceanTimeBeforeCollapse;
+    public static final ForgeConfigSpec.ConfigValue<Double> landTowerCrumblePercent;
+    public static final ForgeConfigSpec.ConfigValue<Double> oceanTowerCrumblePercent;
 
-    public static final ModConfigSpec.ConfigValue<Double> landGolemHP;
-    public static final ModConfigSpec.ConfigValue<Double> oceanGolemHP;
+    public static final ForgeConfigSpec.ConfigValue<Double> landGolemHP;
+    public static final ForgeConfigSpec.ConfigValue<Double> oceanGolemHP;
 
-    public static final ModConfigSpec.ConfigValue<Integer> landObeliskSpawnDistance;
-    public static final ModConfigSpec.ConfigValue<Integer> landFloorHeight;
-    public static final ModConfigSpec.ConfigValue<Boolean> useOldSpawnerAmounts;
-    public static final ModConfigSpec.ConfigValue<Boolean> minimalOceanCarving;
+    public static final ForgeConfigSpec.ConfigValue<Integer> landObeliskSpawnDistance;
+    public static final ForgeConfigSpec.ConfigValue<Integer> landFloorHeight;
+    public static final ForgeConfigSpec.ConfigValue<Boolean> useOldSpawnerAmounts;
+    public static final ForgeConfigSpec.ConfigValue<Boolean> minimalOceanCarving;
 
-    public static final ModConfigSpec.ConfigValue<List<? extends String>> landTowerMobs;
-    public static final ModConfigSpec.ConfigValue<List<? extends String>> oceanTowerMobs;
+    public static final ForgeConfigSpec.ConfigValue<List<? extends String>> landTowerMobs;
+    public static final ForgeConfigSpec.ConfigValue<List<? extends String>> oceanTowerMobs;
 
-    public static final ModConfigSpec.ConfigValue<Integer> bookLevelEnchant;
-    public static final ModConfigSpec.ConfigValue<Boolean> enchantArmor;
-    public static final ModConfigSpec.ConfigValue<Boolean> enchantTools;
+    public static final ForgeConfigSpec.ConfigValue<Integer> bookLevelEnchant;
+    public static final ForgeConfigSpec.ConfigValue<Boolean> enchantArmor;
+    public static final ForgeConfigSpec.ConfigValue<Boolean> enchantTools;
 
     private static boolean validateEntityName(final Object obj)
     {

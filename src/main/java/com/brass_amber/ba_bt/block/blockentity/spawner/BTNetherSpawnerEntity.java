@@ -7,6 +7,6 @@ import net.minecraft.world.level.block.state.BlockState;
 public class BTNetherSpawnerEntity extends BTAbstractSpawnerBlockEntity {
 
     public BTNetherSpawnerEntity(BlockPos blockPos, BlockState blockState) {
-        super(blockPos, blockState, BTBlockEntityType.BT_NETHER_MOB_SPAWNER.get());
+        super(blockPos, blockState, BTBlockEntityType.NETHER_MOB_SPAWNER.get());
     }
 }

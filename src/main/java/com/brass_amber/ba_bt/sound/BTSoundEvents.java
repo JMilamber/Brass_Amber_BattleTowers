@@ -1,18 +1,19 @@
 package com.brass_amber.ba_bt.sound;
 
-import com.brass_amber.ba_bt.BrassAmberBattleTowers;
+import com.brass_amber.ba_bt.BABTMain;
 
 import net.minecraft.core.Holder;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.sounds.Music;
 import net.minecraft.sounds.SoundEvent;
-import net.neoforged.bus.api.IEventBus;
-import net.neoforged.neoforge.registries.DeferredRegister;
+import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.registries.DeferredRegister;
 
 
 public class BTSoundEvents {
 
-	public static final DeferredRegister<SoundEvent> SOUND_EVENTS = DeferredRegister.create(BuiltInRegistries.SOUND_EVENT, BrassAmberBattleTowers.MODID);
+	public static final DeferredRegister<SoundEvent> SOUND_EVENTS = DeferredRegister.create(Registries.SOUND_EVENT, BABTMain.MODID);
 
 	public static final SoundEvent ENTITY_GOLEM_HURT = registerSoundEvent("entity.golem.hurt");
 	public static final SoundEvent ENTITY_GOLEM_DEATH = registerSoundEvent("entity.golem.death");
@@ -62,7 +63,7 @@ public class BTSoundEvents {
 	 * Helper method for registering all SoundEvents
 	 */
 	private static SoundEvent registerSoundEvent(String registryName) {
-		SoundEvent soundEvent = SoundEvent.createFixedRangeEvent(BrassAmberBattleTowers.locate(registryName), 50);
+		SoundEvent soundEvent = SoundEvent.createFixedRangeEvent(BABTMain.locate(registryName), 50);
 		SOUND_EVENTS.register(registryName, () -> soundEvent);
 		return soundEvent;
 	}

@@ -1,6 +1,6 @@
 package com.brass_amber.ba_bt.entity.block;
 
-import com.brass_amber.ba_bt.BrassAmberBattleTowers;
+import com.brass_amber.ba_bt.BABTMain;
 import com.brass_amber.ba_bt.block.block.BTSpawnerBlock;
 import com.brass_amber.ba_bt.block.blockentity.GolemChestBlockEntity;
 import com.brass_amber.ba_bt.block.blockentity.TowerChestBlockEntity;
@@ -16,8 +16,6 @@ import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.sounds.MusicManager;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.protocol.Packet;
-import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -152,7 +150,7 @@ public class BTAbstractObelisk extends Entity {
         this.towerMobs = BTStatics.towerMobs.get(golemNum);
         this.perFloorData = towerSpawnerData.get(golemNum);
         this.floorData = this.perFloorData.get(0);
-        this.spawnerMarker = BTBlocks.BT_SPAWNER_MARKER.get();
+        this.spawnerMarker = BTBlocks.SPAWNER_MARKER.get();
         this.serverInitialized = true;
     }
 
@@ -254,7 +252,7 @@ public class BTAbstractObelisk extends Entity {
                 // BrassAmberBattleTowers.LOGGER.info("Found Golem Chest");
             }
         } catch (Exception e) {
-            BrassAmberBattleTowers.LOGGER.info("Exception in Obelisk class, not a chest or spawner: " + level.getBlockState(toCheck).getBlock());
+            BABTMain.LOGGER.info("Exception in Obelisk class, not a chest or spawner: " + level.getBlockState(toCheck).getBlock());
             e.printStackTrace();
 
         }
@@ -300,11 +298,11 @@ public class BTAbstractObelisk extends Entity {
                             this.golemSpawned = true;
                         }
                     } catch (Exception f) {
-                        BrassAmberBattleTowers.LOGGER.error("Exception finding Golem: " + f);
+                        BABTMain.LOGGER.error("Exception finding Golem: " + f);
                     }
                 }
             } catch (Exception e) {
-                BrassAmberBattleTowers.LOGGER.error("Exception finding Monolith: " + e);
+                BABTMain.LOGGER.error("Exception finding Monolith: " + e);
             }
         }
 
@@ -355,7 +353,7 @@ public class BTAbstractObelisk extends Entity {
         } else if (this.golemChest != null) {
             if (this.chestsFound && this.initialized && this.tickCount > 40 && !this.golemChest.isUnlocked()) {
                 try {
-                    BrassAmberBattleTowers.LOGGER.debug("Chest " + this.golemChest);
+                    BABTMain.LOGGER.debug("Chest " + this.golemChest);
                     this.golemChest.setUnlocked(true);
                     LootParams lootparams =  (new LootParams.Builder((ServerLevel)this.level())).withParameter(LootContextParams.ORIGIN, Vec3.atCenterOf(this.golemChest.getBlockPos())).create(LootContextParamSets.CHEST);
                     LootContext lootcontext = (new LootContext.Builder(lootparams)).create(null);
@@ -390,11 +388,11 @@ public class BTAbstractObelisk extends Entity {
                             this.golemSpawned = true;
                         }
                     } catch (Exception f) {
-                        BrassAmberBattleTowers.LOGGER.error("Exception finding Golem: " + f);
+                        BABTMain.LOGGER.error("Exception finding Golem: " + f);
                     }
                 }
             } catch (Exception e) {
-                BrassAmberBattleTowers.LOGGER.error("Exception finding Monolith: " + e);
+                BABTMain.LOGGER.error("Exception finding Monolith: " + e);
             }
         }
 
@@ -497,7 +495,7 @@ public class BTAbstractObelisk extends Entity {
                         if (!(level.getBlockState(blockPos).getBlock() instanceof BTSpawnerBlock)) {
                             this.SPAWNERS.get(i).remove(blockPos);
                             this.setSpawnersDestroyed(this.getSpawnersDestroyed() + 1);
-                            BrassAmberBattleTowers.LOGGER.info("Spawners Destroyed: " + this.getSpawnersDestroyed());
+                            BABTMain.LOGGER.info("Spawners Destroyed: " + this.getSpawnersDestroyed());
 
                             if (this.justSpawnedKey) {
                                 this.justSpawnedKey = false;
@@ -550,7 +548,7 @@ public class BTAbstractObelisk extends Entity {
         if (this.level().isClientSide()) {
             music.stopPlaying();
         } else {
-            BrassAmberBattleTowers.LOGGER.info("Setting obelisk data");
+            BABTMain.LOGGER.info("Setting obelisk data");
             tag.putString(towerName, this.golemType.getSerializedName());
             tag.putInt(spawnersDestroyedName, this.getSpawnersDestroyed());
         }
@@ -607,17 +605,17 @@ public class BTAbstractObelisk extends Entity {
         Player player = this.level().getNearestPlayer(this.getX(), this.getY(), this.getZ(), 50, EntitySelector.NO_SPECTATORS);
 
         if (player != null && player.isCreative()) {
-            BrassAmberBattleTowers.LOGGER.info("Item: " + player.getItemInHand(InteractionHand.MAIN_HAND).getItem());
+            BABTMain.LOGGER.info("Item: " + player.getItemInHand(InteractionHand.MAIN_HAND).getItem());
             if (player.getItemInHand(InteractionHand.MAIN_HAND).getItem() == Items.CLAY_BALL) {
                 this.remove(RemovalReason.KILLED);
             } else {
                 // Do nothing to prevent people deleting a Monolith by accident.
-                BrassAmberBattleTowers.LOGGER.info("Used the /kill command. However, an Obelisk has been saved at: " + Math.round(this.getX()) + "X " + Math.round(this.getY()) + "Y " + Math.round(this.getZ()) + "Z.");
+                BABTMain.LOGGER.info("Used the /kill command. However, an Obelisk has been saved at: " + Math.round(this.getX()) + "X " + Math.round(this.getY()) + "Y " + Math.round(this.getZ()) + "Z.");
             }
         }
         else {
             // Do nothing to prevent people deleting a Monolith by accident.
-            BrassAmberBattleTowers.LOGGER.info("Used the /kill command. However, an Obelisk has been saved at: " + Math.round(this.getX()) + "X " + Math.round(this.getY()) + "Y " + Math.round(this.getZ()) + "Z.");
+            BABTMain.LOGGER.info("Used the /kill command. However, an Obelisk has been saved at: " + Math.round(this.getX()) + "X " + Math.round(this.getY()) + "Y " + Math.round(this.getZ()) + "Z.");
         }
 
     }

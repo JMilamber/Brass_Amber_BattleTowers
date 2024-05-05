@@ -2,6 +2,7 @@ package com.brass_amber.ba_bt.block.block;
 
 
 import com.brass_amber.ba_bt.init.BTBlockEntityType;
+import com.brass_amber.ba_bt.util.GolemType;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -15,6 +16,9 @@ public class TowerChestBlock extends GolemChestBlock {
 	public TowerChestBlock(BTChestType chestType, Supplier<BlockEntityType<? extends ChestBlockEntity>> chestSupplier, Properties properties) {
 		super(chestType, chestSupplier, properties);
 
+	}
+	public TowerChestBlock(BTChestType chestType, GolemType type, Properties properties) {
+		super(chestType, GolemType.getChestType(type), properties);
 	}
 
 	@Override

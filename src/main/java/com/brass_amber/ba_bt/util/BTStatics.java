@@ -1,7 +1,6 @@
 package com.brass_amber.ba_bt.util;
 
 import com.brass_amber.ba_bt.BattleTowersConfig;
-import com.brass_amber.ba_bt.BrassAmberBattleTowers;
 import com.brass_amber.ba_bt.init.BTBlocks;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceKey;
@@ -11,10 +10,9 @@ import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.biome.Biomes;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
-import java.util.ArrayList;
+
 import java.util.Arrays;
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
 import static com.brass_amber.ba_bt.BattleTowersConfig.landTowerMobs;
@@ -63,7 +61,8 @@ public class BTStatics {
                         Blocks.MOSSY_STONE_BRICK_SLAB, Blocks.MOSSY_STONE_BRICKS, Blocks.MOSSY_STONE_BRICK_STAIRS,
                         Blocks.SANDSTONE, Blocks.SANDSTONE_SLAB, Blocks.SANDSTONE_STAIRS,
                         Blocks.CHISELED_SANDSTONE, Blocks.CUT_SANDSTONE, Blocks.CUT_SANDSTONE_SLAB,
-                        BTBlocks.LAND_CHEST.get(), BTBlocks.LAND_GOLEM_CHEST.get(), BTBlocks.BT_SPAWNER_MARKER.get()
+                        BTBlocks.LAND_SPAWNER.get(), BTBlocks.LAND_CHEST.get(), BTBlocks.LAND_GOLEM_CHEST.get(),
+                        BTBlocks.SPAWNER_MARKER.get()
                 ),
                 // Ocean
                 List.of(
@@ -76,8 +75,8 @@ public class BTStatics {
                         Blocks.BRAIN_CORAL_BLOCK, Blocks.BUBBLE_CORAL_BLOCK, Blocks.FIRE_CORAL_BLOCK, Blocks.WARPED_HYPHAE,
                         Blocks.TUBE_CORAL_BLOCK, Blocks.HORN_CORAL_BLOCK, Blocks.IRON_BARS, Blocks.BONE_BLOCK,
                         Blocks.COPPER_BLOCK, Blocks.EXPOSED_COPPER, Blocks.OXIDIZED_COPPER, Blocks.WARPED_STEM,
-                        BTBlocks.BT_OCEAN_SPAWNER.get(), BTBlocks.OCEAN_CHEST.get(), BTBlocks.OCEAN_GOLEM_CHEST.get(),
-                        BTBlocks.BT_SPAWNER_MARKER.get()
+                        BTBlocks.OCEAN_SPAWNER.get(), BTBlocks.OCEAN_CHEST.get(), BTBlocks.OCEAN_GOLEM_CHEST.get(),
+                        BTBlocks.SPAWNER_MARKER.get()
                 )
         );
 

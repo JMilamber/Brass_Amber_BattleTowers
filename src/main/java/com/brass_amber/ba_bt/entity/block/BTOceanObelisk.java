@@ -1,6 +1,6 @@
 package com.brass_amber.ba_bt.entity.block;
 
-import com.brass_amber.ba_bt.BrassAmberBattleTowers;
+import com.brass_amber.ba_bt.BABTMain;
 import com.brass_amber.ba_bt.init.BTBlocks;
 import com.brass_amber.ba_bt.init.BTExtras;
 import com.brass_amber.ba_bt.sound.BTSoundEvents;
@@ -78,7 +78,7 @@ public class BTOceanObelisk extends BTAbstractObelisk {
 
         this.chestBlock = BTBlocks.OCEAN_CHEST.get();
         this.golemChestBlock = BTBlocks.OCEAN_GOLEM_CHEST.get();
-        this.spawnerBlock = BTBlocks.BT_OCEAN_SPAWNER.get();
+        this.spawnerBlock = BTBlocks.OCEAN_SPAWNER.get();
         this.spawnerFillBlock = Blocks.PRISMARINE_BRICKS;
         if (minimalOceanCarving.get()) {
             this.noise = 30 + ((random.nextInt(2) + 1) * 4);
@@ -117,7 +117,7 @@ public class BTOceanObelisk extends BTAbstractObelisk {
     protected void readAdditionalSaveData(CompoundTag tag) {
         super.readAdditionalSaveData(tag);
         this.oceanCarved = tag.getBoolean(oceanCarvedName);
-        BrassAmberBattleTowers.LOGGER.info("Ocean Carved in read data " + this.oceanCarved);
+        BABTMain.LOGGER.info("Ocean Carved in read data " + this.oceanCarved);
     }
 
     @Override
@@ -150,7 +150,7 @@ public class BTOceanObelisk extends BTAbstractObelisk {
 
     public void carveOcean() {
         // BrassAmberBattleTowers.LOGGER.info(this.level().isClientSide());
-        BrassAmberBattleTowers.LOGGER.info("Round of carving: " + this.currentCarveLayer);
+        BABTMain.LOGGER.info("Round of carving: " + this.currentCarveLayer);
         BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
         Block block;
         if (this.currentCarveLayer >= this.bottom) {
@@ -217,7 +217,7 @@ public class BTOceanObelisk extends BTAbstractObelisk {
             this.oceanCarved = true;
 
         }
-        BrassAmberBattleTowers.LOGGER.info("Ocean Carved : " + this.oceanCarved);
+        BABTMain.LOGGER.info("Ocean Carved : " + this.oceanCarved);
     }
 
     public void addCoral() {

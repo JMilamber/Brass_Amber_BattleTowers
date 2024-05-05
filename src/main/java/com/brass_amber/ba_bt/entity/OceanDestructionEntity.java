@@ -86,7 +86,7 @@ public class OceanDestructionEntity extends  Entity {
                     FluidState fluidState = this.level().getFluidState(blockToAdd);
                     if (distanceTo2D(this, blockToAdd) < 17.5D) {
                         if (!fluidState.isEmpty()) {
-                            this.level().setBlock(blockToAdd, BTBlocks.BT_AIR_FILL.get().defaultBlockState(), 2);
+                            this.level().setBlock(blockToAdd, BTBlocks.AIR_FILL.get().defaultBlockState(), 2);
                         } else if (!this.level().getBlockState(blockToAdd).isAir()){
                             this.blocksToRemove.add(blockToAdd);
                         }
@@ -247,7 +247,7 @@ public class OceanDestructionEntity extends  Entity {
 
                                 final Vec3 velocity = new Vec3(0D, 0.5D, 0D);
 
-                                this.level().setBlock(removeBlock, BTBlocks.BT_AIR_FILL.get().defaultBlockState(), 2);
+                                this.level().setBlock(removeBlock, BTBlocks.AIR_FILL.get().defaultBlockState(), 2);
                                 if (falling) {
                                     FallingBlockEntity fallingBlock = FallingBlockEntity.fall(
                                             this.level(),
@@ -283,7 +283,7 @@ public class OceanDestructionEntity extends  Entity {
                             BlockPos blockToDelete = new BlockPos(x, y, z);
                             BlockState blockState = this.level().getBlockState(blockToDelete);
                             if (distanceTo2D(this, blockToDelete) < 15.5D) {
-                                if (blockState.is(BTBlocks.BT_AIR_FILL.get()) || this.level().isWaterAt(blockToDelete)) {
+                                if (blockState.is(BTBlocks.AIR_FILL.get()) || this.level().isWaterAt(blockToDelete)) {
                                     this.level().setBlock(blockToDelete, Blocks.AIR.defaultBlockState(), 2);
                                 }
                             }

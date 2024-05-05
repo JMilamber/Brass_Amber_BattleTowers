@@ -1,6 +1,6 @@
 package com.brass_amber.ba_bt.util;
 
-import com.brass_amber.ba_bt.BrassAmberBattleTowers;
+import com.brass_amber.ba_bt.BABTMain;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
@@ -14,7 +14,7 @@ public class BTTags {
         public static final TagKey<Structure> Ocean = createBT("structure/ocean_tower_avoid_structures");
 
         private static TagKey<Structure> createBT(String name) {
-            return TagKey.create(Registries.STRUCTURE, new ResourceLocation(BrassAmberBattleTowers.MODID, name));
+            return TagKey.create(Registries.STRUCTURE, new ResourceLocation(BABTMain.MODID, name));
         }
     }
 }
