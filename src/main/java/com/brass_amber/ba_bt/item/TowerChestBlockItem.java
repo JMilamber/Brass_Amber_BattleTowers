@@ -15,8 +15,8 @@ import javax.annotation.Nullable;
 import java.util.List;
 
 
-public class ChestBlockItem extends BlockItem {
-    public ChestBlockItem(Block block, Properties properties) {
+public class TowerChestBlockItem extends BlockItem {
+    public TowerChestBlockItem(Block block, Properties properties) {
         super(block, properties);
     }
 
