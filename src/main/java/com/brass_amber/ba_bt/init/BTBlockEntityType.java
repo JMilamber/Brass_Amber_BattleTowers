@@ -1,6 +1,7 @@
 package com.brass_amber.ba_bt.init;
 
 import com.brass_amber.ba_bt.BABTMain;
+import com.brass_amber.ba_bt.block.blockentity.DataMarkerBlockEntity;
 import com.brass_amber.ba_bt.block.blockentity.spawner.*;
 import com.brass_amber.ba_bt.block.blockentity.GolemChestBlockEntity;
 import com.brass_amber.ba_bt.block.blockentity.TowerChestBlockEntity;
@@ -35,6 +36,8 @@ public class BTBlockEntityType {
 	public static final RegistryObject<BlockEntityType<BTNetherSpawnerEntity>> NETHER_MOB_SPAWNER = BLOCK_ENTITY_TYPES.register("n_spawner", () -> BlockEntityType.Builder.of(BTNetherSpawnerEntity::new, BTBlocks.NETHER_SPAWNER.get()).build(null));
 	public static final RegistryObject<BlockEntityType<BTEndSpawnerEntity>> END_MOB_SPAWNER = BLOCK_ENTITY_TYPES.register("e_spawner", () -> BlockEntityType.Builder.of(BTEndSpawnerEntity::new, BTBlocks.END_SPAWNER.get()).build(null));
 	public static final RegistryObject<BlockEntityType<BTSkySpawnerEntity>> SKY_MOB_SPAWNER = BLOCK_ENTITY_TYPES.register("s_spawner", () -> BlockEntityType.Builder.of(BTSkySpawnerEntity::new, BTBlocks.SKY_SPAWNER.get()).build(null));
+
+	public static final RegistryObject<BlockEntityType<DataMarkerBlockEntity>> DATA_MARKER = BLOCK_ENTITY_TYPES.register("data_marker", () -> BlockEntityType.Builder.of(DataMarkerBlockEntity::new).build(null));
 
 	public static void register(IEventBus eventBus) {
 		BLOCK_ENTITY_TYPES.register(eventBus);
