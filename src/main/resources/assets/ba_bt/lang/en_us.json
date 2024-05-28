@@ -11,7 +11,6 @@
 	"entity.ba_bt.sky_golem": "Veyhz'kriin, Sky Goddess",
 
 	"entity.ba_bt.sky_minion": "Sky Minion",
-	"entity.ba_bt.platinum_skeleton": "Platinum Knight",
 	"entity.ba_bt.bt_cultist": "Cultist",
 
 	"entity.ba_bt.land_monolith": "Land Monolith",
@@ -76,6 +75,7 @@
 	"block.ba_bt.bt_sky_spawner" : "Sky Spawner",
 
 	"block.ba_bt.spawner_marker" : "Spawner Marker",
+	"block.ba_bt.data_marker" : "Data Marker",
 
 	// Containers
 	"container.ba_bt.land_golem_chest": "Bahryn'muul's Chest",
@@ -112,19 +112,8 @@
 	"item.ba_bt.monolith_end": "End Monolith",
 	"item.ba_bt.monolith_sky": "Sky Monolith",
 
-	"item.ba_bt.platinum_ingot": "Platinum Ingot",
-	"item.ba_bt.platinum_shard": "Platinum Shard",
-	"item.ba_bt.platinum_sword": "Platinum Sword",
-
-	"item.ba_bt.platinum_helmet": "Platinum Helmet",
-	"item.ba_bt.platinum_chestplate": "Platinum Chestplate",
-	"item.ba_bt.platinum_leggings": "Platinum Leggings",
-	"item.ba_bt.platinum_boots": "Platinum Boots",
-
 	"item.ba_bt.land_chest_shard": "Land Chest Shard",
 	"item.ba_bt.ocean_chest_shard": "Ocean Chest Shard",
-
-	"item.ba_bt.platinum_skeleton_spawn_egg": "Platinum Knight Spawn Egg",
 
 	"item.ba_bt.bt_land_resonance_stone": "Land Resonance Stone",
 	"item.ba_bt.bt_ocean_resonance_stone": "Ocean Resonance Stone",
