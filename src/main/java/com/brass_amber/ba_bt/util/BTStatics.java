@@ -10,13 +10,16 @@ import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.biome.Biomes;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.ChestBlock;
+import net.minecraftforge.registries.ForgeRegistries;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.brass_amber.ba_bt.BattleTowersConfig.landTowerMobs;
-import static com.brass_amber.ba_bt.BattleTowersConfig.oceanTowerMobs;
+import static com.brass_amber.ba_bt.BattleTowersConfig.*;
 
 public class BTStatics {
     public static final List<String> landTowerNames;
@@ -28,6 +31,9 @@ public class BTStatics {
     public static final List<Block> icyOceanBlocks;
     public static List<List<EntityType<?>>> towerMobs;
     public static final List<List<List<Integer>>> towerSpawnerData;
+    public static final List<String> containerTypes;
+    public static final List<String> lootTypes;
+    public static final List<Block> containerBlocks;
 
     static {
         landTowerNames = List.of("Land", "Overgrown", "Sandy", "Icy");
@@ -155,15 +161,25 @@ public class BTStatics {
 
         towerMobs = List.of(
                 landTowerMobs.get().stream()
-                        .map(entityName -> BuiltInRegistries.ENTITY_TYPE.get(new ResourceLocation(entityName)))
+                        .map(entityName -> ForgeRegistries.ENTITY_TYPES.getValue(new ResourceLocation(entityName)))
                         .collect(Collectors.toList()),
                 oceanTowerMobs.get().stream()
-                        .map(entityName -> BuiltInRegistries.ENTITY_TYPE.get(new ResourceLocation(entityName)))
+                        .map(entityName -> ForgeRegistries.ENTITY_TYPES.getValue(new ResourceLocation(entityName)))
                         .collect(Collectors.toList())
         );
 
+        containerTypes = new ArrayList<>() {{
+            addAll(Arrays.asList("Invalid", "Chest", "Barrel", "Trapped Chest"));
+            addAll(extraContainerTypes.get());
+        }};
+        containerBlocks = new ArrayList<>() {{
+            addAll(Arrays.asList(Blocks.BEDROCK, Blocks.CHEST, Blocks.BARREL, Blocks.TRAPPED_CHEST));
+            addAll(extraContainerBlocks.get().stream().map(blockName -> ForgeRegistries.BLOCKS.getValue(new ResourceLocation(blockName))).toList());
+        }};
 
+        lootTypes = List.of("Meat", "Veggie", "Cooked", "Gems", "Metals", "Ore", "Building Blocks");
     }
+
 
 
 }

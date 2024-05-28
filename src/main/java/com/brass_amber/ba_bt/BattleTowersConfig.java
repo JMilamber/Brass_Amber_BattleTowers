@@ -1,11 +1,10 @@
 package com.brass_amber.ba_bt;
 
 import java.util.List;
-import java.util.Objects;
-import java.util.function.Predicate;
-import net.minecraft.core.registries.BuiltInRegistries;
+
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.common.ForgeConfigSpec;
+import net.minecraftforge.registries.ForgeRegistries;
 
 
 public class BattleTowersConfig {
@@ -42,10 +41,21 @@ public class BattleTowersConfig {
     public static final ForgeConfigSpec.ConfigValue<Boolean> enchantArmor;
     public static final ForgeConfigSpec.ConfigValue<Boolean> enchantTools;
 
-    private static boolean validateEntityName(final Object obj)
-    {
-        return obj instanceof String entityName && BuiltInRegistries.ENTITY_TYPE.containsKey(new ResourceLocation(entityName));
+    public static final ForgeConfigSpec.ConfigValue<List<? extends String>> extraContainerTypes;
+    public static final ForgeConfigSpec.ConfigValue<List<? extends String>> extraContainerBlocks;
+
+    private static boolean validateEntityName(final Object obj) {
+        return obj instanceof String entityName && ForgeRegistries.ENTITY_TYPES.containsKey(new ResourceLocation(entityName));
     }
+
+    private static boolean validateString(final Object obj) {
+        return obj instanceof String;
+    }
+
+    private static boolean validateBlock(final Object obj) {
+        return obj instanceof String blockName && ForgeRegistries.BLOCKS.containsKey((new ResourceLocation(blockName)));
+    }
+
 
     static {
 
@@ -137,7 +147,8 @@ public class BattleTowersConfig {
                 .defineInRange("Book XP Levels", 10, 0, 40);
         enchantArmor = BUILDER.comment("Whether or not armor in loot should be enchanted").define("Enchanted Armor", true);
         enchantTools = BUILDER.comment("Whether or not tools/weapons in loot should be enchanted").define("Enchanted Tools", true);
-
+        extraContainerTypes = BUILDER.comment("List of extra specifiable container types for use in custom tower floors").defineList("Extra Chest Types", () -> List.of("White Shulker"), BattleTowersConfig::validateString);
+        extraContainerBlocks = BUILDER.comment("List of extra container blocks for placing in custom tower floors").defineList("Extra Chest Types", () -> List.of("minecraft:white_shulker_box"), BattleTowersConfig::validateBlock);
 
         BUILDER.pop();
         SPEC = BUILDER.build();
