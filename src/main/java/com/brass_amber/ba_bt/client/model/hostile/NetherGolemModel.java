@@ -1,8 +1,8 @@
 package com.brass_amber.ba_bt.client.model.hostile;
 
+
 import com.brass_amber.ba_bt.entity.hostile.golem.BTAbstractGolem;
 import com.google.common.collect.ImmutableList;
-
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.model.AnimationUtils;
@@ -11,28 +11,13 @@ import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.HumanoidArm;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraft.client.renderer.blockentity.ChestRenderer;
 
-/**
- * Referenced from {@link HumanoidModel}
- * ====>>
- * End Golem needs transparency?
- *
- */
-@OnlyIn(Dist.CLIENT)
-public class LandGolemModel extends HumanoidModel<BTAbstractGolem> {
-	/**
-	 * Look at {@link ChestRenderer} for example of doing multiple types of textures for an entity
-	 * Essentially create three separate sets of model parts (Dormant, Awake, Enraged) and register all of them with
-	 * 		separate createLayer methods in Client Events, then switch between them based off of Golem state.
-	 * 	Then make all anim/render methods check the Golem state and call the different model parts respectively.
-	 */
-
+public class NetherGolemModel extends HumanoidModel<BTAbstractGolem> {
+	// This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
 	public static ModelLayerLocation LAYER_LOCATION;
 	private final ModelPart head;
 	private final ModelPart body;
@@ -41,11 +26,8 @@ public class LandGolemModel extends HumanoidModel<BTAbstractGolem> {
 	private final ModelPart leftArm;
 	private final ModelPart rightLeg;
 	private final ModelPart leftLeg;
-	public HumanoidModel.ArmPose leftArmPose = HumanoidModel.ArmPose.EMPTY;
-	public HumanoidModel.ArmPose rightArmPose = HumanoidModel.ArmPose.EMPTY;
-	public float swimAmount;
 
-	public LandGolemModel(ModelPart root, ModelLayerLocation location) {
+	public NetherGolemModel(ModelPart root, ModelLayerLocation location) {
 		super(root);
 		LAYER_LOCATION = location;
 		this.head = root.getChild("head");
@@ -56,52 +38,49 @@ public class LandGolemModel extends HumanoidModel<BTAbstractGolem> {
 		this.rightLeg = root.getChild("right_leg");
 		this.leftLeg = root.getChild("left_leg");
 	}
-	
 
 	public static LayerDefinition createBodyLayer() {
 		MeshDefinition meshdefinition = new MeshDefinition();
 		PartDefinition partdefinition = meshdefinition.getRoot();
 
-		PartDefinition head = partdefinition.addOrReplaceChild("head",
-				CubeListBuilder.create().texOffs(0, 0)
+		partdefinition.addOrReplaceChild("head",
+				CubeListBuilder.create()
+						.texOffs(0, 0)
 						.addBox(-8.0F, -8.0F, -8.0F, 16.0F, 16.0F, 16.0F,
-								new CubeDeformation(0.0F)), PartPose.offset(0.0F, -32.0F, 0.0F));
-
-		PartDefinition hat = partdefinition.addOrReplaceChild("hat",
-				CubeListBuilder.create().texOffs(128, 64)
-						.addBox(0F, 0F, 0F, 0F, 0F, 0F,
 								new CubeDeformation(0.0F)), PartPose.offset(0.0F, 0.0F, 0.0F));
 
-		PartDefinition body = partdefinition.addOrReplaceChild("body",
+		partdefinition.addOrReplaceChild("body",
 				CubeListBuilder.create().texOffs(32, 32)
 						.addBox(-8.0F, 0.0F, -4.0F, 16.0F, 24.0F, 8.0F,
 								new CubeDeformation(0.0F)), PartPose.offset(0.0F, -24.0F, 0.0F));
 
-		PartDefinition rightArm = partdefinition.addOrReplaceChild("right_arm",
-				CubeListBuilder.create().texOffs(16, 71)
+		partdefinition.addOrReplaceChild("hat",
+				CubeListBuilder.create().texOffs(128, 64)
+						.addBox(0F, 0F, 0F, 0F, 0F, 0F,
+								new CubeDeformation(0.0F)), PartPose.offset(0.0F, 0.0F, 0.0F));
+
+		partdefinition.addOrReplaceChild("right_arm",
+				CubeListBuilder.create().texOffs(80, 32)
 						.addBox(-6.0F, -4.0F, -4.0F, 8.0F, 24.0F, 8.0F,
 								new CubeDeformation(0.0F)), PartPose.offset(-10.0F, -20.0F, 0.0F));
 
-		PartDefinition leftArm = partdefinition.addOrReplaceChild("left_arm",
+		partdefinition.addOrReplaceChild("left_arm",
 				CubeListBuilder.create().texOffs(80, 32)
 						.addBox(-2.0F, -4.0F, -4.0F, 8.0F, 24.0F, 8.0F,
 								new CubeDeformation(0.0F)), PartPose.offset(10.0F, -20.0F, 0.0F));
 
-		PartDefinition rightLeg = partdefinition.addOrReplaceChild("right_leg",
+		partdefinition.addOrReplaceChild("right_leg",
 				CubeListBuilder.create().texOffs(0, 32)
 						.addBox(-4.2F, 0.0F, -4.0F, 8.0F, 24.0F, 8.0F,
 								new CubeDeformation(0.0F)), PartPose.offset(-3.8F, 0.0F, 0.0F));
 
-		PartDefinition leftLeg = partdefinition.addOrReplaceChild("left_leg",
-				CubeListBuilder.create().texOffs(37, 32)
+		partdefinition.addOrReplaceChild("left_leg",
+				CubeListBuilder.create().texOffs(0, 32)
 						.addBox(-3.8F, 0.0F, -4.0F, 8.0F, 24.0F, 8.0F,
 								new CubeDeformation(0.0F)), PartPose.offset(3.8F, 0.0F, 0.0F));
 
-
-		return LayerDefinition.create(meshdefinition, 128, 128);
+		return LayerDefinition.create(meshdefinition, 128, 64);
 	}
-
-	/*********************************************************** Animations ********************************************************/
 
 	@Override
 	public void setupAnim(BTAbstractGolem entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
@@ -140,7 +119,7 @@ public class LandGolemModel extends HumanoidModel<BTAbstractGolem> {
 			f = 1.0F;
 		}
 
-		// Swing arms and legs when taking damage (and walking?). 
+		// Swing arms and legs when taking damage (and walking?).
 		this.rightArm.xRot = Mth.cos(limbSwing * 0.6662F + (float) Math.PI) * 2.0F * limbSwingAmount * 0.5F / f;
 		this.leftArm.xRot = Mth.cos(limbSwing * 0.6662F) * 2.0F * limbSwingAmount * 0.5F / f;
 		this.rightArm.zRot = 0.0F;
@@ -186,6 +165,22 @@ public class LandGolemModel extends HumanoidModel<BTAbstractGolem> {
 		// Swim animation
 	}
 
+	@Override
+	public void prepareMobModel(BTAbstractGolem entity, float limbSwing, float limbSwingAmount, float partialTick) {
+		this.swimAmount = entity.getSwimAmount(partialTick);
+		super.prepareMobModel(entity, limbSwing, limbSwingAmount, partialTick);
+	}
+
+	@Override
+	public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
+		this.headParts().forEach((headPart) -> {
+			headPart.render(poseStack, vertexConsumer, packedLight, packedOverlay);
+		});
+		this.bodyParts().forEach((bodyPart) -> {
+			bodyPart.render(poseStack, vertexConsumer, packedLight, packedOverlay);
+		});
+	}
+
 	protected void setupAttackAnimation(BTAbstractGolem entity, float ageInTicks) {
 		if (!(this.attackTime <= 0.0F)) {
 			HumanoidArm humanoidarm = this.getAttackArm(entity);
@@ -214,25 +209,6 @@ public class LandGolemModel extends HumanoidModel<BTAbstractGolem> {
 			arm.zRot += Mth.sin(this.attackTime * (float) Math.PI) * -0.4F;
 		}
 	}
-
-	/*********************************************************** Render ********************************************************/
-
-	@Override
-	public void prepareMobModel(BTAbstractGolem entity, float limbSwing, float limbSwingAmount, float partialTick) {
-		this.swimAmount = entity.getSwimAmount(partialTick);
-		super.prepareMobModel(entity, limbSwing, limbSwingAmount, partialTick);
-	}
-
-	@Override
-	public void renderToBuffer(PoseStack poseStack, VertexConsumer consumer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
-		this.headParts().forEach((headPart) -> {
-			headPart.render(poseStack, consumer, packedLight, packedOverlay);
-		});
-		this.bodyParts().forEach((bodyPart) -> {
-			bodyPart.render(poseStack, consumer, packedLight, packedOverlay);
-		});
-	}
-	
 
 	protected Iterable<ModelPart> headParts() {
 		return ImmutableList.of(this.head);
@@ -284,68 +260,68 @@ public class LandGolemModel extends HumanoidModel<BTAbstractGolem> {
 		return entity.swingingArm == InteractionHand.MAIN_HAND ? handside : handside.getOpposite();
 	}
 
-	
+
 
 	public void poseRightArm(BTAbstractGolem entity) {
 		switch (this.rightArmPose) {
-		case EMPTY:
-			this.leftArm.yRot = 0.0F;
-			break;
-		case BLOCK:
-			this.leftArm.xRot = this.leftArm.xRot * 0.5F - 0.9424779F;
-			this.leftArm.yRot = (-(float) Math.PI / 6F);
-			break;
-		case ITEM:
-			this.leftArm.xRot = this.leftArm.xRot * 0.5F - ((float) Math.PI / 10F);
-			this.leftArm.yRot = 0.0F;
-			break;
-		case THROW_SPEAR:
-			this.leftArm.xRot = this.leftArm.xRot * 0.5F - (float) Math.PI;
-			this.leftArm.yRot = 0.0F;
-			break;
-		case BOW_AND_ARROW:
-			this.leftArm.yRot = -0.1F + this.head.yRot;
-			this.rightArm.yRot = 0.1F + this.head.yRot + 0.4F;
-			this.leftArm.xRot = (-(float) Math.PI / 2F) + this.head.xRot;
-			this.rightArm.xRot = (-(float) Math.PI / 2F) + this.head.xRot;
-			break;
-		case CROSSBOW_CHARGE:
-			AnimationUtils.animateCrossbowCharge(this.leftArm, this.rightArm, entity, true);
-			break;
-		case CROSSBOW_HOLD:
-			AnimationUtils.animateCrossbowHold(this.leftArm, this.rightArm, this.head, true);
+			case EMPTY:
+				this.leftArm.yRot = 0.0F;
+				break;
+			case BLOCK:
+				this.leftArm.xRot = this.leftArm.xRot * 0.5F - 0.9424779F;
+				this.leftArm.yRot = (-(float) Math.PI / 6F);
+				break;
+			case ITEM:
+				this.leftArm.xRot = this.leftArm.xRot * 0.5F - ((float) Math.PI / 10F);
+				this.leftArm.yRot = 0.0F;
+				break;
+			case THROW_SPEAR:
+				this.leftArm.xRot = this.leftArm.xRot * 0.5F - (float) Math.PI;
+				this.leftArm.yRot = 0.0F;
+				break;
+			case BOW_AND_ARROW:
+				this.leftArm.yRot = -0.1F + this.head.yRot;
+				this.rightArm.yRot = 0.1F + this.head.yRot + 0.4F;
+				this.leftArm.xRot = (-(float) Math.PI / 2F) + this.head.xRot;
+				this.rightArm.xRot = (-(float) Math.PI / 2F) + this.head.xRot;
+				break;
+			case CROSSBOW_CHARGE:
+				AnimationUtils.animateCrossbowCharge(this.leftArm, this.rightArm, entity, true);
+				break;
+			case CROSSBOW_HOLD:
+				AnimationUtils.animateCrossbowHold(this.leftArm, this.rightArm, this.head, true);
 		}
 
 	}
 
 	private void poseLeftArm(BTAbstractGolem entity) {
 		switch (this.leftArmPose) {
-		case EMPTY:
-			this.rightArm.yRot = 0.0F;
-			break;
-		case BLOCK:
-			this.rightArm.xRot = this.rightArm.xRot * 0.5F - 0.9424779F;
-			this.rightArm.yRot = ((float) Math.PI / 6F);
-			break;
-		case ITEM:
-			this.rightArm.xRot = this.rightArm.xRot * 0.5F - ((float) Math.PI / 10F);
-			this.rightArm.yRot = 0.0F;
-			break;
-		case THROW_SPEAR:
-			this.rightArm.xRot = this.rightArm.xRot * 0.5F - (float) Math.PI;
-			this.rightArm.yRot = 0.0F;
-			break;
-		case BOW_AND_ARROW:
-			this.leftArm.yRot = -0.1F + this.head.yRot - 0.4F;
-			this.rightArm.yRot = 0.1F + this.head.yRot;
-			this.leftArm.xRot = (-(float) Math.PI / 2F) + this.head.xRot;
-			this.rightArm.xRot = (-(float) Math.PI / 2F) + this.head.xRot;
-			break;
-		case CROSSBOW_CHARGE:
-			AnimationUtils.animateCrossbowCharge(this.leftArm, this.rightArm, entity, false);
-			break;
-		case CROSSBOW_HOLD:
-			AnimationUtils.animateCrossbowHold(this.leftArm, this.rightArm, this.head, false);
+			case EMPTY:
+				this.rightArm.yRot = 0.0F;
+				break;
+			case BLOCK:
+				this.rightArm.xRot = this.rightArm.xRot * 0.5F - 0.9424779F;
+				this.rightArm.yRot = ((float) Math.PI / 6F);
+				break;
+			case ITEM:
+				this.rightArm.xRot = this.rightArm.xRot * 0.5F - ((float) Math.PI / 10F);
+				this.rightArm.yRot = 0.0F;
+				break;
+			case THROW_SPEAR:
+				this.rightArm.xRot = this.rightArm.xRot * 0.5F - (float) Math.PI;
+				this.rightArm.yRot = 0.0F;
+				break;
+			case BOW_AND_ARROW:
+				this.leftArm.yRot = -0.1F + this.head.yRot - 0.4F;
+				this.rightArm.yRot = 0.1F + this.head.yRot;
+				this.leftArm.xRot = (-(float) Math.PI / 2F) + this.head.xRot;
+				this.rightArm.xRot = (-(float) Math.PI / 2F) + this.head.xRot;
+				break;
+			case CROSSBOW_CHARGE:
+				AnimationUtils.animateCrossbowCharge(this.leftArm, this.rightArm, entity, false);
+				break;
+			case CROSSBOW_HOLD:
+				AnimationUtils.animateCrossbowHold(this.leftArm, this.rightArm, this.head, false);
 		}
 	}
 }

@@ -114,7 +114,7 @@ public class ClientEvents {
 
 		event.registerLayerDefinition(LandBTGolemRenderer.LAYER, LandGolemModel::createBodyLayer);
 		event.registerLayerDefinition(CoreBTGolemRenderer.LAYER, LandGolemModel::createBodyLayer);
-		event.registerLayerDefinition(NetherBTGolemRenderer.LAYER, LandGolemModel::createBodyLayer);
+		event.registerLayerDefinition(NetherBTGolemRenderer.LAYER, NetherGolemModel::createBodyLayer);
 		event.registerLayerDefinition(EndBTGolemRenderer.LAYER, LandGolemModel::createBodyLayer);
 		event.registerLayerDefinition(SkyBTGolemRenderer.LAYER, SkyGolemModel::createBodyLayer);
 		event.registerLayerDefinition(OceanBTGolemRenderer.LAYER, OceanGolemModel::createBodyLayer);
