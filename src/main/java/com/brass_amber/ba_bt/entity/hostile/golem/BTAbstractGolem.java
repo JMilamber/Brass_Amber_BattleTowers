@@ -43,18 +43,12 @@ import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.FireBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.gameevent.GameEvent;
-import net.minecraft.world.level.storage.loot.LootPool;
-import net.minecraft.world.level.storage.loot.LootTable;
-import net.minecraft.world.level.storage.loot.entries.LootItem;
-import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.scores.PlayerTeam;
 import net.minecraftforge.common.ForgeMod;
 import net.minecraftforge.event.ForgeEventFactory;
 import org.jetbrains.annotations.NotNull;
-
-import java.util.Objects;
 
 
 /**
@@ -101,6 +95,31 @@ public abstract class BTAbstractGolem extends Monster {
 
 	public static AttributeSupplier.Builder createBattleGolemAttributes() {
 		return Monster.createMonsterAttributes().add(ForgeMod.STEP_HEIGHT_ADDITION.get(), 1f);
+	}
+
+	public double getLerpX() {
+		return this.lerpX;
+	}
+
+	public double getLerpY() {
+		return this.lerpY;
+	}
+
+	public double getLerpZ() {
+		return this.lerpZ;
+	}
+
+	public double getLerpXRot() {
+		return this.lerpXRot;
+	}
+
+	public double getLerpYRot() {
+		return this.lerpYRot;
+	}
+
+	@Override
+	public void setRot(float xRot, float yRot) {
+		super.setRot(xRot, yRot);
 	}
 
 	/**
@@ -209,10 +228,13 @@ public abstract class BTAbstractGolem extends Monster {
 			return;
 		}
 
-		Player player = this.level().getNearestPlayer(this.getX(), this.getY(), this.getZ(), this.getTargetingRange(), true);
+		Player player = this.level().getNearestPlayer(this.getX(), this.getY(), this.getZ(), this.getTargetingRange(), false);
 		boolean survivalAdventure;
 		if (player != null) {
+
+			// Just swap between the commented variable instantiations for creative mode testing.
 			survivalAdventure = EntitySelector.NO_CREATIVE_OR_SPECTATOR.test(player) && EntitySelector.LIVING_ENTITY_STILL_ALIVE.test(player);
+//			survivalAdventure = EntitySelector.LIVING_ENTITY_STILL_ALIVE.test(player);
 		} else {
 			survivalAdventure = false;
 		}
@@ -247,6 +269,11 @@ public abstract class BTAbstractGolem extends Monster {
 
 		// Heal the Golem if its dormant and not at max health.
 		this.healGolemTick();
+
+//		assert player != null;
+		if (player != null && player.isShiftKeyDown()) {
+			this.kill();
+		}
 	}
 	
 	/**
@@ -254,10 +281,11 @@ public abstract class BTAbstractGolem extends Monster {
 	 * (Used in TargetGoals)
 	 * <p>
 	 * Note: Finds the nearest player/loaded entity.
+	 * TODO: Add back player.isCreative() once testing is over. For targeting testing. Just lets the golem target creative players.
 	 */
 	@Override
 	public void setTarget(@Nullable LivingEntity livingEntity) {
-		if (livingEntity instanceof Player player && (player.isCreative() || player.isSpectator())) {
+		if (livingEntity instanceof Player player && (player.isSpectator())) {
 			super.setTarget(null);
 		} else {
 			super.setTarget(livingEntity);
