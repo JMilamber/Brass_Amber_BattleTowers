@@ -2,7 +2,7 @@
   "parent": "ba_bt:battletowers/ocean_tower_found",
   "display": {
     "icon": {
-      "item": "ba_bt:monolith_key_ocean"
+      "item": "ba_bt:ocean_monolith_key"
     },
     "title": {
       "translate": "advancements.ba_bt.find_ocean_key.title",

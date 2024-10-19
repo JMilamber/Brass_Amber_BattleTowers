@@ -1,5 +1,5 @@
 {
-  "type": "ba_bt:bt_land_tower",
+  "type": "ba_bt:land_tower",
 
   "avoid_structures": "#structure/land_tower_avoid_structures",
 
