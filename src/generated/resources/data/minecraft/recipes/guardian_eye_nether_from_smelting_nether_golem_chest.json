@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:smelting",
+  "category": "misc",
+  "cookingtime": 250,
+  "experience": 0.2,
+  "group": "bt_Chest",
+  "ingredient": {
+    "item": "ba_bt:nether_golem_chest"
+  },
+  "result": "ba_bt:guardian_eye_nether"
+}
