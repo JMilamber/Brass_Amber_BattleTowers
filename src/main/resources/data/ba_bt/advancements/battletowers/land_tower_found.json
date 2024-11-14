@@ -22,9 +22,11 @@
     "Find Land Tower": {
       "trigger": "minecraft:location",
       "conditions": {
-        "player": [],
-        "location": {
-          "feature": "ba_bt:land_battle_tower"
+        "player": {
+          "type": "minecraft:player",
+          "location": {
+            "structure": "ba_bt:land_tower"
+          }
         }
       }
     }

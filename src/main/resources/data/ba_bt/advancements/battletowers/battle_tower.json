@@ -25,7 +25,8 @@
           {
             "items": [
               "minecraft:crafting_table"
-            ]
+            ],
+            "count": 1
           }
         ]
       }
