@@ -124,13 +124,13 @@ public class BTBlocks {
 			() -> new BTSpawnerBlock(Block.Properties.of().mapColor(MapColor.STONE).requiresCorrectToolForDrops().strength(5.0F).sound(SoundType.METAL).noOcclusion().noLootTable()), 1);
 
 	public static final  RegistryObject<Block> SPAWNER_MARKER = registerBlock("spawner_marker",
-			() -> new Block(BlockBehaviour.Properties.of().mapColor(MapColor.METAL).strength(5.0F, 1200.0F).noOcclusion().explosionResistance(6.0F).isValidSpawn(BTBlocks::never).noLootTable()), 1);
+			() -> new Block(BlockBehaviour.Properties.of().mapColor(MapColor.METAL).strength(-1.0F, 3600000.0F).noOcclusion().noLootTable().isValidSpawn(BTBlocks::never)), 1);
 
 	public static final RegistryObject<Block> AIR_FILL = registerBlock("air_fill",
-			() -> new BTBlockingAirBlock(BlockBehaviour.Properties.of().noCollission().noOcclusion().noLootTable().air()), 1);
+			() -> new BTBlockingAirBlock(BlockBehaviour.Properties.of().replaceable().noCollission().noLootTable().air().forceSolidOn()), 1);
 
 	public static final RegistryObject<Block> DATA_MARKER = registerBlock("data_marker",
-			() -> new DataMarkerBlock(BlockBehaviour.Properties.of().mapColor(MapColor.METAL).strength(5.0F, 1200.0F).noOcclusion().explosionResistance(6.0F).isValidSpawn(BTBlocks::never).noLootTable()), 1);
+			() -> new DataMarkerBlock(BlockBehaviour.Properties.of().mapColor(MapColor.METAL).strength(-1.0F, 3600000.0F).noOcclusion().noLootTable().isValidSpawn(BTBlocks::never)), 1);
 
 	private static Boolean never(BlockState p_50779_, BlockGetter p_50780_, BlockPos p_50781_, EntityType<?> p_50782_) {
 		return false;
