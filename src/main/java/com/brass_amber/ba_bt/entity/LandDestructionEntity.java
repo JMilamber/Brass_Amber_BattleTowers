@@ -80,10 +80,10 @@ public class LandDestructionEntity extends Entity {
 
         // for each of th three rows add every single non-air block pos on that row to the arraylist
         for (int y = rowCorner.getY(); y > (rowCorner.getY() - 3); y--) {
-            for (int x = rowCorner.getX(); x <= rowCorner.getX() + 30; x++) {
-                for(int z = rowCorner.getZ(); z <= rowCorner.getZ() + 30; z++) {
+            for (int x = rowCorner.getX() - 1; x <= rowCorner.getX() + 31; x++) {
+                for(int z = rowCorner.getZ() - 1; z <= rowCorner.getZ() + 31; z++) {
                     BlockPos blockToAdd = new BlockPos(x, y, z);
-                    if (BTUtil.distanceTo2D(this, blockToAdd) < 14.5D) {
+                    if (BTUtil.distanceTo2D(this, blockToAdd) < 15.5D) {
                         if (this.level().isWaterAt(blockToAdd)) {
                             this.level().setBlock(blockToAdd, Blocks.AIR.defaultBlockState(), 3);
                         } else if (!this.level().getBlockState(blockToAdd).isAir()) {
