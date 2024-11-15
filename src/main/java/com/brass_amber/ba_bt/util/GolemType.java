@@ -92,6 +92,25 @@ public enum GolemType implements StringRepresentable {
 		};
 	}
 
+	@NotNull
+	public static GolemType getTypeForObelisk(BTAbstractObelisk entity) {
+		EntityType<?> entityType = entity.getType();
+        if (entityType.equals(BTEntityType.LAND_OBELISK.get())) {
+            return LAND;
+        } else if (entityType.equals(BTEntityType.OCEAN_OBELISK.get())) {
+            return OCEAN;
+        } else if (entityType.equals(BTEntityType.CORE_OBELISK.get())) {
+            return CORE;
+        } else if (entityType.equals(BTEntityType.NETHER_OBELISK.get())) {
+            return NETHER;
+        } else if (entityType.equals(BTEntityType.END_OBELISK.get())) {
+            return END;
+        } else if (entityType.equals(BTEntityType.SKY_OBELISK.get())) {
+            return SKY;
+        }
+		return EMPTY;
+    }
+
 
 	/*********************************************************** Monolith ********************************************************/
 
@@ -265,6 +284,18 @@ public enum GolemType implements StringRepresentable {
 			case END -> 4;
 			case SKY -> 5;
 			case CITY -> 6;
+		};
+	}
+	public static Item getResonanceCrystalForType(GolemType golemType) {
+		return switch (golemType) {
+			default -> null;
+			case LAND -> BTItems.LAND_RESONANCE_CRYSTAL.get();
+			case OCEAN -> BTItems.OCEAN_RESONANCE_CRYSTAL.get();
+			case CORE -> BTItems.CORE_RESONANCE_CRYSTAL.get();
+			case NETHER -> BTItems.NETHER_RESONANCE_CRYSTAL.get();
+			case END -> BTItems.END_RESONANCE_CRYSTAL.get();
+			case SKY -> BTItems.SKY_RESONANCE_CRYSTAL.get();
+			case CITY -> BTItems.CITY_RESONANCE_CRYSTAL.get();
 		};
 	}
 
