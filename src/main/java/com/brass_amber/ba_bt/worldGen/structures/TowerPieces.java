@@ -116,7 +116,7 @@ public class TowerPieces {
 
         }
 
-        towerPieces.add(new RoomPiece(templateManager, "top_floor", towerName, blockPos.above(floorHeight*7), rotation, List.of(CARPET_PLACER, WOOL_REPLACER), 8));
+        towerPieces.add(new RoomPiece(templateManager, "top_floor", towerName, blockPos.above(floorHeight*7), rotation, List.of(CARPET_PLACER), 8));
 
     }
 
@@ -214,7 +214,7 @@ public class TowerPieces {
 
         @Override
         public int getGroundLevelDelta() {
-            return 4;
+            return 3;
         }
     }
 
