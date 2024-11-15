@@ -1,11 +1,7 @@
 package com.brass_amber.ba_bt.worldGen.structures;
 
 import com.brass_amber.ba_bt.BABTMain;
-import com.brass_amber.ba_bt.BattleTowersConfig;
-import com.brass_amber.ba_bt.entity.block.BTAbstractObelisk;
-import com.brass_amber.ba_bt.entity.block.BTLandObelisk;
 import com.brass_amber.ba_bt.entity.block.BTMonolith;
-import com.brass_amber.ba_bt.entity.block.BTOceanObelisk;
 import com.brass_amber.ba_bt.init.BTEntityType;
 import com.brass_amber.ba_bt.init.BTStructures;
 import com.brass_amber.ba_bt.util.SaveTowers;
@@ -31,12 +27,10 @@ import net.minecraft.world.level.levelgen.structure.BoundingBox;
 import net.minecraft.world.level.levelgen.structure.Structure;
 import net.minecraft.world.level.levelgen.structure.StructureType;
 import net.minecraft.world.level.levelgen.structure.pieces.PiecesContainer;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.brass_amber.ba_bt.BABTMain.SAVE_TOWERS;
 import static com.brass_amber.ba_bt.BattleTowersConfig.*;
 
 public class LandTower extends TowerStructure {
@@ -312,6 +306,50 @@ public class LandTower extends TowerStructure {
                     worldGenLevel.setBlock(blockpos$mutableblockpos, Blocks.STONE_BRICKS.defaultBlockState(), 2);
                     worldGenLevel.setBlock(blockpos$mutableblockpos.below(), Blocks.STONE_BRICKS.defaultBlockState(), 2);
                     break;
+                }
+            }
+        }
+        
+        List<BlockState> acceptableDirtBlocks = List.of(
+                Blocks.DIRT.defaultBlockState(), Blocks.DIRT_PATH.defaultBlockState(),
+                Blocks.COARSE_DIRT.defaultBlockState(), Blocks.ROOTED_DIRT.defaultBlockState(),
+                Blocks.GRAVEL.defaultBlockState(), Blocks.GRASS_BLOCK.defaultBlockState()
+        );
+        List<BlockState> acceptableStoneBlocks = List.of(
+                Blocks.STONE.defaultBlockState(),  Blocks.IRON_ORE.defaultBlockState(),
+                Blocks.COAL_ORE.defaultBlockState(), Blocks.ANDESITE.defaultBlockState(),
+                Blocks.GRANITE.defaultBlockState(), Blocks.DIORITE.defaultBlockState()
+        );
+
+        startPositions.clear();
+
+        BlockState state;
+
+        for (int x = startX; x <= endX; x++) {
+            for (int z = startZ; z <= endZ; z++) {
+                blockpos$mutableblockpos.set(x, bbYStart + 3, z);
+                state = worldGenLevel.getBlockState(blockpos$mutableblockpos);
+                // BrassAmberBattleTowers.LOGGER.info("Block at: " + blockpos$mutableblockpos + " is: " + worldGenLevel.getBlockState(blockpos$mutableblockpos));
+                if (acceptableDirtBlocks.contains(state) || acceptableStoneBlocks.contains(state)) {
+                    // BrassAmberBattleTowers.LOGGER.info("Block is acceptable: " + blockpos$mutableblockpos + " "+ worldGenLevel.getBlockState(blockpos$mutableblockpos));
+                    startPositions.add(new BlockPos(x, bbYStart + 2, z));
+                }
+            }
+        }
+
+
+        for (BlockPos startPos: startPositions) {
+            for (int y = startPos.getY(); y > worldGenLevel.getMinBuildHeight() ; y--) {
+                blockpos$mutableblockpos.set(startPos.getX(), y, startPos.getZ());
+                state = worldGenLevel.getBlockState(blockpos$mutableblockpos.above());
+
+                // BrassAmberBattleTowers.LOGGER.info("Block to check: " + blockpos$mutableblockpos + " is: " + worldGenLevel.getBlockState(blockpos$mutableblockpos));
+                if (worldGenLevel.isEmptyBlock(blockpos$mutableblockpos) || worldGenLevel.isWaterAt(blockpos$mutableblockpos)) {
+                    if (acceptableDirtBlocks.contains(state) ){
+                        worldGenLevel.setBlock(blockpos$mutableblockpos, Blocks.DIRT.defaultBlockState(), 2);
+                    } else {
+                        worldGenLevel.setBlock(blockpos$mutableblockpos, Blocks.STONE.defaultBlockState(), 2);
+                    }
                 }
             }
         }
