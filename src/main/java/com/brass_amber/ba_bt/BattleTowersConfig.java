@@ -138,7 +138,7 @@ public class BattleTowersConfig {
         biomesOfPlentyBiomeSpawning = BUILDER.comment("Whether to include acceptable Biomes of Plenty biomes during the tower's Biome check.")
                 .define("biomesofPlenty", false);
         biomesYoullGoBiomeSpawning = BUILDER.comment("Whether to include acceptable Oh The Biomes You'll Go biomes during the tower's Biome check.")
-                .define("ohTheBiomesYou'llGo", false);
+                .define("ohTheBiomesYoullGo", false);
         BUILDER.pop();
 
         BUILDER.comment("Advanced Settings -- take note of the range for each value, values outside the ranges will be discarded");
@@ -194,83 +194,83 @@ public class BattleTowersConfig {
                         .defineInRange("landTowerFloorHeight", 11, 4, 24);
         useOldSpawnerAmounts =
                 BUILDER.comment("Whether to use the new spawner amounts for each floor, or old 2 spawners per floor")
-                        .define("Old Spawner Amounts", false);
+                        .define("oldSpawnerAmounts", false);
 
         BUILDER.pop();
 
 
-        BUILDER.push("Tower Loot Options ");
+        BUILDER.push("towerLootOptions");
         bookLevelEnchant = BUILDER.comment("The number of xp levels books and tools are enchanted with in loot, " +
                 "Ie a 20 here means that books and tools that appear in loot will contain enchants as if enchanted with 20 levels of xp  up to 41 (3 extra per tower floor)" )
-                .defineInRange("Book XP Levels", 10, 0, 40);
-        enchantArmor = BUILDER.comment("Whether or not armor in loot should be enchanted").define("Enchanted Armor", true);
-        enchantTools = BUILDER.comment("Whether or not tools/weapons in loot should be enchanted").define("Enchanted Tools", true);
-        extraContainerTypes = BUILDER.comment("List of extra specifiable container types for use in custom tower floors").defineList("Extra Chest Types", () -> List.of("White Shulker"), BattleTowersConfig::validateString);
-        extraContainerBlocks = BUILDER.comment("List of extra container blocks for placing in custom tower floors").defineList("Extra Chest Blocks", () -> List.of("minecraft:white_shulker_box"), BattleTowersConfig::validateBlock);
+                .defineInRange("bookXPLevels", 10, 0, 40);
+        enchantArmor = BUILDER.comment("Whether or not armor in loot should be enchanted").define("enchantedArmor", true);
+        enchantTools = BUILDER.comment("Whether or not tools/weapons in loot should be enchanted").define("enchantedTools", true);
+        extraContainerTypes = BUILDER.comment("List of extra specifiable container types for use in custom tower floors").defineList("extraChestTypes", () -> List.of("White Shulker"), BattleTowersConfig::validateString);
+        extraContainerBlocks = BUILDER.comment("List of extra container blocks for placing in custom tower floors").defineList("extraChestBlocks", () -> List.of("minecraft:white_shulker_box"), BattleTowersConfig::validateBlock);
         BUILDER.pop();
 
-        BUILDER.push("Tower Extendable Loot Pools");
+        BUILDER.push("towerExtendableLootPools");
         BUILDER.comment("Rarity starts at zero on floor 1 of any tower and increases by 1 every 2 floors.");
         BUILDER.comment("A Rarity 0 item for the meat pool would be rotten flesh, while a rarity 4 item would be rabbit stew (as seen below)");
         BUILDER.comment("Every item you add to the 'Pool Extra' needs a matching entry in the rarity and amount sections");
         BUILDER.comment("The amount section is a float with the '.' separating the min amount of the item from the max amount. I.E 1.3 is a range of 1-3");
         
-        meatPoolExtra = BUILDER.defineListAllowEmpty("Meat Loot Pool ", () -> List.of("minecraft:rabbit_stew"), BattleTowersConfig::validateItem);
-        meatPoolRarity = BUILDER.defineListAllowEmpty("Meat Loot Rarity (0-4)", () -> List.of(5), BattleTowersConfig::validateRarity);
-        meatPoolAmount = BUILDER.defineListAllowEmpty("Meat Loot Amounts", () -> List.of(1.1f), BattleTowersConfig::validateFloat);
+        meatPoolExtra = BUILDER.defineListAllowEmpty("meatLootPool", () -> List.of("minecraft:rabbit_stew"), BattleTowersConfig::validateItem);
+        meatPoolRarity = BUILDER.defineListAllowEmpty("meatLootRarity", () -> List.of(4), BattleTowersConfig::validateRarity);
+        meatPoolAmount = BUILDER.defineListAllowEmpty("meatLootAmounts", () -> List.of(1.1f), BattleTowersConfig::validateFloat);
 
-        veggiePoolExtra = BUILDER.defineListAllowEmpty("Veggie Loot Pool", Collections.emptyList(), BattleTowersConfig::validateItem);
-        veggiePoolRarity = BUILDER.defineListAllowEmpty("Veggie Loot Rarity (0-4)", Collections.emptyList(), BattleTowersConfig::validateRarity);
-        veggiePoolAmount = BUILDER.defineListAllowEmpty("VeggieLoot Amounts", Collections.emptyList(), BattleTowersConfig::validateFloat);
+        veggiePoolExtra = BUILDER.defineListAllowEmpty("veggieLootPool", Collections.emptyList(), BattleTowersConfig::validateItem);
+        veggiePoolRarity = BUILDER.defineListAllowEmpty("veggieLootRarity", Collections.emptyList(), BattleTowersConfig::validateRarity);
+        veggiePoolAmount = BUILDER.defineListAllowEmpty("veggieLootAmounts", Collections.emptyList(), BattleTowersConfig::validateFloat);
 
-        cookedPoolExtra = BUILDER.defineListAllowEmpty("Cooked Loot Pool", Collections.emptyList(), BattleTowersConfig::validateItem);
-        cookedPoolRarity = BUILDER.defineListAllowEmpty("Cooked Loot Rarity (0-4)", Collections.emptyList(), BattleTowersConfig::validateRarity);
-        cookedPoolAmount = BUILDER.defineListAllowEmpty("Cooked Loot Amounts", Collections.emptyList(), BattleTowersConfig::validateFloat);
+        cookedPoolExtra = BUILDER.defineListAllowEmpty("cookedLootPool", Collections.emptyList(), BattleTowersConfig::validateItem);
+        cookedPoolRarity = BUILDER.defineListAllowEmpty("cookedLootRarity", Collections.emptyList(), BattleTowersConfig::validateRarity);
+        cookedPoolAmount = BUILDER.defineListAllowEmpty("cookedLootAmounts", Collections.emptyList(), BattleTowersConfig::validateFloat);
 
-        gemsPoolExtra = BUILDER.defineListAllowEmpty("Gems Loot Pool", Collections.emptyList(), BattleTowersConfig::validateItem);
-        gemsPoolRarity = BUILDER.defineListAllowEmpty("Gems Loot Rarity (0-4)", Collections.emptyList(), BattleTowersConfig::validateRarity);
-        gemsPoolAmount = BUILDER.defineListAllowEmpty("Gems Loot Amounts", Collections.emptyList(), BattleTowersConfig::validateFloat);
+        gemsPoolExtra = BUILDER.defineListAllowEmpty("gemsLootPool", Collections.emptyList(), BattleTowersConfig::validateItem);
+        gemsPoolRarity = BUILDER.defineListAllowEmpty("gemsLootRarity", Collections.emptyList(), BattleTowersConfig::validateRarity);
+        gemsPoolAmount = BUILDER.defineListAllowEmpty("gemsLootAmounts", Collections.emptyList(), BattleTowersConfig::validateFloat);
 
-        metalsPoolExtra = BUILDER.defineListAllowEmpty("Metals Loot Pool", Collections.emptyList(), BattleTowersConfig::validateItem);
-        metalsPoolRarity = BUILDER.defineListAllowEmpty("Metals Loot Rarity (0-4)", Collections.emptyList(), BattleTowersConfig::validateRarity);
-        metalsPoolAmount = BUILDER.defineListAllowEmpty("Metals Loot Amounts", Collections.emptyList(), BattleTowersConfig::validateFloat);
+        metalsPoolExtra = BUILDER.defineListAllowEmpty("metalsLootPool", Collections.emptyList(), BattleTowersConfig::validateItem);
+        metalsPoolRarity = BUILDER.defineListAllowEmpty("metalsLootRarity", Collections.emptyList(), BattleTowersConfig::validateRarity);
+        metalsPoolAmount = BUILDER.defineListAllowEmpty("metalsLootAmounts", Collections.emptyList(), BattleTowersConfig::validateFloat);
 
-        orePoolExtra = BUILDER.defineListAllowEmpty("Ore Loot Pool", Collections.emptyList(), BattleTowersConfig::validateItem);
-        orePoolRarity = BUILDER.defineListAllowEmpty("Ore Loot Rarity (0-4)", Collections.emptyList(), BattleTowersConfig::validateRarity);
-        orePoolAmount = BUILDER.defineListAllowEmpty("Ore Loot Amounts", Collections.emptyList(), BattleTowersConfig::validateFloat);
+        orePoolExtra = BUILDER.defineListAllowEmpty("oreLootPool", Collections.emptyList(), BattleTowersConfig::validateItem);
+        orePoolRarity = BUILDER.defineListAllowEmpty("oreLootRarity", Collections.emptyList(), BattleTowersConfig::validateRarity);
+        orePoolAmount = BUILDER.defineListAllowEmpty("oreLootAmounts", Collections.emptyList(), BattleTowersConfig::validateFloat);
 
-        buildingBlocksPoolExtra = BUILDER.defineListAllowEmpty("Building Blocks Loot Pool", Collections.emptyList(), BattleTowersConfig::validateItem);
-        buildingBlocksPoolRarity = BUILDER.defineListAllowEmpty("Building Blocks Loot Rarity (0-4)", Collections.emptyList(), BattleTowersConfig::validateRarity);
-        buildingBlocksPoolAmount = BUILDER.defineListAllowEmpty("Building Blocks Loot Amounts", Collections.emptyList(), BattleTowersConfig::validateFloat);
+        buildingBlocksPoolExtra = BUILDER.defineListAllowEmpty("buildingBlocksLootPool", Collections.emptyList(), BattleTowersConfig::validateItem);
+        buildingBlocksPoolRarity = BUILDER.defineListAllowEmpty("buildingBlocksLootRarity", Collections.emptyList(), BattleTowersConfig::validateRarity);
+        buildingBlocksPoolAmount = BUILDER.defineListAllowEmpty("buildingBlocksLootAmounts", Collections.emptyList(), BattleTowersConfig::validateFloat);
 
-        libraryPoolExtra = BUILDER.defineListAllowEmpty("Library Loot Pool", Collections.emptyList(), BattleTowersConfig::validateItem);
-        libraryPoolRarity = BUILDER.defineListAllowEmpty("Library Loot Rarity (0-4)", Collections.emptyList(), BattleTowersConfig::validateRarity);
-        libraryPoolAmount = BUILDER.defineListAllowEmpty("Library Loot Amounts", Collections.emptyList(), BattleTowersConfig::validateFloat);
+        libraryPoolExtra = BUILDER.defineListAllowEmpty("libraryLootPool", Collections.emptyList(), BattleTowersConfig::validateItem);
+        libraryPoolRarity = BUILDER.defineListAllowEmpty("libraryLootRarity", Collections.emptyList(), BattleTowersConfig::validateRarity);
+        libraryPoolAmount = BUILDER.defineListAllowEmpty("libraryLootAmounts", Collections.emptyList(), BattleTowersConfig::validateFloat);
 
-        weaponPoolExtra = BUILDER.defineListAllowEmpty("Weapon Loot Pool", Collections.emptyList(), BattleTowersConfig::validateItem);
-        weaponPoolRarity = BUILDER.defineListAllowEmpty("Weapon Loot Rarity (0-4)", Collections.emptyList(), BattleTowersConfig::validateRarity);
-        weaponPoolAmount = BUILDER.defineListAllowEmpty("Weapon Loot Amounts", Collections.emptyList(), BattleTowersConfig::validateFloat);
+        weaponPoolExtra = BUILDER.defineListAllowEmpty("weaponLootPool", Collections.emptyList(), BattleTowersConfig::validateItem);
+        weaponPoolRarity = BUILDER.defineListAllowEmpty("weaponLootRarity", Collections.emptyList(), BattleTowersConfig::validateRarity);
+        weaponPoolAmount = BUILDER.defineListAllowEmpty("weaponLootAmounts", Collections.emptyList(), BattleTowersConfig::validateFloat);
 
-        armorPoolExtra = BUILDER.defineListAllowEmpty("Armor Loot Pool", Collections.emptyList(), BattleTowersConfig::validateItem);
-        armorPoolRarity = BUILDER.defineListAllowEmpty("Armor Loot Rarity (0-4)", Collections.emptyList(), BattleTowersConfig::validateRarity);
-        armorPoolAmount = BUILDER.defineListAllowEmpty("Armor Loot Amounts", Collections.emptyList(), BattleTowersConfig::validateFloat);
+        armorPoolExtra = BUILDER.defineListAllowEmpty("armorLootPool", Collections.emptyList(), BattleTowersConfig::validateItem);
+        armorPoolRarity = BUILDER.defineListAllowEmpty("armorLootRarity", Collections.emptyList(), BattleTowersConfig::validateRarity);
+        armorPoolAmount = BUILDER.defineListAllowEmpty("armorLootAmounts", Collections.emptyList(), BattleTowersConfig::validateFloat);
 
-        toolPoolExtra = BUILDER.defineListAllowEmpty("Tool Loot Pool", Collections.emptyList(), BattleTowersConfig::validateItem);
-        toolPoolRarity = BUILDER.defineListAllowEmpty("Tool Loot Rarity (0-4)", Collections.emptyList(), BattleTowersConfig::validateRarity);
-        toolPoolAmount = BUILDER.defineListAllowEmpty("Tool Loot Amounts", Collections.emptyList(), BattleTowersConfig::validateFloat);
+        toolPoolExtra = BUILDER.defineListAllowEmpty("toolLootPool", Collections.emptyList(), BattleTowersConfig::validateItem);
+        toolPoolRarity = BUILDER.defineListAllowEmpty("toolLootRarity", Collections.emptyList(), BattleTowersConfig::validateRarity);
+        toolPoolAmount = BUILDER.defineListAllowEmpty("toolLootAmounts", Collections.emptyList(), BattleTowersConfig::validateFloat);
         BUILDER.pop();
 
-        BUILDER.push("Tower Chest LootTable Replacements");
+        BUILDER.push("towerChestLootTableReplacements");
         BUILDER.comment("Adding a resource location of a custom loot-table to one of these lists replaces the loot generated ");
         BUILDER.comment("    using the Tower Extendable Loot Pools above with loot from the supplied loot-table.");
         BUILDER.comment("Each list is in floor order with the first item being the table for floor 1 and the last item being the table for the Boss chest");
 
-        landTowerChestPools = BUILDER.defineList("Land Tower Chest Pools", List.of("", "", "", "", "", "", "", "", ""), BattleTowersConfig::validateString);
-        oceanTowerChestPools = BUILDER.defineList("Ocean Tower Chest Pools", List.of("", "", "", "", "", "", "", "", ""), BattleTowersConfig::validateString);
-        coreTowerChestPools = BUILDER.defineList("Core Tower Chest Pools", List.of("", "", "", "", "", "", "", "", ""), BattleTowersConfig::validateString);
-        netherTowerChestPools = BUILDER.defineList("Nether Tower Chest Pools", List.of("", "", "", "", "", "", "", "", ""), BattleTowersConfig::validateString);
-        endTowerChestPools = BUILDER.defineList("End Tower Chest Pools", List.of("", "", "", "", "", "", "", "", ""), BattleTowersConfig::validateString);
-        skyTowerChestPools = BUILDER.defineList("Sky Tower Chest Pools", List.of("", "", "", "", "", "", "", "", ""), BattleTowersConfig::validateString);
+        landTowerChestPools = BUILDER.defineList("landTowerChestPools", List.of("", "", "", "", "", "", "", "", ""), BattleTowersConfig::validateString);
+        oceanTowerChestPools = BUILDER.defineList("oceanTowerChestPools", List.of("", "", "", "", "", "", "", "", ""), BattleTowersConfig::validateString);
+        coreTowerChestPools = BUILDER.defineList("coreTowerChestPools", List.of("", "", "", "", "", "", "", "", ""), BattleTowersConfig::validateString);
+        netherTowerChestPools = BUILDER.defineList("netherTowerChestPools", List.of("", "", "", "", "", "", "", "", ""), BattleTowersConfig::validateString);
+        endTowerChestPools = BUILDER.defineList("endTowerChestPools", List.of("", "", "", "", "", "", "", "", ""), BattleTowersConfig::validateString);
+        skyTowerChestPools = BUILDER.defineList("sskyTowerChestPools", List.of("", "", "", "", "", "", "", "", ""), BattleTowersConfig::validateString);
 
         BUILDER.pop();
         SPEC = BUILDER.build();
