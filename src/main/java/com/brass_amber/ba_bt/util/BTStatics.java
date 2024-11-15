@@ -158,24 +158,24 @@ public class BTStatics {
                 List.of(
                         // Floor 1-2 data
                         // minSpawnDelay, maxSpawnDelay, spawnCount, maxNearbyEntities, requiredPlayerRange, spawnRange
-                        Arrays.asList(200, 240, 2, 5, 11, 6),
+                        Arrays.asList(180, 220, 1, 4, 11, 6),
                         // Floor 3-4
-                        Arrays.asList(180, 220, 3, 6, 12, 6),
+                        Arrays.asList(180, 220, 2, 4, 12, 6),
                         // Floor 5-6
-                        Arrays.asList(120, 160, 3, 6, 13, 6),
+                        Arrays.asList(160, 200, 3, 4, 13, 6),
                         // Floor 7-8
-                        Arrays.asList(100, 140, 4, 7, 12, 6)
+                        Arrays.asList(160, 200, 3, 4, 12, 6)
                 ),
                 // Ocean
                 List.of(
                         // Floor 1-2 data
                         Arrays.asList(240, 280, 2, 3, 12, 8),
                         // Floor 3-4
-                        Arrays.asList(220, 260, 3, 4, 13, 8),
+                        Arrays.asList(240, 280, 3, 3, 13, 8),
                         // Floor 5-6
                         Arrays.asList(160, 200, 3, 4, 14, 8),
                         // Floor 7-8
-                        Arrays.asList(140, 180, 4, 5, 13, 8)
+                        Arrays.asList(160, 200, 4, 4, 13, 8)
                 )
         );
 
