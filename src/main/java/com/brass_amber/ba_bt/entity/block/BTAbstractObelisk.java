@@ -92,6 +92,7 @@ public class BTAbstractObelisk extends Entity {
     private Class<? extends Entity> specialEnemy;
     private boolean chestsFound;
     public boolean hasPlayer;
+    public EntityType<?> lastSpawnerType;
 
     protected int floorDistance;
     protected boolean floorChestFound;
@@ -118,6 +119,7 @@ public class BTAbstractObelisk extends Entity {
         this.musicDistance = 0;
         this.towerRange = 0;
         this.floorChestFound = false;
+        this.lastSpawnerType = EntityType.IRON_GOLEM;
     }
 
     public BTAbstractObelisk(GolemType golemType, Level level) {
@@ -238,8 +240,13 @@ public class BTAbstractObelisk extends Entity {
             } else if (block == this.spawnerBlock || block == Blocks.SPAWNER) {
                 this.SPAWNERS.get(this.checkLayer-1).add(toCheck);
                 BlockEntity entity = level.getBlockEntity(toCheck);
+                EntityType<?> nextSpawnerEntity;
                 if (entity instanceof BTAbstractSpawnerBlockEntity btspawnerEntity) {
-                    btspawnerEntity.getSpawner().setEntityId(this.towerMobs.get(this.random.nextInt(this.towerMobs.size())), level, level.getRandom(), toCheck);
+                    // Prevent floors from having all spawners of one type (i.e all skeletons) unless list only has one possible mob
+                    do {
+                        nextSpawnerEntity = this.towerMobs.get(this.random.nextInt(this.towerMobs.size()));
+                    } while (nextSpawnerEntity == this.lastSpawnerType && this.towerMobs.size() > 1);
+                    btspawnerEntity.getSpawner().setEntityId(nextSpawnerEntity, level, level.getRandom(), toCheck);
                     btspawnerEntity.getSpawner().setBtSpawnData(
                             this.floorData.get(0), this.floorData.get(1), this.floorData.get(2),
                             this.floorData.get(3), this.floorData.get(4), this.floorData.get(5)
@@ -456,7 +463,7 @@ public class BTAbstractObelisk extends Entity {
             Entity entity = GolemType.getSpecialEnemy(this.golemType, serverWorld);
             if (entity instanceof Mob mob) {
                 mob.setPos(spawn.getX(), spawn.getY(), spawn.getZ());
-                mob.finalizeSpawn(serverWorld, serverWorld.getCurrentDifficultyAt(this.blockPosition()), MobSpawnType.TRIGGERED, null, null);
+                net.minecraftforge.event.ForgeEventFactory.onFinalizeSpawn(mob, serverWorld, serverWorld.getCurrentDifficultyAt(this.blockPosition()), MobSpawnType.TRIGGERED, null, null);
                 serverWorld.addFreshEntity(entity);
                 // BrassAmberBattleTowers.LOGGER.info("Success");
             }
