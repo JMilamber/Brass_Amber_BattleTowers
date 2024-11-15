@@ -29,7 +29,7 @@ public enum TowerGenInfo implements StringRepresentable {
             List.of(Collections.emptyList(), Collections.emptyList(), Collections.emptyList(), Collections.emptyList(), Collections.emptyList()),
             new String[]{"barracks_abandoned", "barracks_open", "barracks", "kitchen", "library"},
             new float[]{.05f, .15f, .15f, .3f, .2f},
-            List.of(Collections.emptyList(), Collections.emptyList(), Collections.emptyList(), Collections.emptyList(), List.of(CARPET_PLACER, WOOL_REPLACER))
+            List.of(Collections.emptyList(), Collections.emptyList(), Collections.emptyList(), Collections.emptyList(), List.of(CARPET_PLACER))
     ),
     OCEAN("ocean_tower", new String[]{"normal", "gilded", "island"},
             List.of(
