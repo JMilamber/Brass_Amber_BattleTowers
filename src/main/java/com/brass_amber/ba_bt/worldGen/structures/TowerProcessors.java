@@ -19,7 +19,6 @@ public class TowerProcessors {
     static final StructureProcessor NORMAL_STAIRS_LAND;
 
     static final StructureProcessor CARPET_PLACER;
-    static final StructureProcessor WOOL_REPLACER;
 
     static {
 
@@ -164,68 +163,16 @@ public class TowerProcessors {
         ));
         CARPET_PLACER = new RuleProcessor(ImmutableList.of(
                 new ProcessorRule(
-                        new BlockMatchTest(Blocks.AIR),
                         new BlockMatchTest(Blocks.RED_WOOL),
+                        AlwaysTrueTest.INSTANCE,
                         Blocks.RED_CARPET.defaultBlockState()
                 ),
                 new ProcessorRule(
-                        new BlockMatchTest(Blocks.AIR),
                         new BlockMatchTest(Blocks.PURPLE_WOOL),
+                        AlwaysTrueTest.INSTANCE,
                         Blocks.PURPLE_CARPET.defaultBlockState()
                 )
 
-        ));
-        WOOL_REPLACER = new RuleProcessor(ImmutableList.of(
-                new ProcessorRule(
-                        new RandomBlockMatchTest(Blocks.RED_WOOL, 0.22F),
-                        AlwaysTrueTest.INSTANCE,
-                        Blocks.CRACKED_STONE_BRICKS.defaultBlockState()
-                ),
-                new ProcessorRule(
-                        new RandomBlockMatchTest(Blocks.RED_WOOL, 0.08F),
-                        AlwaysTrueTest.INSTANCE,
-                        Blocks.CHISELED_STONE_BRICKS.defaultBlockState()
-                ),
-                new ProcessorRule(
-                        new RandomBlockMatchTest(Blocks.RED_WOOL, 0.34F),
-                        AlwaysTrueTest.INSTANCE,
-                        Blocks.COBBLESTONE.defaultBlockState()
-                ),
-                new ProcessorRule(
-                        new RandomBlockMatchTest(Blocks.RED_WOOL, 0.3F),
-                        AlwaysTrueTest.INSTANCE,
-                        Blocks.MOSSY_COBBLESTONE.defaultBlockState()
-                ),
-                new ProcessorRule(
-                        new BlockMatchTest(Blocks.RED_WOOL),
-                        AlwaysTrueTest.INSTANCE,
-                        Blocks.STONE_BRICKS.defaultBlockState()
-                ),
-                new ProcessorRule(
-                        new RandomBlockMatchTest(Blocks.PURPLE_WOOL, 0.22F),
-                        AlwaysTrueTest.INSTANCE,
-                        Blocks.CRACKED_STONE_BRICKS.defaultBlockState()
-                ),
-                new ProcessorRule(
-                        new RandomBlockMatchTest(Blocks.PURPLE_WOOL, 0.08F),
-                        AlwaysTrueTest.INSTANCE,
-                        Blocks.CHISELED_STONE_BRICKS.defaultBlockState()
-                ),
-                new ProcessorRule(
-                        new RandomBlockMatchTest(Blocks.PURPLE_WOOL, 0.34F),
-                        AlwaysTrueTest.INSTANCE,
-                        Blocks.COBBLESTONE.defaultBlockState()
-                ),
-                new ProcessorRule(
-                        new RandomBlockMatchTest(Blocks.PURPLE_WOOL, 0.3F),
-                        AlwaysTrueTest.INSTANCE,
-                        Blocks.MOSSY_COBBLESTONE.defaultBlockState()
-                ),
-                new ProcessorRule(
-                        new BlockMatchTest(Blocks.PURPLE_WOOL),
-                        AlwaysTrueTest.INSTANCE,
-                        Blocks.STONE_BRICKS.defaultBlockState()
-                )
         ));
     }
 }
