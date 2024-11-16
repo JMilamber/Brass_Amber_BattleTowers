@@ -110,7 +110,7 @@ public abstract class AbstractBTMonolithRenderer extends EntityRenderer<BTMonoli
 	}
 
 	private ResourceLocation setMonolithTextureLocation(String textureName) {
-		return BABTMain.locate("entity/monolith/" + this.monolithType + "/" + textureName + ".png");
+		return BABTMain.locate("textures/entity/monolith/" + this.monolithType + "/" + textureName + ".png");
 	}
 
 	/**

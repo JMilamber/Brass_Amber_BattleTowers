@@ -7,6 +7,7 @@ import com.brass_amber.ba_bt.block.blockentity.TowerChestBlockEntity;
 import com.brass_amber.ba_bt.block.blockentity.spawner.BTAbstractSpawnerBlockEntity;
 import com.brass_amber.ba_bt.entity.hostile.golem.BTAbstractGolem;
 import com.brass_amber.ba_bt.init.BTBlocks;
+import com.brass_amber.ba_bt.init.BTEntityType;
 import com.brass_amber.ba_bt.item.item.ResonanceStoneItem;
 import com.brass_amber.ba_bt.util.BTStatics;
 import com.brass_amber.ba_bt.util.BTUtil;
@@ -92,6 +93,7 @@ public class BTAbstractObelisk extends Entity {
     private Class<? extends Entity> specialEnemy;
     private boolean chestsFound;
     public boolean hasPlayer;
+    public EntityType<?> lastSpawnerType;
 
     protected int floorDistance;
     protected boolean floorChestFound;
@@ -103,6 +105,8 @@ public class BTAbstractObelisk extends Entity {
     protected List<List<Integer>> perFloorData;
     protected List<Integer> floorData;
     protected GolemChestBlockEntity golemChest;
+    public boolean displayCrystal = true;
+    private boolean crystalSpawned = false;
 
     public BTAbstractObelisk(EntityType<?> entityType, Level level) {
         super(entityType, level);
@@ -118,6 +122,7 @@ public class BTAbstractObelisk extends Entity {
         this.musicDistance = 0;
         this.towerRange = 0;
         this.floorChestFound = false;
+        this.lastSpawnerType = EntityType.IRON_GOLEM;
     }
 
     public BTAbstractObelisk(GolemType golemType, Level level) {
@@ -133,6 +138,7 @@ public class BTAbstractObelisk extends Entity {
     public void clientInitialize() {
         this.music = Minecraft.getInstance().getMusicManager();
         this.clientInitialized = true;
+        this.golemType = GolemType.getTypeForObelisk(this);
     }
 
     public void serverInitialize() {
@@ -238,8 +244,13 @@ public class BTAbstractObelisk extends Entity {
             } else if (block == this.spawnerBlock || block == Blocks.SPAWNER) {
                 this.SPAWNERS.get(this.checkLayer-1).add(toCheck);
                 BlockEntity entity = level.getBlockEntity(toCheck);
+                EntityType<?> nextSpawnerEntity;
                 if (entity instanceof BTAbstractSpawnerBlockEntity btspawnerEntity) {
-                    btspawnerEntity.getSpawner().setEntityId(this.towerMobs.get(this.random.nextInt(this.towerMobs.size())), level, level.getRandom(), toCheck);
+                    // Prevent floors from having all spawners of one type (i.e all skeletons) unless list only has one possible mob
+                    do {
+                        nextSpawnerEntity = this.towerMobs.get(this.random.nextInt(this.towerMobs.size()));
+                    } while (nextSpawnerEntity == this.lastSpawnerType && this.towerMobs.size() > 1);
+                    btspawnerEntity.getSpawner().setEntityId(nextSpawnerEntity, level, level.getRandom(), toCheck);
                     btspawnerEntity.getSpawner().setBtSpawnData(
                             this.floorData.get(0), this.floorData.get(1), this.floorData.get(2),
                             this.floorData.get(3), this.floorData.get(4), this.floorData.get(5)
@@ -281,6 +292,11 @@ public class BTAbstractObelisk extends Entity {
         if (!this.serverInitialized) {
             this.serverInitialize();
             return;
+        }
+
+        if (!this.displayCrystal && !this.crystalSpawned) {
+            this.spawnAtLocation(GolemType.getResonanceCrystalForType(this.golemType), 1);
+            this.crystalSpawned = true;
         }
 
         if (!this.chestsFound) {
@@ -456,7 +472,7 @@ public class BTAbstractObelisk extends Entity {
             Entity entity = GolemType.getSpecialEnemy(this.golemType, serverWorld);
             if (entity instanceof Mob mob) {
                 mob.setPos(spawn.getX(), spawn.getY(), spawn.getZ());
-                mob.finalizeSpawn(serverWorld, serverWorld.getCurrentDifficultyAt(this.blockPosition()), MobSpawnType.TRIGGERED, null, null);
+                net.minecraftforge.event.ForgeEventFactory.onFinalizeSpawn(mob, serverWorld, serverWorld.getCurrentDifficultyAt(this.blockPosition()), MobSpawnType.TRIGGERED, null, null);
                 serverWorld.addFreshEntity(entity);
                 // BrassAmberBattleTowers.LOGGER.info("Success");
             }
@@ -508,7 +524,7 @@ public class BTAbstractObelisk extends Entity {
                             chest.setItem(13, GolemType.getKeyFor(this.golemType).getDefaultInstance());
                         }
                         else if (this.CHESTS.get(i) != null) {
-                            doNoOutputPostionedCommand(this, "give @p ba_bt:" + GolemType.getKeyFor(this.golemType).getDescriptionId(), new Vec3(this.blockPosition().getX(), this.blockPosition().getY() + (11 * i), this.blockPosition().getZ()));
+                            doNoOutputPostionedCommand(this, "/give @p ba_bt:" + GolemType.getKeyFor(this.golemType).getDescriptionId(), new Vec3(this.blockPosition().getX(), this.blockPosition().getY() + (11 * i), this.blockPosition().getZ()));
                             this.CHESTS.set(i, null);
                         }
                         this.justSpawnedKey = true;
@@ -552,8 +568,6 @@ public class BTAbstractObelisk extends Entity {
             tag.putString(towerName, this.golemType.getSerializedName());
             tag.putInt(spawnersDestroyedName, this.getSpawnersDestroyed());
         }
-
-
     }
     /*************************************** Characteristics & Properties *******************************************/
 
@@ -646,6 +660,9 @@ public class BTAbstractObelisk extends Entity {
         if (itemInHand.getItem() instanceof ResonanceStoneItem stoneItem) {
             stoneItem.addEnchantment(itemInHand);
             return InteractionResult.SUCCESS;
+        } else if (itemInHand.is(GolemType.getEyeFor(this.golemType)) && this.golemSpawned) {
+            this.displayCrystal = false;
+            return InteractionResult.CONSUME;
         } else {
             return super.interact(player, hand);
         }

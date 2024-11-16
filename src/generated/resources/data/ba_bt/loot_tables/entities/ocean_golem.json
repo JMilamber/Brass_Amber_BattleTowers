@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:entity",
+  "pools": [
+    {
+      "bonus_rolls": 0.0,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "ba_bt:guardian_eye_ocean"
+        }
+      ],
+      "rolls": 1.0
+    }
+  ],
+  "random_sequence": "ba_bt:entities/ocean_golem"
+}

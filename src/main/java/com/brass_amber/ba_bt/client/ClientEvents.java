@@ -3,10 +3,7 @@ package com.brass_amber.ba_bt.client;
 import com.brass_amber.ba_bt.BABTMain;
 import com.brass_amber.ba_bt.client.model.block.MonolithModel;
 import com.brass_amber.ba_bt.client.model.block.ObeliskModel;
-import com.brass_amber.ba_bt.client.renderer.BTCultistRenderer;
-import com.brass_amber.ba_bt.client.renderer.BTSpawnerBlockEntityRenderer;
-import com.brass_amber.ba_bt.client.renderer.NoRenderEntity;
-import com.brass_amber.ba_bt.client.renderer.SkyMinionRenderer;
+import com.brass_amber.ba_bt.client.renderer.*;
 import com.brass_amber.ba_bt.client.renderer.chest.*;
 import com.brass_amber.ba_bt.client.renderer.monolith.CoreBTMonolithRenderer;
 import com.brass_amber.ba_bt.client.renderer.monolith.LandBTMonolithRenderer;
@@ -90,6 +87,8 @@ public class ClientEvents {
 		event.registerBlockEntityRenderer(BTBlockEntityType.NETHER_MOB_SPAWNER.get(), BTSpawnerBlockEntityRenderer::new);
 		event.registerBlockEntityRenderer(BTBlockEntityType.END_MOB_SPAWNER.get(), BTSpawnerBlockEntityRenderer::new);
 		event.registerBlockEntityRenderer(BTBlockEntityType.SKY_MOB_SPAWNER.get(), BTSpawnerBlockEntityRenderer::new);
+
+		event.registerBlockEntityRenderer(BTBlockEntityType.DATA_MARKER.get(), DataMarkerBlockRenderer::new);
 	}
 
 	@OnlyIn(Dist.CLIENT)

@@ -23,7 +23,7 @@ public class SaveTowers {
     public static ArrayList<ChunkPos> oceanTowers = new ArrayList<>();
     public static List<List<ChunkPos>> towers = List.of(landTowers, oceanTowers);
 
-    public static List<String> towerNames = List.of("Land_Tower", "Ocean_Tower");
+    public static List<String> towerNames = List.of("land_tower", "ocean_tower");
     public static MinecraftServer server;
     public static Path levelPath = Path.of("");
 

@@ -2,7 +2,7 @@
   "parent": "ba_bt:battletowers/land_tower_found",
   "display": {
     "icon": {
-      "item": "ba_bt:monolith_key_land"
+      "item": "ba_bt:land_monolith_key"
     },
     "title": {
       "translate": "advancements.ba_bt.find_land_key.title",
@@ -33,7 +33,7 @@
         "items": [
           {
             "items": [
-              "ba_bt:monolith_key_land"
+              "ba_bt:land_monolith_key"
             ]
           }
         ]

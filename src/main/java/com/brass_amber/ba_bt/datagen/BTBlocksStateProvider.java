@@ -2,14 +2,17 @@ package com.brass_amber.ba_bt.datagen;
 
 import com.brass_amber.ba_bt.BABTMain;
 import com.brass_amber.ba_bt.init.BTBlocks;
+import net.minecraft.client.model.ModelUtils;
 import net.minecraft.data.PackOutput;
+import net.minecraft.data.models.model.ModelLocationUtils;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.block.AirBlock;
 import net.minecraft.world.level.block.Block;
-import net.minecraftforge.client.model.generators.BlockStateProvider;
-import net.minecraftforge.client.model.generators.ItemModelBuilder;
-import net.minecraftforge.client.model.generators.ModelFile;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraftforge.client.model.generators.*;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.registries.RegistryObject;
+import org.apache.commons.lang3.ObjectUtils;
 
 public class BTBlocksStateProvider extends BlockStateProvider {
     public BTBlocksStateProvider(PackOutput output, ExistingFileHelper exFileHelper) {
@@ -37,8 +40,12 @@ public class BTBlocksStateProvider extends BlockStateProvider {
         spawnerBlock(BTBlocks.NETHER_SPAWNER);
         spawnerBlock(BTBlocks.END_SPAWNER);
         spawnerBlock(BTBlocks.SKY_SPAWNER);
+        spawnerBlock(BTBlocks.SPAWNER_MARKER);
 
+        simpleBlock(BTBlocks.AIR_FILL.get(), models().getBuilder(BTBlocks.AIR_FILL.getId().getPath()));
+        simpleBlockWithItem(BTBlocks.DATA_MARKER.get(), models().cubeAll(BTBlocks.DATA_MARKER.getId().getPath(), new ResourceLocation(BABTMain.MODID,"block/" + BTBlocks.DATA_MARKER.getId().getPath())));
     }
+
 
     private void chestBlock(RegistryObject<Block> block) {
         simpleBlock(
@@ -49,7 +56,9 @@ public class BTBlocksStateProvider extends BlockStateProvider {
     }
 
     private void spawnerBlock(RegistryObject<Block> block) {
-        ModelFile model = models().cubeAll(block.getId().getPath(), new ResourceLocation(BABTMain.MODID,"entity/spawner/" + block.getId().getPath()));
-        simpleBlockWithItem(block.get(), model);
+        simpleBlockWithItem(
+                block.get(),
+                models().cubeAll(block.getId().getPath(), new ResourceLocation(BABTMain.MODID,"block/spawner/" + block.getId().getPath()))
+        );
     }
 }

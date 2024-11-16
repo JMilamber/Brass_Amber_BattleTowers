@@ -5,14 +5,17 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
+import net.minecraft.util.random.WeightedEntry;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.level.BaseSpawner;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.SpawnData;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.AABB;
 import org.jetbrains.annotations.NotNull;
 
+import javax.annotation.Nullable;
 import java.util.Optional;
 
 public abstract class BTBaseSpawner extends BaseSpawner {
@@ -36,10 +39,11 @@ public abstract class BTBaseSpawner extends BaseSpawner {
             if (this.spawnDelay > 0) {
                 --this.spawnDelay;
             } else {
+
                 boolean flag = false;
                 RandomSource randomsource = serverLevel.getRandom();
                 SpawnData spawndata = this.getOrCreateNextSpawnData(serverLevel, randomsource, blockPos);
-
+                // LOGGER.info("Attempting to Spawn Mob from spawner " + spawndata.getEntityToSpawn());
                 for(int i = 0; i < this.spawnCount; ++i) {
                     CompoundTag compoundtag = spawndata.getEntityToSpawn();
                     Optional<EntityType<?>> optional = EntityType.by(compoundtag);
@@ -55,13 +59,6 @@ public abstract class BTBaseSpawner extends BaseSpawner {
                     double d2 = j >= 3 ? listtag.getDouble(2) : (double)blockPos.getZ() + (serverLevel.random.nextDouble() - serverLevel.random.nextDouble()) * (double)this.spawnRange + 0.5D;
                     if (serverLevel.noCollision(optional.get().getAABB(d0, d1, d2))) {
                         BlockPos blockpos = BlockPos.containing(d0, d1, d2);
-                        if (spawndata.getCustomSpawnRules().isPresent()) {
-                            if (!optional.get().getCategory().isFriendly() && serverLevel.getDifficulty() == Difficulty.PEACEFUL) {
-                                continue;
-                            }
-                        } else if (!SpawnPlacements.checkSpawnRules(optional.get(), serverLevel, MobSpawnType.SPAWNER, blockpos, serverLevel.getRandom())) {
-                            continue;
-                        }
 
                         Entity entity = EntityType.loadEntityRecursive(compoundtag, serverLevel, (p_151310_) -> {
                             p_151310_.moveTo(d0, d1, d2, p_151310_.getYRot(), p_151310_.getXRot());
@@ -72,7 +69,7 @@ public abstract class BTBaseSpawner extends BaseSpawner {
                             return;
                         }
 
-                        int k = serverLevel.getEntitiesOfClass(entity.getClass(), (new AABB((double)blockPos.getX(), (double)blockPos.getY(), (double)blockPos.getZ(), (double)(blockPos.getX() + 1), (double)(blockPos.getY() + 1), (double)(blockPos.getZ() + 1))).inflate((double)this.spawnRange)).size();
+                        int k = serverLevel.getEntitiesOfClass(entity.getClass(), (new AABB(blockPos.getX(), blockPos.getY(), blockPos.getZ(), blockPos.getX() + 1, blockPos.getY() + 1, blockPos.getZ() + 1)).inflate(this.spawnRange)).size();
                         if (k >= this.maxNearbyEntities) {
                             this.delay(serverLevel, blockPos);
                             return;
@@ -80,26 +77,19 @@ public abstract class BTBaseSpawner extends BaseSpawner {
 
                         entity.moveTo(entity.getX(), entity.getY(), entity.getZ(), serverLevel.random.nextFloat() * 360.0F, 0.0F);
                         if (entity instanceof Mob mob) {
-                            if (spawndata.getCustomSpawnRules().isEmpty() && !mob.checkSpawnRules(serverLevel, MobSpawnType.SPAWNER) || !mob.checkSpawnObstruction(serverLevel)) {
-                                continue;
-                            }
-
-                            // Forge: Patch in the spawn event for spawners so it may be fired unconditionally, instead of only when vanilla normally would trigger it.
                             var event = net.minecraftforge.event.ForgeEventFactory.onFinalizeSpawnSpawner(mob, serverLevel, serverLevel.getCurrentDifficultyAt(entity.blockPosition()), null, compoundtag, this);
                             if (event != null && spawndata.getEntityToSpawn().size() == 1 && spawndata.getEntityToSpawn().contains("id", 8)) {
-                                ((Mob) entity).finalizeSpawn(serverLevel, event.getDifficulty(), event.getSpawnType(), event.getSpawnData(), event.getSpawnTag());
+                                net.minecraftforge.event.ForgeEventFactory.onFinalizeSpawn(mob, serverLevel, event.getDifficulty(), event.getSpawnType(), event.getSpawnData(), event.getSpawnTag());
                             }
+                            serverLevel.addFreshEntityWithPassengers(entity);
+                            serverLevel.levelEvent(2004, blockPos, 0);
+                            serverLevel.gameEvent(entity, GameEvent.ENTITY_PLACE, blockpos);
+                            mob.spawnAnim();
                         }
 
-                        if (!serverLevel.tryAddFreshEntityWithPassengers(entity)) {
+                        if (!entity.isAddedToWorld()) {
                             this.delay(serverLevel, blockPos);
                             return;
-                        }
-
-                        serverLevel.levelEvent(2004, blockPos, 0);
-                        serverLevel.gameEvent(entity, GameEvent.ENTITY_PLACE, blockpos);
-                        if (entity instanceof Mob) {
-                            ((Mob)entity).spawnAnim();
                         }
 
                         flag = true;
@@ -113,4 +103,5 @@ public abstract class BTBaseSpawner extends BaseSpawner {
             }
         }
     }
+
 }

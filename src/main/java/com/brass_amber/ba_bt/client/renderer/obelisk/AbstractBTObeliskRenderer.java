@@ -9,14 +9,17 @@ import com.mojang.math.Axis;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.block.model.BlockModel;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
+import net.minecraft.client.renderer.entity.ItemFrameRenderer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
 
 public class AbstractBTObeliskRenderer extends EntityRenderer<BTAbstractObelisk> {
     private final ObeliskModel<BTAbstractObelisk> obelisk;
     private ResourceLocation obeliskTexture;
+    private ResourceLocation obeliskTextureWithoutStone;
     private String obeliskType;
     private int rotationAmount = 0;
 
@@ -24,7 +27,7 @@ public class AbstractBTObeliskRenderer extends EntityRenderer<BTAbstractObelisk>
         super(context);
         this.obeliskType = obeliskType;
         // Set the correct textures for each Monolith type.
-        this.obeliskTexture = this.setObeliskTextureLocation();
+        this.setObeliskTextureLocation();
         this.obelisk = new ObeliskModel<>(
                 context.bakeLayer(location),
                 location);
@@ -54,14 +57,11 @@ public class AbstractBTObeliskRenderer extends EntityRenderer<BTAbstractObelisk>
 
     @Override
     public ResourceLocation getTextureLocation(BTAbstractObelisk entityIn) {
-        return this.getObeliskTexture();
+        return entityIn.displayCrystal ? this.obeliskTexture : this.obeliskTextureWithoutStone;
     }
 
-    private ResourceLocation getObeliskTexture() {
-        return this.obeliskTexture;
-    }
-
-    private ResourceLocation setObeliskTextureLocation() {
-        return BABTMain.locate("textures/entity/obelisk/" + this.obeliskType + ".png");
+    private void setObeliskTextureLocation() {
+        this.obeliskTexture = BABTMain.locate("textures/entity/obelisk/" + this.obeliskType + ".png");
+        this.obeliskTextureWithoutStone = BABTMain.locate("textures/entity/obelisk/" + this.obeliskType + "_empty" + ".png");
     }
 }

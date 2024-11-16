@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "A": {
+      "item": "ba_bt:end_chest_shard"
+    },
+    "B": {
+      "item": "ba_bt:guardian_eye_end"
+    }
+  },
+  "pattern": [
+    "AAA",
+    "ABA",
+    "AAA"
+  ],
+  "result": {
+    "item": "ba_bt:end_golem_chest"
+  },
+  "show_notification": true
+}

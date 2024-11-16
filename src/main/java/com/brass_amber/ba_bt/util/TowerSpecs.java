@@ -25,8 +25,8 @@ public enum TowerSpecs implements StringRepresentable {
         this.height = height;
         this.crumbleSpeed = crumbleSpeed;
         this.colorCode = colorCode;
-        defeat2 = Component.translatable("title.ba_bt." + baseName + "_defeated_2");
-        defeat3 = Component.translatable("title.ba_bt." + baseName + "_defeated_3");
+        this.defeat2 = Component.translatable("title.ba_bt." + baseName + "_defeated_2");
+        this.defeat3 = Component.translatable("title.ba_bt." + baseName + "_defeated_3");
     }
 
     public int getCrumbleSpeed() {

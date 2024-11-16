@@ -6,7 +6,6 @@ import com.brass_amber.ba_bt.init.BTItems;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.level.block.Block;
 import net.minecraftforge.client.model.generators.ItemModelBuilder;
 import net.minecraftforge.client.model.generators.ItemModelProvider;
 import net.minecraftforge.common.data.ExistingFileHelper;
@@ -55,7 +54,12 @@ public class BTModelProvider extends ItemModelProvider {
         simpleExtraFolderItem(BTItems.NETHER_RESONANCE_CRYSTAL, "resonance_crystal");
         simpleExtraFolderItem(BTItems.END_RESONANCE_CRYSTAL, "resonance_crystal");
         simpleExtraFolderItem(BTItems.SKY_RESONANCE_CRYSTAL, "resonance_crystal");
+        simpleExtraFolderItem(BTItems.CITY_RESONANCE_CRYSTAL, "resonance_crystal");
 
+    }
+
+    private ItemModelBuilder emptyItem(ResourceLocation location) {
+        return getBuilder(location.toString());
     }
 
     private ItemModelBuilder simpleItem(RegistryObject<Item> item) {
@@ -79,7 +83,7 @@ public class BTModelProvider extends ItemModelProvider {
 
     private ItemModelBuilder monolithItem(RegistryObject<Item> item) {
         return withExistingParent(item.getId().getPath(),
-                new ResourceLocation("item/monolith_template")).texture("texture",
-                new ResourceLocation(BABTMain.MODID, "entity/monolith" + item.getId().getPath() + (item.getId().getPath() + "_0")));
+                new ResourceLocation(BABTMain.MODID, "item/monolith_template")).texture("texture",
+                new ResourceLocation(BABTMain.MODID, "item/monolith/" + item.getId().getPath()));
     }
 }
