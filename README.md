@@ -8,12 +8,12 @@ Some code comments are from a Structure Tutorial by Telepathic Grunt and have be
 >   - However this does protect the mod from unauthorized use 
 >     - (such as redistribution without consent and/or attribution for personal profit)
 
-### Current Features of 2.0.0+:
+### Current Features of 3.0.0+:
 
 >- Land Tower 
 >   - Worldgen
 >   - Spawners 
->   - Locked chests and loot 
+>   - ~~Locked chests and loot~~
 >   - Golem
 >     - Ai
 >     - Loot
@@ -53,7 +53,7 @@ Some code comments are from a Structure Tutorial by Telepathic Grunt and have be
 
 
 
-### Known 1.18.2 Bugs
+### Known 1.20.1 Bugs
 
 [Conflict mod Domestic Innovation](https://github.com/BrassAmber-Mods/Brass_Amber_BattleTowers/issues/81)
 
@@ -67,17 +67,17 @@ Some code comments are from a Structure Tutorial by Telepathic Grunt and have be
 
 ### Music:
 >- Land Tower:
->   - Ancestry by Lena Raine (Ambient)
+>   - Forced Protection by Rotch Gwylt (Ambient)
 >   - Rage Of Bahryn'muul by Rotch Gwylt (Boss)
 >
 > 
 >- Ocean Tower:
->   - DragonFish by C418 (Ambient)
+>   - Void Aeration by Rotch Gwylt (Ambient)
 >   - Void Of Moraizu'un by Rotch Gwylt (Boss)
 >
 >
 >- Core Tower:
->   - So Below by Lena Raine (Ambient)
+>   - Molten Tribulation by Rotch Gwylt (Ambient)
 >   - Awakening Of Obthu'uryn by Rotch Gwylt (Boss)
 >
 >
@@ -92,8 +92,7 @@ Some code comments are from a Structure Tutorial by Telepathic Grunt and have be
 >
 >
 >- Sky Tower:
->   - Clouds from Aether (Ambient)
->     - Direct Song Use (With Permission)
+>   - Resonance Levitation by Rotch Gwylt (Ambient)
 >   - Descent Of Veyhz'kriin by Rotch Gwylt (Boss)
 
 

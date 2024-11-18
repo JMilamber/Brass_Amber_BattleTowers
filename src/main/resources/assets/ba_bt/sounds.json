@@ -175,7 +175,7 @@
 		"subtitle": "ba_bt.subtitle.tower.ambient.music.land",
 		"sounds": [
 			{
-				"name": "ba_bt:tower/ancestry",
+				"name": "ba_bt:tower/forced_protection",
 				"volume": 0.7,
 				"stream": true
 			}
@@ -186,7 +186,7 @@
 		"subtitle": "ba_bt.subtitle.tower.ambient.music.ocean",
 		"sounds": [
 			{
-				"name": "ba_bt:tower/dragonfish",
+				"name": "ba_bt:tower/void_aeration",
 				"volume": 0.7,
 				"stream": true
 			}
@@ -197,7 +197,7 @@
 		"subtitle": "ba_bt.subtitle.tower.ambient.music.core",
 		"sounds": [
 			{
-				"name": "ba_bt:tower/so_below_pion",
+				"name": "ba_bt:tower/molten_tribulation",
 				"volume": 0.7,
 				"stream": true
 			}
@@ -230,7 +230,7 @@
 		"subtitle": "ba_bt.subtitle.tower.ambient.music.sky",
 		"sounds": [
 			{
-				"name": "ba_bt:tower/clouds",
+				"name": "ba_bt:tower/resonance_levitation",
 				"volume": 0.7,
 				"stream": true
 			}
