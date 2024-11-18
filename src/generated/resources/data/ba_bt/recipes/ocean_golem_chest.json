@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "A": {
+      "item": "ba_bt:ocean_chest_shard"
+    },
+    "B": {
+      "item": "ba_bt:guardian_eye_ocean"
+    }
+  },
+  "pattern": [
+    "AAA",
+    "ABA",
+    "AAA"
+  ],
+  "result": {
+    "item": "ba_bt:ocean_golem_chest"
+  },
+  "show_notification": true
+}

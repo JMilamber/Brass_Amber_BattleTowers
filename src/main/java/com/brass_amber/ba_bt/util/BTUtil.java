@@ -240,11 +240,11 @@ public class BTUtil {
 
     }
 
-    private static List<Integer> btGetAvailableSlots(Container p_79127_, Random random) {
+    private static List<Integer> btGetAvailableSlots(Container container, Random random) {
         List<Integer> list = Lists.newArrayList();
 
-        for(int i = 0; i < p_79127_.getContainerSize(); ++i) {
-            if (p_79127_.getItem(i).isEmpty()) {
+        for(int i = 0; i < container.getContainerSize(); ++i) {
+            if (container.getItem(i).isEmpty()) {
                 list.add(i);
             }
         }
@@ -291,17 +291,17 @@ public class BTUtil {
 
     public static void doCommand(Entity self, String command) {
         Commands commands = self.level().getServer().getCommands();
-        commands.performCommand(commands.getDispatcher().parse(command, self.createCommandSourceStack().withPermission(4)), command);
+        commands.performPrefixedCommand(self.createCommandSourceStack().withPermission(4).withSuppressedOutput(), command);
     }
 
     public static void doNoOutputCommand(Entity self, String command) {
         Commands commands = self.level().getServer().getCommands();
-        commands.performCommand(commands.getDispatcher().parse(command, self.createCommandSourceStack().withPermission(4).withSuppressedOutput()), command);
+        commands.performPrefixedCommand(self.createCommandSourceStack().withPermission(4).withSuppressedOutput(), command);
     }
 
     public static void doNoOutputPostionedCommand(Entity self, String command, Vec3 vec) {
         Commands commands = self.level().getServer().getCommands();
-        commands.performCommand(commands.getDispatcher().parse(command, self.createCommandSourceStack().withPermission(4).withPosition(vec)), command);
+        commands.performPrefixedCommand(self.createCommandSourceStack().withPermission(4).withSuppressedOutput().withPosition(vec), command);
     }
 
 }

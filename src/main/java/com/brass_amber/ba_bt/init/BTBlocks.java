@@ -3,10 +3,9 @@ package com.brass_amber.ba_bt.init;
 import com.brass_amber.ba_bt.BABTMain;
 import com.brass_amber.ba_bt.block.block.*;
 import com.brass_amber.ba_bt.block.block.GolemChestBlock.BTChestType;
-import com.brass_amber.ba_bt.item.ChestBlockItem;
+import com.brass_amber.ba_bt.item.TowerChestBlockItem;
 import com.brass_amber.ba_bt.util.GolemType;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Registry;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.BlockItem;
@@ -125,12 +124,13 @@ public class BTBlocks {
 			() -> new BTSpawnerBlock(Block.Properties.of().mapColor(MapColor.STONE).requiresCorrectToolForDrops().strength(5.0F).sound(SoundType.METAL).noOcclusion().noLootTable()), 1);
 
 	public static final  RegistryObject<Block> SPAWNER_MARKER = registerBlock("spawner_marker",
-			() -> new Block(BlockBehaviour.Properties.of().mapColor(MapColor.METAL).strength(5.0F, 1200.0F).noOcclusion().explosionResistance(6.0F).isValidSpawn(BTBlocks::never).noLootTable()), 1);
+			() -> new Block(BlockBehaviour.Properties.of().mapColor(MapColor.METAL).strength(-1.0F, 3600000.0F).noOcclusion().noLootTable().isValidSpawn(BTBlocks::never)), 1);
 
 	public static final RegistryObject<Block> AIR_FILL = registerBlock("air_fill",
-			() -> new BTBlockingAirBlock(BlockBehaviour.Properties.of().noCollission().noOcclusion().noLootTable().air()), 1);
+			() -> new BTBlockingAirBlock(BlockBehaviour.Properties.of().replaceable().noCollission().noLootTable().air().forceSolidOn()), 1);
 
-
+	public static final RegistryObject<Block> DATA_MARKER = registerBlock("data_marker",
+			() -> new DataMarkerBlock(BlockBehaviour.Properties.of().mapColor(MapColor.METAL).strength(-1.0F, 3600000.0F).noOcclusion().noLootTable().isValidSpawn(BTBlocks::never)), 1);
 
 	private static Boolean never(BlockState p_50779_, BlockGetter p_50780_, BlockPos p_50781_, EntityType<?> p_50782_) {
 		return false;
@@ -153,12 +153,12 @@ public class BTBlocks {
 
 	private static <T extends Block> RegistryObject<T> registerChestBlock(String name, Supplier<T> block, int stackSize) {
 		RegistryObject<T> toReturn = BLOCKS.register(name, block);
-		registerBlockItem(name, toReturn, stackSize);
+		registerChestBlockItem(name, toReturn, stackSize);
 		return toReturn;
 	}
 
-	private static  <T extends Block> RegistryObject<Item> registerChestBlockItem(String name, RegistryObject<T> block, int stackSize) {
-		return BTItems.ITEMS.register(name, () -> new ChestBlockItem(block.get(), new Item.Properties().stacksTo(stackSize)));
+	private static  <T extends Block> void registerChestBlockItem(String name, RegistryObject<T> block, int stackSize) {
+		BTItems.ITEMS.register(name, () -> new TowerChestBlockItem(block.get(), new Item.Properties().stacksTo(stackSize)));
 	}
 
 	public static void register(IEventBus eventBus) {

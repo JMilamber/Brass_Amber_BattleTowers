@@ -46,9 +46,7 @@ public class BABTMain {
             .title(Component.translatable("creativemodetab.bt_tab")) //The language key for the title of your CreativeModeTab
             .withTabsBefore(CreativeModeTabs.COMBAT)
             .icon(() -> TAB_ICON.get().getDefaultInstance())
-            .displayItems((parameters, output) -> {
-                output.accept(TAB_ICON.get()); // Add the example item to the tab. For your own tabs, this method is preferred over the event
-            }).build());
+            .build());
 
     // The constructor for the mod class is the first code that is run when your mod is loaded.
     // FML will recognize some parameter types like IEventBus or ModContainer and pass them in automatically.
@@ -68,6 +66,8 @@ public class BABTMain {
         BTBlockEntityType.register(modEventBus);
         BTSoundEvents.register(modEventBus);
         BTExtras.register(modEventBus);
+        BTStructures.register(modEventBus);
+        BTStructurePieces.register(modEventBus);
         CREATIVE_MODE_TABS.register(modEventBus);
 
         // Register ourselves for server and other game events we are interested in.
