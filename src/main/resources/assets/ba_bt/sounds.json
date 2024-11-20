@@ -106,10 +106,10 @@
 	},
 	"entity.golem.nether.fight": {
 		"category": "hostile",
-		"subtitle": "ba_bt.subtitle.golem.ocean.fight",
+		"subtitle": "ba_bt.subtitle.golem.nether.fight",
 		"sounds": [
 			{
-				"name": "ba_bt:entity/golem/void_of_moraizuun",
+				"name": "ba_bt:entity/golem/throne_of_infuurniir",
 				"volume": 1.0,
 				"stream": true
 			}
