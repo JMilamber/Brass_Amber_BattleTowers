@@ -27,6 +27,8 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.function.Supplier;
 
+import static com.brass_amber.ba_bt.BattleTowersConfig.*;
+
 public enum GolemType implements StringRepresentable {
 	EMPTY("empty", Component.literal("Empty")),
 	LAND("land", Component.translatable("entity.ba_bt.land_golem")),
@@ -236,6 +238,19 @@ public enum GolemType implements StringRepresentable {
 		}
 
 		return destruction;
+	}
+
+	public static String getTowerChestPool(GolemType golemType, int index) {
+		return switch (golemType) {
+			default -> "";
+			case LAND -> landTowerChestPools.get().get(index);
+			case OCEAN -> oceanTowerChestPools.get().get(index);
+			case CORE -> coreTowerChestPools.get().get(index);
+			case NETHER -> netherTowerChestPools.get().get(index);
+			case END -> endTowerChestPools.get().get(index);
+			case SKY -> skyTowerChestPools.get().get(index);
+
+		};
 	}
 
 	public static Entity getSpecialEnemy(GolemType golemType, ServerLevel serverLevel) {
