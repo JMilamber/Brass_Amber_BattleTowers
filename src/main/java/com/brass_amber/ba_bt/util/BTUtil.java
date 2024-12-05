@@ -70,6 +70,7 @@ public class BTUtil {
 
         for (int i = 0; i < tag.getAllKeys().size(); i++) {
             String value = tag.getString(String.valueOf(i));
+            // BABTMain.LOGGER.info("get compound value: " + value + " | is in list? " + checkFrom.get().contains(value));
             if (checkFrom.isPresent()) {
                 list.add(checkFrom.get().contains(value) ? value : "Invalid") ;
             } else {
