@@ -704,7 +704,7 @@ public class BTStatics {
                     addAll(toolPoolExtra.get().stream().filter(itemName -> (toolPoolRarity.get().get(toolPoolExtra.get().indexOf(itemName)) == 2)).map(itemName -> ForgeRegistries.ITEMS.getValue(new ResourceLocation(itemName))).toList());
                 }}, // Rarity 2
                 new ArrayList<>() {{
-                    addAll(Arrays.asList(Items.DIAMOND_AXE, Items.DIAMOND_PICKAXE, Items.DIAMOND_SWORD, Items.DIAMOND_SHOVEL, Items.NETHERITE_HOE, Items.MAP));
+                    addAll(Arrays.asList(Items.DIAMOND_AXE, Items.DIAMOND_PICKAXE, Items.DIAMOND_SWORD, Items.DIAMOND_SHOVEL, Items.NETHERITE_HOE));
                     addAll(toolPoolExtra.get().stream().filter(itemName -> (toolPoolRarity.get().get(toolPoolExtra.get().indexOf(itemName)) == 3)).map(itemName -> ForgeRegistries.ITEMS.getValue(new ResourceLocation(itemName))).toList());
                 }}, // Rarity 3
                 new ArrayList<>() {{
@@ -727,7 +727,7 @@ public class BTStatics {
                     addAll(toolPoolAmount.get().stream().filter(itemRange -> (toolPoolRarity.get().get(toolPoolAmount.get().indexOf(itemRange)) == 2)).toList());
                 }},
                 new ArrayList<>() {{
-                    addAll(Arrays.asList(1.1f, 1.1f, 1.1f, 1.1f, 1.1f, 1.1f));
+                    addAll(Arrays.asList(1.1f, 1.1f, 1.1f, 1.1f, 1.1f));
                     addAll(toolPoolAmount.get().stream().filter(itemRange -> (toolPoolRarity.get().get(toolPoolAmount.get().indexOf(itemRange)) == 3)).toList());
                 }},
                 new ArrayList<>() {{
@@ -742,7 +742,7 @@ public class BTStatics {
                     addAll(consumablePoolExtra.get().stream().filter(itemName -> (consumablePoolRarity.get().get(consumablePoolExtra.get().indexOf(itemName)) == 0)).map(itemName -> ForgeRegistries.ITEMS.getValue(new ResourceLocation(itemName))).toList());
                 }}, // Rarity 0
                 new ArrayList<>() {{
-                    addAll(Arrays.asList(WHITE_DYE, Items.COOKIE, Items.FLINT_AND_STEEL, Items.WRITABLE_BOOK));
+                    addAll(Arrays.asList(Items.WHITE_DYE, Items.COOKIE, Items.FLINT_AND_STEEL, Items.WRITABLE_BOOK));
                     addAll(consumablePoolExtra.get().stream().filter(itemName -> (consumablePoolRarity.get().get(consumablePoolExtra.get().indexOf(itemName)) == 1)).map(itemName -> ForgeRegistries.ITEMS.getValue(new ResourceLocation(itemName))).toList());
                 }}, // Rarity 1
                 new ArrayList<>() {{
@@ -761,23 +761,23 @@ public class BTStatics {
 
         consumablePoolAmounts = List.of(
                 new ArrayList<>() {{
-                    addAll(Arrays.asList(1.1f, 1.1f, 2.4f, 1.2f));
+                    addAll(Arrays.asList(1.3f, 2.3f, 1.2f));
                     addAll(consumablePoolAmount.get().stream().filter(itemRange -> (consumablePoolRarity.get().get(consumablePoolAmount.get().indexOf(itemRange)) == 0)).toList());
                 }},
                 new ArrayList<>() {{
-                    addAll(Arrays.asList(1.1f, 1.1f, 1.1f, 1.1f));
+                    addAll(Arrays.asList(2.5f, 3.7f, 1.2f, 1.2f));
                     addAll(consumablePoolAmount.get().stream().filter(itemRange -> (consumablePoolRarity.get().get(consumablePoolAmount.get().indexOf(itemRange)) == 1)).toList());
                 }},
                 new ArrayList<>() {{
-                    addAll(Arrays.asList(1.1f, 1.1f, 1.1f, 1.1f));
+                    addAll(Arrays.asList(1.2f, 2.4f, 1.1f, 1.1f));
                     addAll(consumablePoolAmount.get().stream().filter(itemRange -> (consumablePoolRarity.get().get(consumablePoolAmount.get().indexOf(itemRange)) == 2)).toList());
                 }},
                 new ArrayList<>() {{
-                    addAll(Arrays.asList(1.1f, 1.1f, 1.1f, 1.1f));
+                    addAll(Arrays.asList(1.2f, 1.1f, 1.1f, 1.2f));
                     addAll(consumablePoolAmount.get().stream().filter(itemRange -> (consumablePoolRarity.get().get(consumablePoolAmount.get().indexOf(itemRange)) == 3)).toList());
                 }},
                 new ArrayList<>() {{
-                    addAll(Arrays.asList(1.1f, 1.1f, 1.1f, 1.1f));
+                    addAll(Arrays.asList(2.5f, 1.2f));
                     addAll(consumablePoolAmount.get().stream().filter(itemRange -> (consumablePoolRarity.get().get(consumablePoolAmount.get().indexOf(itemRange)) == 4)).toList());
                 }}
         );
