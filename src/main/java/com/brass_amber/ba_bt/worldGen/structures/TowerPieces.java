@@ -39,9 +39,6 @@ public class TowerPieces {
         List<StructureProcessor> shellProcessors = TowerGenInfo.getShellProcessors(towerGenInfo, variant);
         List<StructureProcessor> variantProcessors = TowerGenInfo.getVariantProcessors(towerGenInfo, variant);
 
-        // Add single cell piece at center 1 block below to avoid first template load using air instead of structure voids
-        towerPieces.add(new FixerPiece(templateManager, blockPos, rotation));
-
         // Add tower shell to list first so it is generated first
         towerPieces.add(new BasePiece(templateManager, "base", towerName, blockPos, rotation, ""));
         int floorHeight = BattleTowersConfig.landFloorHeight.get();
@@ -239,17 +236,4 @@ public class TowerPieces {
 
 
     }
-
-    public static class FixerPiece extends TowerPiece {
-
-        public FixerPiece(StructureTemplateManager templateManager, BlockPos blockPos, Rotation rotation) {
-            super(templateManager, "single_cell", "", blockPos.below(), rotation, "");
-        }
-
-        public FixerPiece(StructureTemplateManager templateManager, CompoundTag compoundTag) {
-            super(templateManager, compoundTag);
-        }
-    }
-
-
 }
