@@ -288,12 +288,23 @@ public class BTUtil {
         List<ItemStack> chestLoot = new ArrayList<>();
         for (int i = 0; i < loot.size(); i++) {
             Item item = loot.get(i);
-            if (item instanceof PotionItem) {
-                chestLoot.add(getRandomPotion(lootContext.getRandom()));
+            ItemStack itemStack;
+            if (item instanceof SplashPotionItem) {
+                itemStack = getRandomPotion(lootContext.getRandom());
             } else if (item instanceof DyeItem) {
-                chestLoot.add(getRandomDye(lootContext.getRandom()));
+                itemStack = getRandomDye(lootContext.getRandom());
             } else {
-                chestLoot.add(new ItemStack(item, amounts.get(i)));
+                itemStack = new ItemStack(item);
+            }
+
+            // Alow item count to work for non-stackable items
+            if (item.getMaxStackSize(itemStack) == 1) {
+                for (int j = 0; j < amounts.get(i); j++) {
+                    chestLoot.add(itemStack);
+                }
+            } else {
+                itemStack.setCount(amounts.get(i));
+                chestLoot.add(itemStack);
             }
 
         }
