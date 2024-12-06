@@ -237,6 +237,8 @@ public class BTUtil {
         List<Integer> poolMins = new ArrayList<>();
         List<Integer> poolMaxes = new ArrayList<>();
 
+        BABTMain.LOGGER.info("Pools " + pools);
+
         while (pools.size() > 4) {
             pools.remove(randomSource.nextInt(pools.size()));
         }
@@ -246,7 +248,7 @@ public class BTUtil {
                 poolItems.addAll(itemPools.get(lootTypes.indexOf(pool)).get(i));
                 List<Float> floats = itemPoolAmounts.get(lootTypes.indexOf(pool)).get(i);
                 for (float amount: floats) {
-                    BABTMain.LOGGER.info("Min amount = " + (int) amount + "  Max amount = " + ((amount - Mth.floor(amount)) * 10));
+                    // BABTMain.LOGGER.info("Min amount = " + (int) amount + "  Max amount = " + ((amount - Mth.floor(amount)) * 10));
                     poolMins.add((int) amount);
                     poolMaxes.add((int) (((amount - (int) amount) * 10)));
                 }
@@ -255,7 +257,7 @@ public class BTUtil {
             poolItems.addAll(itemPools.get(lootTypes.indexOf(pool)).get(rarity));
             List<Float> floats = itemPoolAmounts.get(lootTypes.indexOf(pool)).get(rarity);
             for (float amount: floats) {
-                BABTMain.LOGGER.info("Min amount = " + (int) amount + "  Max amount = " + ((amount - Mth.floor(amount)) * 10));
+                // BABTMain.LOGGER.info("Min amount = " + (int) amount + "  Max amount = " + ((amount - Mth.floor(amount)) * 10));
                 poolMins.add((int) amount);
                 poolMaxes.add((int) (((amount - (int) amount) * 10)));
             }
@@ -263,7 +265,7 @@ public class BTUtil {
 
         int itemAmount = isExtra ? 1 + randomSource.nextInt(17) : 13 + randomSource.nextInt(5);
         for (int i = 0; i < itemAmount; i++) {
-            int index = randomSource.nextInt(poolItems.size());
+            int index = randomSource.nextInt(poolItems.size()-1);
             items.add(poolItems.remove(index));
             int min = poolMins.remove(index);
             int max = poolMaxes.remove(index);
@@ -282,8 +284,6 @@ public class BTUtil {
 
         // Get possible slots to put items in (empty slots) should be all for tower chests.
         List<Integer> possibleSlots = btGetAvailableSlots(container, random);
-        ItemStack addStack;
-        int randomSlot;
 
         List<ItemStack> chestLoot = new ArrayList<>();
         for (int i = 0; i < loot.size(); i++) {
