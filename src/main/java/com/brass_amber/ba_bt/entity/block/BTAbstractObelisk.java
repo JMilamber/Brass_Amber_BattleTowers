@@ -2,24 +2,28 @@ package com.brass_amber.ba_bt.entity.block;
 
 import com.brass_amber.ba_bt.BABTMain;
 import com.brass_amber.ba_bt.block.block.BTSpawnerBlock;
+import com.brass_amber.ba_bt.block.block.DataMarkerBlock;
+import com.brass_amber.ba_bt.block.blockentity.DataMarkerBlockEntity;
 import com.brass_amber.ba_bt.block.blockentity.GolemChestBlockEntity;
 import com.brass_amber.ba_bt.block.blockentity.TowerChestBlockEntity;
 import com.brass_amber.ba_bt.block.blockentity.spawner.BTAbstractSpawnerBlockEntity;
 import com.brass_amber.ba_bt.entity.hostile.golem.BTAbstractGolem;
 import com.brass_amber.ba_bt.init.BTBlocks;
-import com.brass_amber.ba_bt.init.BTEntityType;
 import com.brass_amber.ba_bt.item.item.ResonanceStoneItem;
 import com.brass_amber.ba_bt.util.BTStatics;
 import com.brass_amber.ba_bt.util.BTUtil;
 import com.brass_amber.ba_bt.util.GolemType;
+import com.mojang.datafixers.util.Pair;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.sounds.MusicManager;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.Music;
@@ -36,7 +40,10 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.entity.BaseContainerBlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.material.PushReaction;
 import net.minecraft.world.level.storage.loot.LootContext;
 import net.minecraft.world.level.storage.loot.LootParams;
@@ -49,8 +56,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.*;
 
 import static com.brass_amber.ba_bt.util.BTStatics.*;
-import static com.brass_amber.ba_bt.util.BTUtil.distanceTo2D;
-import static com.brass_amber.ba_bt.util.BTUtil.doNoOutputPostionedCommand;
+import static com.brass_amber.ba_bt.util.BTUtil.*;
 
 @SuppressWarnings("DanglingJavadoc")
 public class BTAbstractObelisk extends Entity {
@@ -261,12 +267,48 @@ public class BTAbstractObelisk extends Entity {
             } else if (block == this.golemChestBlock) {
                 this.golemChest = (GolemChestBlockEntity) level.getBlockEntity(toCheck);
                 // BrassAmberBattleTowers.LOGGER.info("Found Golem Chest");
+            } else if (block == BTBlocks.DATA_MARKER.get()) {
+                this.processDataMarker(toCheck, level);
             }
         } catch (Exception e) {
             BABTMain.LOGGER.info("Exception in Obelisk class, not a chest or spawner: " + level.getBlockState(toCheck).getBlock());
             e.printStackTrace();
 
         }
+    }
+
+    private void processDataMarker(BlockPos toProcess, Level level) {
+        BlockState state = level.getBlockState(toProcess);
+        DataMarkerBlockEntity dataMarker = (DataMarkerBlockEntity) level.getBlockEntity(toProcess);
+        Direction facing = state.getValue(DataMarkerBlock.FACING);
+        BlockState placeState = dataMarker.getContainerState();
+        placeState.trySetValue(BlockStateProperties.FACING, facing);
+
+        List<String> lootTypes = dataMarker.getLootTypes();
+        lootTypes.removeIf((type) -> type.equals("Invalid"));
+
+        int rarity = dataMarker.getRarity();
+        if (rarity == -1) {
+            rarity = this.checkLayer - 1 < 2 ? 0 : this.checkLayer / 2;
+        }
+
+        level.setBlockAndUpdate(toProcess, placeState);
+        if (lootTypes.isEmpty()) {
+            return;
+        }
+        BaseContainerBlockEntity placedEntity = (BaseContainerBlockEntity) level.getBlockEntity(toProcess);
+
+        LootParams lootparams =  (new LootParams.Builder((ServerLevel)this.level())).withParameter(LootContextParams.ORIGIN, Vec3.atCenterOf(toProcess)).create(LootContextParamSets.CHEST);
+        LootContext lootcontext = (new LootContext.Builder(lootparams)).create(null);
+        String lootPath = GolemType.getTowerChestPool(this.golemType, this.checkLayer-1);
+        if (!lootPath.isEmpty()) {
+            btFill(this.level().getServer().getLootData().getLootTable(new ResourceLocation(lootPath)), this.golemChest, lootcontext, lootparams);
+        }
+        else {
+            Pair<List<Item>, List<Integer>> itemsAmounts =  createItems(rarity, lootTypes, this.random, true);
+            btListFill(itemsAmounts.getFirst(), itemsAmounts.getSecond(), placedEntity, lootcontext);
+        }
+
     }
 
 
@@ -371,8 +413,30 @@ public class BTAbstractObelisk extends Entity {
                 try {
                     BABTMain.LOGGER.debug("Chest " + this.golemChest);
                     this.golemChest.setUnlocked(true);
+
+                    for (int i = 2; i < 7; i++) {
+                        this.golemChest.setItem(i, Items.STONE_BRICKS.getDefaultInstance());
+                    }
+                    for (int i = 19; i < 24; i++) {
+                        this.golemChest.setItem(i, Items.CLAY.getDefaultInstance());
+                    }
+                    for (int i = 10; i < 17; i++) {
+                        this.golemChest.setItem(i, Items.STONE_BRICKS.getDefaultInstance());
+                    }
+                    this.golemChest.setItem(13, Items.DIAMOND.getDefaultInstance());
+
                     LootParams lootparams =  (new LootParams.Builder((ServerLevel)this.level())).withParameter(LootContextParams.ORIGIN, Vec3.atCenterOf(this.golemChest.getBlockPos())).create(LootContextParamSets.CHEST);
                     LootContext lootcontext = (new LootContext.Builder(lootparams)).create(null);
+                    String lootPath = GolemType.getTowerChestPool(this.golemType, 8);
+                    if (!lootPath.equals("")) {
+                        btFill(this.getServer().getLootData().getLootTable(new ResourceLocation(lootPath)), this.golemChest, lootcontext, lootparams);
+                    }
+                    else {
+                        Pair<List<Item>, List<Integer>> itemsAmounts =  createItems(4, List.of("Weapon", "Armor", "Gems"), this.random, false);
+                        btListFill(itemsAmounts.getFirst(), itemsAmounts.getSecond(), this.golemChest, lootcontext);
+                    }
+
+
                     // getGolemLootTable(GolemType.getNumForType(this.golemType)).fill(this.golemChest, lootparams, this.random.nextLong());
                     this.chestUnlockingSound(this.level());
 
@@ -462,16 +526,20 @@ public class BTAbstractObelisk extends Entity {
         boolean canSpawn = SpawnPlacements.checkSpawnRules(GolemType.getSpecialEnemyType(this.golemType), serverWorld, MobSpawnType.STRUCTURE, spawn, this.random);
         boolean acceptableDistance = lowerRadiusBound < distance && distance < upperRadiusBound;
         boolean onGround;
+        boolean specialEnemyCap;
+
+        List<?> nearby = serverWorld.getEntitiesOfClass(GolemType.getSpecialEnemyClass(this.golemType), this.getBoundingBox().inflate(15, 110, 15));
+        specialEnemyCap = nearby.size() > 4;
         if (checkOnGround) {
             onGround = !serverWorld.getBlockState(spawn.below()).isAir() && serverWorld.getBlockState(spawn).isAir();
         } else {
             onGround = true;
         }
 
-        if (canSpawn && acceptableDistance && onGround && serverWorld.getBlockState(spawn.above()).isAir()) {
+        if (!specialEnemyCap && canSpawn && acceptableDistance && onGround && serverWorld.getBlockState(spawn.above()).isAir()) {
             Entity entity = GolemType.getSpecialEnemy(this.golemType, serverWorld);
             if (entity instanceof Mob mob) {
-                mob.setPos(spawn.getX(), spawn.getY(), spawn.getZ());
+                mob.setPos(spawn.getX() + .5, spawn.getY(), spawn.getZ() + .5);
                 net.minecraftforge.event.ForgeEventFactory.onFinalizeSpawn(mob, serverWorld, serverWorld.getCurrentDifficultyAt(this.blockPosition()), MobSpawnType.TRIGGERED, null, null);
                 serverWorld.addFreshEntity(entity);
                 // BrassAmberBattleTowers.LOGGER.info("Success");
@@ -498,6 +566,15 @@ public class BTAbstractObelisk extends Entity {
                             LootParams lootparams =  (new LootParams.Builder((ServerLevel)this.level())).withParameter(LootContextParams.ORIGIN, Vec3.atCenterOf(chestPos)).create(LootContextParamSets.CHEST);
                             LootContext lootcontext = (new LootContext.Builder(lootparams)).create(null);
                             assert chest != null: "BTObelisk: Not a BTChest";
+                            String lootPath = GolemType.getTowerChestPool(this.golemType, i);
+                            int rarity = i < 2 ? 0 : i / 2;
+                            if (!lootPath.equals("")) {
+                                btFill(this.getServer().getLootData().getLootTable(new ResourceLocation(lootPath)), chest, lootcontext, lootparams);
+                            }
+                            else {
+                                Pair<List<Item>, List<Integer>> itemsAmounts =  createItems(rarity, List.of("Weapon", "Armor", "Metals", "Building Blocks"), this.random, false);
+                                btListFill(itemsAmounts.getFirst(), itemsAmounts.getSecond(), chest, lootcontext);
+                            }
                             // BTUtil.btFill(getLootTable(GolemType.getNumForType(this.golemType), i), chest, lootcontext, lootparams);
                             this.chestUnlockingSound(level);
                             this.CHESTS.set(i, null);
