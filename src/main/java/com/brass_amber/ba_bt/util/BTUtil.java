@@ -18,8 +18,8 @@ import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.Container;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.*;
+import net.minecraft.world.item.alchemy.PotionUtils;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
@@ -287,7 +287,15 @@ public class BTUtil {
 
         List<ItemStack> chestLoot = new ArrayList<>();
         for (int i = 0; i < loot.size(); i++) {
-            chestLoot.add(new ItemStack(loot.get(i), amounts.get(i)));
+            Item item = loot.get(i);
+            if (item instanceof PotionItem) {
+                chestLoot.add(getRandomPotion(lootContext.getRandom()));
+            } else if (item instanceof DyeItem) {
+                chestLoot.add(getRandomDye(lootContext.getRandom()));
+            } else {
+                chestLoot.add(new ItemStack(item, amounts.get(i)));
+            }
+
         }
 
         btShuffleAndSplitItems(chestLoot, possibleSlots.size(), lootContext.getRandom());
@@ -372,6 +380,14 @@ public class BTUtil {
 
         itemStackList.addAll(list);
         Collections.shuffle(itemStackList, new Random());
+    }
+
+    public static ItemStack getRandomPotion(RandomSource randomSource) {
+        return PotionUtils.setPotion(Items.POTION.getDefaultInstance(), potions.get(randomSource.nextInt(potions.size())));
+    }
+
+    public static ItemStack getRandomDye(RandomSource randomSource) {
+        return new ItemStack(dyes.get(randomSource.nextInt(dyes.size())));
     }
 
     public static void doCommand(Entity self, String command) {
