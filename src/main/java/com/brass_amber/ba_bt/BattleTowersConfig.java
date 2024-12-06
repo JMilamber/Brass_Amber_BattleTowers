@@ -56,6 +56,8 @@ public class BattleTowersConfig {
     public static final ForgeConfigSpec.ConfigValue<List<? extends String>> weaponPoolExtra;
     public static final ForgeConfigSpec.ConfigValue<List<? extends String>> armorPoolExtra;
     public static final ForgeConfigSpec.ConfigValue<List<? extends String>> toolPoolExtra;
+    public static final ForgeConfigSpec.ConfigValue<List<? extends String>> consumablePoolExtra;
+    public static final ForgeConfigSpec.ConfigValue<List<? extends String>> bedsidePoolExtra;
 
     public static final ForgeConfigSpec.ConfigValue<List<? extends Integer>> meatPoolRarity;
     public static final ForgeConfigSpec.ConfigValue<List<? extends Integer>> veggiePoolRarity;
@@ -68,6 +70,8 @@ public class BattleTowersConfig {
     public static final ForgeConfigSpec.ConfigValue<List<? extends Integer>> weaponPoolRarity;
     public static final ForgeConfigSpec.ConfigValue<List<? extends Integer>> armorPoolRarity;
     public static final ForgeConfigSpec.ConfigValue<List<? extends Integer>> toolPoolRarity;
+    public static final ForgeConfigSpec.ConfigValue<List<? extends Integer>> consumablePoolRarity;
+    public static final ForgeConfigSpec.ConfigValue<List<? extends Integer>> bedsidePoolRarity;
 
     public static final ForgeConfigSpec.ConfigValue<List<? extends Float>> meatPoolAmount;
     public static final ForgeConfigSpec.ConfigValue<List<? extends Float>> veggiePoolAmount;
@@ -80,6 +84,8 @@ public class BattleTowersConfig {
     public static final ForgeConfigSpec.ConfigValue<List<? extends Float>> weaponPoolAmount;
     public static final ForgeConfigSpec.ConfigValue<List<? extends Float>> armorPoolAmount;
     public static final ForgeConfigSpec.ConfigValue<List<? extends Float>> toolPoolAmount;
+    public static final ForgeConfigSpec.ConfigValue<List<? extends Float>> consumablePoolAmount;
+    public static final ForgeConfigSpec.ConfigValue<List<? extends Float>> bedsidePoolAmount;
 
     public static final ForgeConfigSpec.ConfigValue<List<? extends String>> landTowerChestPools;
     public static final ForgeConfigSpec.ConfigValue<List<? extends String>> oceanTowerChestPools;
@@ -258,12 +264,20 @@ public class BattleTowersConfig {
         toolPoolExtra = BUILDER.defineListAllowEmpty("toolLootPool", Collections.emptyList(), BattleTowersConfig::validateItem);
         toolPoolRarity = BUILDER.defineListAllowEmpty("toolLootRarity", Collections.emptyList(), BattleTowersConfig::validateRarity);
         toolPoolAmount = BUILDER.defineListAllowEmpty("toolLootAmounts", Collections.emptyList(), BattleTowersConfig::validateFloat);
+
+        consumablePoolExtra = BUILDER.defineListAllowEmpty("consumableLootPool", Collections.emptyList(), BattleTowersConfig::validateItem);
+        consumablePoolRarity = BUILDER.defineListAllowEmpty("consumableLootRarity", Collections.emptyList(), BattleTowersConfig::validateRarity);
+        consumablePoolAmount = BUILDER.defineListAllowEmpty("consumableLootAmounts", Collections.emptyList(), BattleTowersConfig::validateFloat);
+
+        bedsidePoolExtra = BUILDER.defineListAllowEmpty("bedsideLootPool", Collections.emptyList(), BattleTowersConfig::validateItem);
+        bedsidePoolRarity = BUILDER.defineListAllowEmpty("bedsideLootRarity", Collections.emptyList(), BattleTowersConfig::validateRarity);
+        bedsidePoolAmount = BUILDER.defineListAllowEmpty("bedsideLootAmounts", Collections.emptyList(), BattleTowersConfig::validateFloat);
         BUILDER.pop();
 
         BUILDER.push("towerChestLootTableReplacements");
         BUILDER.comment("Adding a resource location of a custom loot-table to one of these lists replaces the loot generated ");
-        BUILDER.comment("    using the Tower Extendable Loot Pools above with loot from the supplied loot-table.");
-        BUILDER.comment("Each list is in floor order with the first item being the table for floor 1 and the last item being the table for the Boss chest");
+        BUILDER.comment("    using the Tower Extendable Loot Pools above  for floor/golem chests with loot from the supplied loot-table.");
+        BUILDER.comment("Each list is in floor order with the first item being the table for floor 1 and the last item being the table for the Golem (Boss) chest");
 
         landTowerChestPools = BUILDER.defineList("landTowerChestPools", List.of("", "", "", "", "", "", "", "", ""), BattleTowersConfig::validateString);
         oceanTowerChestPools = BUILDER.defineList("oceanTowerChestPools", List.of("", "", "", "", "", "", "", "", ""), BattleTowersConfig::validateString);
