@@ -242,7 +242,7 @@ public class BTUtil {
         }
 
         for (String pool: pools) {
-            for (int i = Math.max(rarity-1, 0); i < Math.max(rarity + 1, 4); i++) {
+            for (int i = Math.max(rarity-1, 0); i < Math.min(rarity + 1, 4); i++) {
                 poolItems.addAll(itemPools.get(lootTypes.indexOf(pool)).get(i));
                 List<Float> floats = itemPoolAmounts.get(lootTypes.indexOf(pool)).get(i);
                 for (float amount: floats) {
@@ -250,6 +250,14 @@ public class BTUtil {
                     poolMins.add((int) amount);
                     poolMaxes.add((int) (((amount - (int) amount) * 10)));
                 }
+            }
+            // Add actually rarity pool twice (higher chance)
+            poolItems.addAll(itemPools.get(lootTypes.indexOf(pool)).get(rarity));
+            List<Float> floats = itemPoolAmounts.get(lootTypes.indexOf(pool)).get(rarity);
+            for (float amount: floats) {
+                BABTMain.LOGGER.info("Min amount = " + (int) amount + "  Max amount = " + ((amount - Mth.floor(amount)) * 10));
+                poolMins.add((int) amount);
+                poolMaxes.add((int) (((amount - (int) amount) * 10)));
             }
         }
 
