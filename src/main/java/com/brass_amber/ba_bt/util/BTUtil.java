@@ -311,9 +311,7 @@ public class BTUtil {
 
         btShuffleAndSplitItems(chestLoot, possibleSlots.size(), lootContext.getRandom());
         for (int i = 0; i < chestLoot.size(); i++) {
-            randomSlot = possibleSlots.remove(random.nextInt(possibleSlots.size()));
-            addStack = new ItemStack(loot.get(i), amounts.get(i));
-            container.setItem(randomSlot, addStack);
+            container.setItem(i, chestLoot.get(i));
             if (possibleSlots.isEmpty()) {
                 break;
             }
