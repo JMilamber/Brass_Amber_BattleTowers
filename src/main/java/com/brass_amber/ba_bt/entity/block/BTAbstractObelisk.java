@@ -82,6 +82,7 @@ public class BTAbstractObelisk extends Entity {
     protected MusicManager music;
     protected int musicDistance;
     protected int towerRange;
+    protected int enemySpawnRange;
 
     protected GolemType golemType;
     private boolean justSpawnedKey;
@@ -139,6 +140,7 @@ public class BTAbstractObelisk extends Entity {
 
     public void initialize() {
         this.initialized = true;
+        this.enemySpawnRange = 15;
     }
 
     public void clientInitialize() {
@@ -259,7 +261,8 @@ public class BTAbstractObelisk extends Entity {
                     btspawnerEntity.getSpawner().setEntityId(nextSpawnerEntity, level, level.getRandom(), toCheck);
                     btspawnerEntity.getSpawner().setBtSpawnData(
                             this.floorData.get(0), this.floorData.get(1), this.floorData.get(2),
-                            this.floorData.get(3), this.floorData.get(4), this.floorData.get(5)
+                            this.floorData.get(3), this.floorData.get(4), this.floorData.get(5),
+                            this.blockPosition(), this.enemySpawnRange
                     );
                 }
                 // BrassAmberBattleTowers.LOGGER.info("Found spawner: " + this.checkLayer + " " + this.spawnersFound);
@@ -286,6 +289,7 @@ public class BTAbstractObelisk extends Entity {
 
         List<String> lootTypes = dataMarker.getLootTypes();
         lootTypes.removeIf((type) -> type.equals("Invalid"));
+        lootTypes.removeIf(String::isEmpty);
 
         int rarity = dataMarker.getRarity();
         if (rarity == -1) {
