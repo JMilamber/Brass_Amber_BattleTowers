@@ -229,7 +229,7 @@ public class BTUtil {
         removeBodyOWater(storage, position.below(), recursion + 1, level);
     }
 
-    public static Pair<List<Item>, List<Integer>> createItems(int rarity, List<String> pools, RandomSource randomSource) {
+    public static Pair<List<Item>, List<Integer>> createItems(int rarity, List<String> pools, RandomSource randomSource, boolean isExtra) {
         List<Item> items = new ArrayList<>();
         List<Item> poolItems = new ArrayList<>();
 
@@ -261,7 +261,8 @@ public class BTUtil {
             }
         }
 
-        for (int i = 0; i < 15; i++) {
+        int itemAmount = isExtra ? 1 + randomSource.nextInt(17) : 13 + randomSource.nextInt(5);
+        for (int i = 0; i < itemAmount; i++) {
             int index = randomSource.nextInt(poolItems.size());
             items.add(poolItems.remove(index));
             int min = poolMins.remove(index);
