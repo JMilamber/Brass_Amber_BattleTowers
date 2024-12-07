@@ -207,7 +207,7 @@ public class BTStatics {
             addAll(extraContainerBlocks.get().stream().map(blockName -> ForgeRegistries.BLOCKS.getValue(new ResourceLocation(blockName))).toList());
         }};
 
-        lootTypes = List.of("Meat", "Veggie", "Cooked", "Gems", "Metals", "Ore", "Building Blocks", "Library", "Weapon", "Armor", "Tools", "Bedside");
+        lootTypes = List.of("Meat", "Veggie", "Cooked", "Gems", "Metals", "Ore", "Building Blocks", "Library", "Weapon", "Armor", "Tools", "Consumables", "Bedside");
 
         meatPool = List.of(
                 new ArrayList<>() {{
@@ -242,15 +242,15 @@ public class BTStatics {
                     addAll(meatPoolAmount.get().stream().filter(itemRange -> (meatPoolRarity.get().get(meatPoolAmount.get().indexOf(itemRange)) == 1)).toList());
                 }},
                 new ArrayList<>() {{
-                    addAll(Arrays.asList(1.1f, 1.1f, 1.1f, 1.1f));
+                    addAll(Arrays.asList(1.1f, 1.1f, 1.1f, 1.1f, 1.1f));
                     addAll(meatPoolAmount.get().stream().filter(itemRange -> (meatPoolRarity.get().get(meatPoolAmount.get().indexOf(itemRange)) == 2)).toList());
                 }},
                 new ArrayList<>() {{
-                    addAll(Arrays.asList(1.1f, 1.1f, 1.1f, 1.1f));
+                    addAll(Arrays.asList(1.1f, 1.1f, 1.1f));
                     addAll(meatPoolAmount.get().stream().filter(itemRange -> (meatPoolRarity.get().get(meatPoolAmount.get().indexOf(itemRange)) == 3)).toList());
                 }},
                 new ArrayList<>() {{
-                    addAll(Arrays.asList(1.1f, 1.1f, 1.1f, 1.1f));
+                    addAll(Arrays.asList(1.1f, 1.1f));
                     addAll(meatPoolAmount.get().stream().filter(itemRange -> (meatPoolRarity.get().get(meatPoolAmount.get().indexOf(itemRange)) == 4)).toList());
                 }}
         );
@@ -422,7 +422,7 @@ public class BTStatics {
                     addAll(metalsPoolAmount.get().stream().filter(itemRange -> (metalsPoolRarity.get().get(metalsPoolAmount.get().indexOf(itemRange)) == 0)).toList());
                 }},
                 new ArrayList<>() {{
-                    addAll(Arrays.asList(2.8f, 2.8f, 1.2f, 1.2f));
+                    addAll(Arrays.asList(2.8f, 2.8f, 2.8f, 1.2f, 1.2f));
                     addAll(metalsPoolAmount.get().stream().filter(itemRange -> (metalsPoolRarity.get().get(metalsPoolAmount.get().indexOf(itemRange)) == 1)).toList());
                 }},
                 new ArrayList<>() {{
@@ -521,19 +521,19 @@ public class BTStatics {
         buildingBlocksPoolAmounts = List.of(
                 new ArrayList<>() {{
                     addAll(Arrays.asList(
-                        8.16f, 6.12f, 6.12f, 6.12f,
-                        8.16f, 6.12f, 6.12f, 6.12f,
-                        8.16f, 6.12f, 6.12f, 6.12f,
-                        8.16f, 6.12f, 6.12f, 6.12f
+                            4.8f, 3.6f, 3.6f, 3.6f,
+                            4.8f, 3.6f, 3.6f, 3.6f,
+                            4.8f, 3.9f, 3.6f, 3.6f,
+                            4.8f, 3.6f, 3.6f, 3.6f
                     ));
                     addAll(buildingBlocksPoolAmount.get().stream().filter(itemRange -> (buildingBlocksPoolRarity.get().get(buildingBlocksPoolAmount.get().indexOf(itemRange)) == 0)).toList());
                 }},
                 new ArrayList<>() {{
                     addAll(Arrays.asList(
-                        8.16f, 6.12f, 6.12f, 6.12f,
-                        8.16f, 6.12f, 6.12f,
-                        8.16f, 6.12f, 6.12f,
-                        8.16f, 6.12f, 6.12f
+                        4.8f, 3.6f, 3.6f, 3.6f,
+                        4.8f, 3.6f, 3.6f,
+                        4.8f, 3.6f, 3.6f,
+                        4.8f, 3.6f, 3.6f
                     ));
                     addAll(buildingBlocksPoolAmount.get().stream().filter(itemRange -> (buildingBlocksPoolRarity.get().get(buildingBlocksPoolAmount.get().indexOf(itemRange)) == 1)).toList());
                 }},
@@ -542,11 +542,11 @@ public class BTStatics {
                     addAll(buildingBlocksPoolAmount.get().stream().filter(itemRange -> (buildingBlocksPoolRarity.get().get(buildingBlocksPoolAmount.get().indexOf(itemRange)) == 2)).toList());
                 }},
                 new ArrayList<>() {{
-                    addAll(Arrays.asList(2.4f, 4.8f, 2.6f, 2.6f, 2.6f, 2.6f));
+                    addAll(Arrays.asList(2.4f, 2.4f, 2.6f, 2.6f, 2.6f, 2.6f));
                     addAll(buildingBlocksPoolAmount.get().stream().filter(itemRange -> (buildingBlocksPoolRarity.get().get(buildingBlocksPoolAmount.get().indexOf(itemRange)) == 3)).toList());
                 }},
                 new ArrayList<>() {{
-                    addAll(Arrays.asList(4.8f, 4.8f, 8.16f, 4.8f, 4.8f));
+                    addAll(Arrays.asList(1.4f, 1.4f, 2.6f, 2.6f, 2.6f));
                     addAll(buildingBlocksPoolAmount.get().stream().filter(itemRange -> (buildingBlocksPoolRarity.get().get(buildingBlocksPoolAmount.get().indexOf(itemRange)) == 4)).toList());
                 }}
         );
