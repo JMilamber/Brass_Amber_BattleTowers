@@ -576,7 +576,7 @@ public class BTAbstractObelisk extends Entity {
                                 btFill(this.getServer().getLootData().getLootTable(new ResourceLocation(lootPath)), chest, lootcontext, lootparams);
                             }
                             else {
-                                Pair<List<Item>, List<Integer>> itemsAmounts =  createItems(rarity, List.of("Weapon", "Armor", "Metals", "Building Blocks"), this.random, false);
+                                Pair<List<Item>, List<Integer>> itemsAmounts =  createItems(rarity, List.of("Weapon", "Armor", "Metals", "Consumable"), this.random, false);
                                 btListFill(itemsAmounts.getFirst(), itemsAmounts.getSecond(), chest, lootcontext);
                             }
                             // BTUtil.btFill(getLootTable(GolemType.getNumForType(this.golemType), i), chest, lootcontext, lootparams);
