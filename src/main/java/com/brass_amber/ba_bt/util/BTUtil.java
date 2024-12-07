@@ -237,7 +237,7 @@ public class BTUtil {
         List<Integer> poolMins = new ArrayList<>();
         List<Integer> poolMaxes = new ArrayList<>();
 
-        BABTMain.LOGGER.info("Pools " + pools);
+        // BABTMain.LOGGER.info("Pools " + pools);
 
         while (pools.size() > 4) {
             pools.remove(randomSource.nextInt(pools.size()));
@@ -309,13 +309,16 @@ public class BTUtil {
 
         }
 
-        btShuffleAndSplitItems(chestLoot, possibleSlots.size(), lootContext.getRandom());
-        for (int i = 0; i < chestLoot.size(); i++) {
-            container.setItem(i, chestLoot.get(i));
+        btSplitItems(chestLoot, possibleSlots.size(), lootContext.getRandom());
+        possibleSlots = btGetAvailableSlots(container, random);
+
+        for (ItemStack itemStack : chestLoot) {
+            container.setItem(possibleSlots.remove(random.nextInt(possibleSlots.size())), itemStack);
             if (possibleSlots.isEmpty()) {
                 break;
             }
         }
+
     }
 
     /** All below are recreations of @LootTable methods.
@@ -389,6 +392,40 @@ public class BTUtil {
 
         itemStackList.addAll(list);
         Collections.shuffle(itemStackList, new Random());
+    }
+
+    private static void btSplitItems(List<ItemStack> itemStackList, int listSize, RandomSource random) {
+        List<ItemStack> list = Lists.newArrayList();
+        Iterator<ItemStack> iterator = itemStackList.iterator();
+
+        while (iterator.hasNext()) {
+            ItemStack itemstack = iterator.next();
+            if (itemstack.isEmpty()) {
+                iterator.remove();
+            } else if (itemstack.getCount() > 3) {
+                list.add(itemstack);
+                iterator.remove();
+            }
+        }
+
+        while (!list.isEmpty() && list.size() + itemStackList.size() < listSize - 1) {
+            ItemStack itemstack2 = list.remove(Mth.nextInt(random, 0, list.size() - 1));
+            int i = Mth.nextInt(random, 1, itemstack2.getCount() / 2);
+            ItemStack itemstack1 = itemstack2.split(i);
+            if (itemstack2.getCount() > 4) {
+                list.add(itemstack2);
+            } else {
+                itemStackList.add(itemstack2);
+            }
+
+            if (itemstack1.getCount() > 4) {
+                list.add(itemstack1);
+            } else {
+                itemStackList.add(itemstack1);
+            }
+        }
+
+        itemStackList.addAll(list);
     }
 
     public static ItemStack getRandomPotion(RandomSource randomSource) {
