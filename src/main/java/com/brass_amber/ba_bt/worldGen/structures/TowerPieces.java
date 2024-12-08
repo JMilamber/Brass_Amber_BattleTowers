@@ -86,7 +86,7 @@ public class TowerPieces {
                 roomName = TowerGenInfo.getRandomRoom(towerGenInfo, randomSource);
                 failSafe ++;
                 if (failSafe > 80) {
-                    roomName = TowerGenInfo.LAND.getRooms().get(0);
+                    roomName = towerGenInfo.getRooms().get(0);
                 }
                 if (usedRooms.isEmpty()) {
                     usedRooms.put(roomName, 1);
@@ -204,7 +204,7 @@ public class TowerPieces {
 
         @Override
         public BoundingBox getBeardifierBox() {
-            return this.getBoundingBox().inflatedBy(1);
+            return this.getBoundingBox().inflatedBy(-1);
         }
 
         @Override
