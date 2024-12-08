@@ -82,7 +82,7 @@ Some code comments are from a Structure Tutorial by Telepathic Grunt and have be
 >
 >
 >- Nether Tower:
->   - Rubedo by Lena Raine (Ambient)
+>   - Blazen Damnation By Rotch Gwylt(Ambient)
 >   - Throne Of Infuur'niir by Rotch Gwylt (Boss)
 >
 >

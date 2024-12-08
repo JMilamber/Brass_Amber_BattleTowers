@@ -51,7 +51,7 @@ public class BTSoundEvents {
 	public static final Music OCEAN_GOLEM_FIGHT_MUSIC = new Music(Holder.direct(MUSIC_OCEAN_GOLEM_FIGHT), 1980, 2280, false);
 	public static final Music CORE_TOWER_MUSIC = new Music(Holder.direct(MUSIC_CORE_TOWER), 4440, 4740, false);
 	public static final Music CORE_GOLEM_FIGHT_MUSIC = new Music(Holder.direct(MUSIC_CORE_GOLEM_FIGHT), 2400, 2700, false);
-	public static final Music NETHER_TOWER_MUSIC = new Music(Holder.direct(MUSIC_NETHER_TOWER), 6340, 6540, false);
+	public static final Music NETHER_TOWER_MUSIC = new Music(Holder.direct(MUSIC_NETHER_TOWER), 3880, 4180, false);
 	public static final Music NETHER_GOLEM_FIGHT_MUSIC = new Music(Holder.direct(MUSIC_NETHER_GOLEM_FIGHT), 2440, 2740, false);
 	public static final Music END_TOWER_MUSIC = new Music(Holder.direct(MUSIC_END_TOWER), 7680, 7980, false);
 	public static final Music END_GOLEM_FIGHT_MUSIC = new Music(Holder.direct(MUSIC_END_GOLEM_FIGHT), 2980, 3280, false);

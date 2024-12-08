@@ -208,7 +208,7 @@
 		"subtitle": "ba_bt.subtitle.tower.ambient.music.nether",
 		"sounds": [
 			{
-				"name": "ba_bt:tower/rubedo",
+				"name": "ba_bt:tower/blazen_damnation",
 				"volume": 0.7,
 				"stream": true
 			}
