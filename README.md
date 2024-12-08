@@ -66,34 +66,35 @@ Some code comments are from a Structure Tutorial by Telepathic Grunt and have be
 
 
 ### Music:
+> Music by Rotch Gwylt
 >- Land Tower:
->   - Forced Protection by Rotch Gwylt (Ambient)
->   - Rage Of Bahryn'muul by Rotch Gwylt (Boss)
+>   - Forced Protection (Ambient)
+>   - Rage Of Bahryn'muul (Boss)
 >
 > 
 >- Ocean Tower:
->   - Void Aeration by Rotch Gwylt (Ambient)
->   - Void Of Moraizu'un by Rotch Gwylt (Boss)
+>   - Void Aeration (Ambient)
+>   - Void Of Moraizu'un (Boss)
 >
 >
 >- Core Tower:
->   - Molten Tribulation by Rotch Gwylt (Ambient)
->   - Awakening Of Obthu'uryn by Rotch Gwylt (Boss)
+>   - Molten Tribulation (Ambient)
+>   - Awakening Of Obthu'uryn (Boss)
 >
 >
 >- Nether Tower:
->   - Blazen Damnation By Rotch Gwylt(Ambient)
->   - Throne Of Infuur'niir by Rotch Gwylt (Boss)
+>   - Blazen Damnation (Ambient)
+>   - Throne Of Infuur'niir (Boss)
 >
 >
 >- End Tower:
->   - Complex Radiation by LudoCrypt (Ambient)
->   - Mind Of Shul'losniir by Rotch Gwylt (Boss)
+>   - Warped Revelation (Ambient)
+>   - Mind Of Shul'losniir (Boss)
 >
 >
 >- Sky Tower:
->   - Resonance Levitation by Rotch Gwylt (Ambient)
->   - Descent Of Veyhz'kriin by Rotch Gwylt (Boss)
+>   - Resonance Levitation (Ambient)
+>   - Descent Of Veyhz'kriin (Boss)
 
 
 ### This mod is currently being built around the texture pack Excalibur
