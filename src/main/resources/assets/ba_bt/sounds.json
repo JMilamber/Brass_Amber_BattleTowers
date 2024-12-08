@@ -219,7 +219,7 @@
 		"subtitle": "ba_bt.subtitle.tower.ambient.music.end",
 		"sounds": [
 			{
-				"name": "ba_bt:tower/complex_radiation",
+				"name": "ba_bt:tower/warped_revelation",
 				"volume": 0.7,
 				"stream": true
 			}
