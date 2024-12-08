@@ -106,10 +106,10 @@
 	},
 	"entity.golem.nether.fight": {
 		"category": "hostile",
-		"subtitle": "ba_bt.subtitle.golem.ocean.fight",
+		"subtitle": "ba_bt.subtitle.golem.nether.fight",
 		"sounds": [
 			{
-				"name": "ba_bt:entity/golem/void_of_moraizuun",
+				"name": "ba_bt:entity/golem/throne_of_infuurniir",
 				"volume": 1.0,
 				"stream": true
 			}
@@ -175,7 +175,7 @@
 		"subtitle": "ba_bt.subtitle.tower.ambient.music.land",
 		"sounds": [
 			{
-				"name": "ba_bt:tower/ancestry",
+				"name": "ba_bt:tower/forced_protection",
 				"volume": 0.7,
 				"stream": true
 			}
@@ -186,7 +186,7 @@
 		"subtitle": "ba_bt.subtitle.tower.ambient.music.ocean",
 		"sounds": [
 			{
-				"name": "ba_bt:tower/dragonfish",
+				"name": "ba_bt:tower/void_aeration",
 				"volume": 0.7,
 				"stream": true
 			}
@@ -197,7 +197,7 @@
 		"subtitle": "ba_bt.subtitle.tower.ambient.music.core",
 		"sounds": [
 			{
-				"name": "ba_bt:tower/so_below_pion",
+				"name": "ba_bt:tower/molten_tribulation",
 				"volume": 0.7,
 				"stream": true
 			}
@@ -208,7 +208,7 @@
 		"subtitle": "ba_bt.subtitle.tower.ambient.music.nether",
 		"sounds": [
 			{
-				"name": "ba_bt:tower/rubedo",
+				"name": "ba_bt:tower/blazen_damnation",
 				"volume": 0.7,
 				"stream": true
 			}
@@ -219,7 +219,7 @@
 		"subtitle": "ba_bt.subtitle.tower.ambient.music.end",
 		"sounds": [
 			{
-				"name": "ba_bt:tower/complex_radiation",
+				"name": "ba_bt:tower/warped_revelation",
 				"volume": 0.7,
 				"stream": true
 			}
@@ -230,7 +230,7 @@
 		"subtitle": "ba_bt.subtitle.tower.ambient.music.sky",
 		"sounds": [
 			{
-				"name": "ba_bt:tower/clouds",
+				"name": "ba_bt:tower/resonance_levitation",
 				"volume": 0.7,
 				"stream": true
 			}

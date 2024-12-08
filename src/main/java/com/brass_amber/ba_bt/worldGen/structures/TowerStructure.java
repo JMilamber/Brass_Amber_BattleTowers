@@ -19,7 +19,6 @@ import net.minecraft.world.level.StructureManager;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.biome.Biome;
 
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.Rotation;
 import net.minecraft.world.level.chunk.ChunkGenerator;
 import net.minecraft.world.level.levelgen.structure.*;
@@ -40,6 +39,7 @@ public abstract class TowerStructure extends Structure {
     protected int towerType = 0;
     protected int towerId = -1; // Tower number (Land = 0, Ocean = 1, etc. )
     protected String[] towerTypeConversion;
+    protected int afterPlaceCount = 0;
 
     protected final Boolean buryTower = false;
     protected final Boolean randomBuryDepth = false;

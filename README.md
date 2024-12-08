@@ -8,12 +8,12 @@ Some code comments are from a Structure Tutorial by Telepathic Grunt and have be
 >   - However this does protect the mod from unauthorized use 
 >     - (such as redistribution without consent and/or attribution for personal profit)
 
-### Current Features of 2.0.0+:
+### Current Features of 3.0.0+:
 
 >- Land Tower 
 >   - Worldgen
 >   - Spawners 
->   - Locked chests and loot 
+>   - ~~Locked chests and loot~~
 >   - Golem
 >     - Ai
 >     - Loot
@@ -53,7 +53,7 @@ Some code comments are from a Structure Tutorial by Telepathic Grunt and have be
 
 
 
-### Known 1.18.2 Bugs
+### Known 1.20.1 Bugs
 
 [Conflict mod Domestic Innovation](https://github.com/BrassAmber-Mods/Brass_Amber_BattleTowers/issues/81)
 
@@ -66,35 +66,35 @@ Some code comments are from a Structure Tutorial by Telepathic Grunt and have be
 
 
 ### Music:
+> Music by Rotch Gwylt
 >- Land Tower:
->   - Ancestry by Lena Raine (Ambient)
->   - Rage Of Bahryn'muul by Rotch Gwylt (Boss)
+>   - Forced Protection (Ambient)
+>   - Rage Of Bahryn'muul (Boss)
 >
 > 
 >- Ocean Tower:
->   - DragonFish by C418 (Ambient)
->   - Void Of Moraizu'un by Rotch Gwylt (Boss)
+>   - Void Aeration (Ambient)
+>   - Void Of Moraizu'un (Boss)
 >
 >
 >- Core Tower:
->   - So Below by Lena Raine (Ambient)
->   - Awakening Of Obthu'uryn by Rotch Gwylt (Boss)
+>   - Molten Tribulation (Ambient)
+>   - Awakening Of Obthu'uryn (Boss)
 >
 >
 >- Nether Tower:
->   - Rubedo by Lena Raine (Ambient)
->   - Throne Of Infuur'niir by Rotch Gwylt (Boss)
+>   - Blazen Damnation (Ambient)
+>   - Throne Of Infuur'niir (Boss)
 >
 >
 >- End Tower:
->   - Complex Radiation by LudoCrypt (Ambient)
->   - Mind Of Shul'losniir by Rotch Gwylt (Boss)
+>   - Warped Revelation (Ambient)
+>   - Mind Of Shul'losniir (Boss)
 >
 >
 >- Sky Tower:
->   - Clouds from Aether (Ambient)
->     - Direct Song Use (With Permission)
->   - Descent Of Veyhz'kriin by Rotch Gwylt (Boss)
+>   - Resonance Levitation (Ambient)
+>   - Descent Of Veyhz'kriin (Boss)
 
 
 ### This mod is currently being built around the texture pack Excalibur

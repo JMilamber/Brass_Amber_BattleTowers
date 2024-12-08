@@ -3,6 +3,7 @@ package com.brass_amber.ba_bt.block.blockentity.spawner;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.NbtUtils;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
 import net.minecraft.util.random.WeightedEntry;
@@ -14,13 +15,14 @@ import net.minecraft.world.level.SpawnData;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.AABB;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
-import javax.annotation.Nullable;
 import java.util.Optional;
 
 public abstract class BTBaseSpawner extends BaseSpawner {
-
-    public void setBtSpawnData(int minDelay, int maxDelay, int spawnCount, int maxNearby, int playerRange, int spawnRange) {
+    private BlockPos towerCenter = BlockPos.ZERO;
+    private int towerRadius = 6;
+    public void setBtSpawnData(int minDelay, int maxDelay, int spawnCount, int maxNearby, int playerRange, int spawnRange, BlockPos towerCenter, int towerRadius) {
         this.minSpawnDelay = minDelay;
         this.maxSpawnDelay = maxDelay;
         this.spawnCount = spawnCount;
@@ -28,6 +30,8 @@ public abstract class BTBaseSpawner extends BaseSpawner {
         this.requiredPlayerRange = playerRange;
         this.spawnRange = spawnRange;
         this.spawnDelay = 0;
+        this.towerCenter = towerCenter;
+        this.towerRadius = towerRadius;
     }
 
     public void serverTick(@NotNull ServerLevel serverLevel, @NotNull BlockPos blockPos) {
@@ -58,7 +62,7 @@ public abstract class BTBaseSpawner extends BaseSpawner {
                     double d1 = j >= 2 ? listtag.getDouble(1) : (double)(blockPos.getY() + serverLevel.random.nextInt(3) - 1);
                     double d2 = j >= 3 ? listtag.getDouble(2) : (double)blockPos.getZ() + (serverLevel.random.nextDouble() - serverLevel.random.nextDouble()) * (double)this.spawnRange + 0.5D;
                     if (serverLevel.noCollision(optional.get().getAABB(d0, d1, d2))) {
-                        BlockPos blockpos = BlockPos.containing(d0, d1, d2);
+                        BlockPos blockpos2 = BlockPos.containing(d0, d1, d2);
 
                         Entity entity = EntityType.loadEntityRecursive(compoundtag, serverLevel, (p_151310_) -> {
                             p_151310_.moveTo(d0, d1, d2, p_151310_.getYRot(), p_151310_.getXRot());
@@ -69,7 +73,7 @@ public abstract class BTBaseSpawner extends BaseSpawner {
                             return;
                         }
 
-                        int k = serverLevel.getEntitiesOfClass(entity.getClass(), (new AABB(blockPos.getX(), blockPos.getY(), blockPos.getZ(), blockPos.getX() + 1, blockPos.getY() + 1, blockPos.getZ() + 1)).inflate(this.spawnRange)).size();
+                        int k = serverLevel.getEntitiesOfClass(entity.getClass(), (new AABB(towerCenter.getX(), blockPos.getY(), towerCenter.getZ(), towerCenter.getX() + 1, blockPos.getY() + 1, towerCenter.getZ() + 1)).inflate(this.towerRadius)).size();
                         if (k >= this.maxNearbyEntities) {
                             this.delay(serverLevel, blockPos);
                             return;
@@ -83,7 +87,7 @@ public abstract class BTBaseSpawner extends BaseSpawner {
                             }
                             serverLevel.addFreshEntityWithPassengers(entity);
                             serverLevel.levelEvent(2004, blockPos, 0);
-                            serverLevel.gameEvent(entity, GameEvent.ENTITY_PLACE, blockpos);
+                            serverLevel.gameEvent(entity, GameEvent.ENTITY_PLACE, blockpos2);
                             mob.spawnAnim();
                         }
 
@@ -103,5 +107,19 @@ public abstract class BTBaseSpawner extends BaseSpawner {
             }
         }
     }
+
+    @Override
+    public void load(@Nullable Level level, BlockPos blockPos, CompoundTag compoundTag) {
+        this.towerCenter = NbtUtils.readBlockPos(compoundTag.getCompound("TowerCenter"));
+        super.load(level, blockPos, compoundTag);
+    }
+
+    @Override
+    public CompoundTag save(CompoundTag compoundTag) {
+        compoundTag.put("TowerCenter", NbtUtils.writeBlockPos(towerCenter));
+        compoundTag.putInt("TowerRadius", this.towerRadius);
+        return super.save(compoundTag);
+    }
+
 
 }

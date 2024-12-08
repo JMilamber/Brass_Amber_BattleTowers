@@ -1,25 +1,28 @@
 package com.brass_amber.ba_bt.block.blockentity;
 
+import com.brass_amber.ba_bt.BABTMain;
 import com.brass_amber.ba_bt.block.block.DataMarkerBlock;
 import com.brass_amber.ba_bt.init.BTBlockEntityType;
+import com.brass_amber.ba_bt.util.BTStatics;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.state.properties.BlockStateProperties;
-import net.minecraft.world.level.block.state.properties.DirectionProperty;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 import static com.brass_amber.ba_bt.util.BTStatics.*;
+import static com.brass_amber.ba_bt.util.BTUtil.listFromTag;
+import static com.brass_amber.ba_bt.util.BTUtil.newStringList;
 
 public class DataMarkerBlockEntity extends BlockEntity {
 
     // Container type can be any type listed in containerTypes in
     public String containerType = "Invalid";
-    public String lootType = "Invalid";
-    public String lootType2 = "Invalid";
+    public List<String> lootTypes = List.of("Invalid");
     public int rarity = -1; // -1 == set by room height. 1-4 == set by data
 
 
@@ -32,41 +35,26 @@ public class DataMarkerBlockEntity extends BlockEntity {
     @Override
     public void load(CompoundTag compoundTag) {
         super.load(compoundTag);
+        // BABTMain.LOGGER.info("Loading Marker Data");
         try {
-            containerType = compoundTag.getString("Container");
+            this.containerType = compoundTag.getString("Container");
         } catch (Exception ignored) {
-            containerType = "Invalid";
+            this.containerType = "Invalid";
         }
 
         if (!containerTypes.contains(containerType)) {
-            containerType = "Invalid";
+            this.containerType = "Invalid";
         }
 
-        try {
-            lootType = compoundTag.getString("Loot");
-        } catch (Exception ignored) {
-            lootType = "Invalid";
-        }
-        if (!lootTypes.contains(lootType)) {
-            lootType = "Invalid";
-        }
+        this.lootTypes = listFromTag(compoundTag.getCompound("Loot"), Optional.of(lootMap.keySet().stream().toList()));
 
         try {
-            lootType2 = compoundTag.getString("Loot2");
-        } catch (Exception ignored) {
-            lootType2 = "Invalid";
-        }
-        if (!lootTypes.contains(lootType2)) {
-            lootType2 = "Invalid";
-        }
-
-        try {
-            rarity = compoundTag.getInt("Rarity");
+            this.rarity = compoundTag.getInt("Rarity");
         } catch (Exception ignored) {
             containerType = "Invalid";
         }
-        if (rarity <= -1 || rarity >= 5) {
-            rarity = -1;
+        if (this.rarity <= -1 || this.rarity >= 5) {
+            this.rarity = -1;
         }
     }
 
@@ -75,27 +63,29 @@ public class DataMarkerBlockEntity extends BlockEntity {
         super.saveAdditional(compoundTag);
 
         compoundTag.putString("Container", containerType);
-        compoundTag.putString("Loot", lootType);
-        compoundTag.putString("Loot2", lootType2);
+        compoundTag.put("Loot", newStringList(this.lootTypes));
         compoundTag.putInt("Rarity", rarity);
         compoundTag.putString("Facing", this.getBlockState().getValue(DataMarkerBlock.FACING).toString());
     }
 
-    protected Block getContainerType() {
+    public Block getContainer() {
         // Already protected from errors by check in load() function
         return containerBlocks.get(containerTypes.indexOf(containerType));
-
     }
 
-    protected String getLootType() {
+    public BlockState getContainerState() {
         // Already protected from errors by check in load() function
-        return lootType;
-    }
-    protected String getLootType2() {
-        // Already protected from errors by check in load() function
-        return lootType;
+        return containerBlocks.get(containerTypes.indexOf(containerType)).defaultBlockState();
     }
 
+    public List<String> getLootTypes() {
+        // Already protected from errors by check in load() function
+        return lootTypes;
+    }
+
+    public int getRarity() {
+        return rarity;
+    }
 }
 
 

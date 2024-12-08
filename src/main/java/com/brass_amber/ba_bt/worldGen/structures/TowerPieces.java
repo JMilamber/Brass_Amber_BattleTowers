@@ -86,7 +86,7 @@ public class TowerPieces {
                 roomName = TowerGenInfo.getRandomRoom(towerGenInfo, randomSource);
                 failSafe ++;
                 if (failSafe > 80) {
-                    roomName = TowerGenInfo.LAND.getRooms().get(0);
+                    roomName = towerGenInfo.getRooms().get(0);
                 }
                 if (usedRooms.isEmpty()) {
                     usedRooms.put(roomName, 1);
@@ -94,7 +94,7 @@ public class TowerPieces {
             }
             while (usedRooms.getOrDefault(roomName, 0) == 2);
 
-            if (usedRooms.size() < 2) {
+            if (usedRooms.getOrDefault(roomName, 0) < 2) {
                 usedRooms.put(roomName, usedRooms.getOrDefault(roomName, 0)+1);
             }
 
@@ -204,7 +204,7 @@ public class TowerPieces {
 
         @Override
         public BoundingBox getBeardifierBox() {
-            return this.getBoundingBox().inflatedBy(1);
+            return this.getBoundingBox().inflatedBy(-1);
         }
 
         @Override
@@ -236,6 +236,4 @@ public class TowerPieces {
 
 
     }
-
-
 }

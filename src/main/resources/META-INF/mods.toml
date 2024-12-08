@@ -10,20 +10,25 @@ displayURL="https://www.curseforge.com/minecraft/mc-mods/brassamberbattletowers"
 logoFile="BrassAmberBattleTowers.png"
 credits='''Inspired by BattleTowers from YogBox
            Translations by: SamleGamer, Kzeroko, RockYl, and BlackShadow77
-           Music:
-                Land Tower: Ancestry by Lena Raine
-                Ocean Tower: Dragonfish by C418
-                Core Tower: So Below by Lena Raine
-                Nether Tower: Rubedo by Lena Raine
-                End Tower:  Complex Radiation by LudoCrypt
-                Sky Tower: Clouds by Emile van Kreiken
-                
-                Land Golem: Rage Of Bahryn'muul by Rotch Gwylt
-                Ocean Golem: Void Of Moraizu'un by Rotch Gwylt
-                Core Golem: Awakening Of Obthu'uryn by Rotch Gwylt
-                Nether Golem: Throne Of Infuur'niir by Rotch Gwylte
-                End Golem:  Mind Of Shul'losniir by Rotch Gwylt
-                Sky Golem: Descent Of Veyhz'kriin by Rotch Gwylt
+           Music by Rotch Gwylt:
+                Land Tower:
+                    Forced Protection (Ambient)
+                    Rage Of Bahryn'muul (Boss)
+                Ocean Tower:
+                    Void Aeration (Ambient)
+                    Void Of Moraizu'un (Boss)
+                Core Tower:
+                    Molten Tribulation (Ambient)
+                    Awakening Of Obthu'uryn (Boss)
+                Nether Tower:
+                    Blazen Damnation (Ambient)
+                    Throne Of Infuur'niir (Boss)
+                End Tower:
+                    Warped Revelation (Ambient)
+                    Mind Of Shul'losniir (Boss)
+                Sky Tower:
+                    Resonance Levitation (Ambient)
+                    Descent Of Veyhz'kriin (Boss)
            '''
 
 authors="${mod_authors}" #optional

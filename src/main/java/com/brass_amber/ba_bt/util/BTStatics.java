@@ -1,12 +1,13 @@
 package com.brass_amber.ba_bt.util;
 
-import com.brass_amber.ba_bt.BattleTowersConfig;
 import com.brass_amber.ba_bt.init.BTBlocks;
+import com.mojang.datafixers.util.Pair;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.alchemy.Potion;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.biome.Biomes;
 import net.minecraft.world.level.block.Block;
@@ -15,6 +16,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -30,7 +32,7 @@ public class BTStatics {
     public static List<List<EntityType<?>>> towerMobs;
     public static final List<List<List<Integer>>> towerSpawnerData;
     public static final List<String> containerTypes;
-    public static final List<String> lootTypes;
+    public static HashMap<String, Pair<List<List<Item>>, List<List<Float>>>> lootMap;
     public static final List<Block> containerBlocks;
 
     public static final List<List<Item>> meatPool;
@@ -44,6 +46,8 @@ public class BTStatics {
     public static final List<List<Item>> weaponPool;
     public static final List<List<Item>> armorPool;
     public static final List<List<Item>> toolPool;
+    public static final List<List<Item>> consumablePool;
+    public static final List<List<Item>> bedsidePool;
 
     public static final List<List<Float>> meatPoolAmounts;
     public static final List<List<Float>> veggiePoolAmounts;
@@ -56,6 +60,12 @@ public class BTStatics {
     public static final List<List<Float>> weaponPoolAmounts;
     public static final List<List<Float>> armorPoolAmounts;
     public static final List<List<Float>> toolPoolAmounts;
+    public static final List<List<Float>> consumablePoolAmounts;
+    public static final List<List<Float>> bedsidePoolAmounts;
+    
+
+    public static final List<Potion> potions;
+    public static final List<Item> dyes;
 
     static {
 
@@ -110,7 +120,7 @@ public class BTStatics {
         icyOceanBlocks = List.of(Blocks.SNOW, Blocks.SNOW_BLOCK, Blocks.ICE, Blocks.PACKED_ICE);
 
 
-        if (BattleTowersConfig.useOldSpawnerAmounts.get()) {
+        if (useOldSpawnerAmounts.get()) {
             towerSpawnerAmounts = List.of(
                     Arrays.asList(2, 2, 2, 2, 2, 2, 2, 2), // 16
                     Arrays.asList(2, 2, 2, 3, 3, 3, 4, 4), // 23
@@ -131,7 +141,7 @@ public class BTStatics {
             );
         }
 
-        if (BattleTowersConfig.useOldSpawnerAmounts.get()) {
+        if (useOldSpawnerAmounts.get()) {
             towerChestUnlocking = List.of(
                     Arrays.asList(4, 9, 16),
                     Arrays.asList(9, 23),
@@ -198,8 +208,6 @@ public class BTStatics {
             addAll(extraContainerBlocks.get().stream().map(blockName -> ForgeRegistries.BLOCKS.getValue(new ResourceLocation(blockName))).toList());
         }};
 
-        lootTypes = List.of("Meat", "Veggie", "Cooked", "Gems", "Metals", "Ore", "Building Blocks", "Library", "Weapon", "Armor", "Tools");
-
         meatPool = List.of(
                 new ArrayList<>() {{
                     addAll(Arrays.asList(Items.PUFFERFISH, Items.TROPICAL_FISH, Items.ROTTEN_FLESH, Items.SPIDER_EYE));
@@ -233,15 +241,15 @@ public class BTStatics {
                     addAll(meatPoolAmount.get().stream().filter(itemRange -> (meatPoolRarity.get().get(meatPoolAmount.get().indexOf(itemRange)) == 1)).toList());
                 }},
                 new ArrayList<>() {{
-                    addAll(Arrays.asList(1.1f, 1.1f, 1.1f, 1.1f));
+                    addAll(Arrays.asList(1.1f, 1.1f, 1.1f, 1.1f, 1.1f));
                     addAll(meatPoolAmount.get().stream().filter(itemRange -> (meatPoolRarity.get().get(meatPoolAmount.get().indexOf(itemRange)) == 2)).toList());
                 }},
                 new ArrayList<>() {{
-                    addAll(Arrays.asList(1.1f, 1.1f, 1.1f, 1.1f));
+                    addAll(Arrays.asList(1.1f, 1.1f, 1.1f));
                     addAll(meatPoolAmount.get().stream().filter(itemRange -> (meatPoolRarity.get().get(meatPoolAmount.get().indexOf(itemRange)) == 3)).toList());
                 }},
                 new ArrayList<>() {{
-                    addAll(Arrays.asList(1.1f, 1.1f, 1.1f, 1.1f));
+                    addAll(Arrays.asList(1.1f, 1.1f));
                     addAll(meatPoolAmount.get().stream().filter(itemRange -> (meatPoolRarity.get().get(meatPoolAmount.get().indexOf(itemRange)) == 4)).toList());
                 }}
         );
@@ -306,11 +314,11 @@ public class BTStatics {
                     addAll(cookedPoolExtra.get().stream().filter(itemName -> (cookedPoolRarity.get().get(cookedPoolExtra.get().indexOf(itemName)) == 2)).map(itemName -> ForgeRegistries.ITEMS.getValue(new ResourceLocation(itemName))).toList());
                 }}, // Rarity 2
                 new ArrayList<>() {{
-                    add(Items.PUMPKIN_PIE);
+                    addAll(Arrays.asList(Items.PUMPKIN_PIE, Items.CAKE));
                     addAll(cookedPoolExtra.get().stream().filter(itemName -> (cookedPoolRarity.get().get(cookedPoolExtra.get().indexOf(itemName)) == 3)).map(itemName -> ForgeRegistries.ITEMS.getValue(new ResourceLocation(itemName))).toList());
                 }}, // Rarity 3
                 new ArrayList<>() {{
-                    add(Items.CAKE);
+                    add(Items.RABBIT_STEW);
                     addAll(cookedPoolExtra.get().stream().filter(itemName -> (cookedPoolRarity.get().get(cookedPoolExtra.get().indexOf(itemName)) == 4)).map(itemName -> ForgeRegistries.ITEMS.getValue(new ResourceLocation(itemName))).toList());
                 }} // Rarity 4
         );
@@ -329,7 +337,7 @@ public class BTStatics {
                     addAll(cookedPoolAmount.get().stream().filter(itemRange -> (cookedPoolRarity.get().get(cookedPoolAmount.get().indexOf(itemRange)) == 2)).toList());
                 }},
                 new ArrayList<>() {{
-                    add(1.1f);
+                    addAll(Arrays.asList(1.1f, 1.1f));
                     addAll(cookedPoolAmount.get().stream().filter(itemRange -> (cookedPoolRarity.get().get(cookedPoolAmount.get().indexOf(itemRange)) == 3)).toList());
                 }},
                 new ArrayList<>() {{
@@ -413,7 +421,7 @@ public class BTStatics {
                     addAll(metalsPoolAmount.get().stream().filter(itemRange -> (metalsPoolRarity.get().get(metalsPoolAmount.get().indexOf(itemRange)) == 0)).toList());
                 }},
                 new ArrayList<>() {{
-                    addAll(Arrays.asList(2.8f, 2.8f, 1.2f, 1.2f));
+                    addAll(Arrays.asList(2.8f, 2.8f, 2.8f, 1.2f, 1.2f));
                     addAll(metalsPoolAmount.get().stream().filter(itemRange -> (metalsPoolRarity.get().get(metalsPoolAmount.get().indexOf(itemRange)) == 1)).toList());
                 }},
                 new ArrayList<>() {{
@@ -512,19 +520,19 @@ public class BTStatics {
         buildingBlocksPoolAmounts = List.of(
                 new ArrayList<>() {{
                     addAll(Arrays.asList(
-                        8.16f, 6.12f, 6.12f, 6.12f,
-                        8.16f, 6.12f, 6.12f, 6.12f,
-                        8.16f, 6.12f, 6.12f, 6.12f,
-                        8.16f, 6.12f, 6.12f, 6.12f
+                            4.8f, 3.6f, 3.6f, 3.6f,
+                            4.8f, 3.6f, 3.6f, 3.6f,
+                            4.8f, 3.9f, 3.6f, 3.6f,
+                            4.8f, 3.6f, 3.6f, 3.6f
                     ));
                     addAll(buildingBlocksPoolAmount.get().stream().filter(itemRange -> (buildingBlocksPoolRarity.get().get(buildingBlocksPoolAmount.get().indexOf(itemRange)) == 0)).toList());
                 }},
                 new ArrayList<>() {{
                     addAll(Arrays.asList(
-                        8.16f, 6.12f, 6.12f, 6.12f,
-                        8.16f, 6.12f, 6.12f,
-                        8.16f, 6.12f, 6.12f,
-                        8.16f, 6.12f, 6.12f
+                        4.8f, 3.6f, 3.6f, 3.6f,
+                        4.8f, 3.6f, 3.6f,
+                        4.8f, 3.6f, 3.6f,
+                        4.8f, 3.6f, 3.6f
                     ));
                     addAll(buildingBlocksPoolAmount.get().stream().filter(itemRange -> (buildingBlocksPoolRarity.get().get(buildingBlocksPoolAmount.get().indexOf(itemRange)) == 1)).toList());
                 }},
@@ -533,11 +541,11 @@ public class BTStatics {
                     addAll(buildingBlocksPoolAmount.get().stream().filter(itemRange -> (buildingBlocksPoolRarity.get().get(buildingBlocksPoolAmount.get().indexOf(itemRange)) == 2)).toList());
                 }},
                 new ArrayList<>() {{
-                    addAll(Arrays.asList(2.4f, 4.8f, 2.6f, 2.6f, 2.6f, 2.6f));
+                    addAll(Arrays.asList(2.4f, 2.4f, 2.6f, 2.6f, 2.6f, 2.6f));
                     addAll(buildingBlocksPoolAmount.get().stream().filter(itemRange -> (buildingBlocksPoolRarity.get().get(buildingBlocksPoolAmount.get().indexOf(itemRange)) == 3)).toList());
                 }},
                 new ArrayList<>() {{
-                    addAll(Arrays.asList(4.8f, 4.8f, 8.16f, 4.8f, 4.8f));
+                    addAll(Arrays.asList(1.4f, 1.4f, 2.6f, 2.6f, 2.6f));
                     addAll(buildingBlocksPoolAmount.get().stream().filter(itemRange -> (buildingBlocksPoolRarity.get().get(buildingBlocksPoolAmount.get().indexOf(itemRange)) == 4)).toList());
                 }}
         );
@@ -695,7 +703,7 @@ public class BTStatics {
                     addAll(toolPoolExtra.get().stream().filter(itemName -> (toolPoolRarity.get().get(toolPoolExtra.get().indexOf(itemName)) == 2)).map(itemName -> ForgeRegistries.ITEMS.getValue(new ResourceLocation(itemName))).toList());
                 }}, // Rarity 2
                 new ArrayList<>() {{
-                    addAll(Arrays.asList(Items.DIAMOND_AXE, Items.DIAMOND_PICKAXE, Items.DIAMOND_SWORD, Items.DIAMOND_SHOVEL, Items.NETHERITE_HOE, Items.MAP));
+                    addAll(Arrays.asList(Items.DIAMOND_AXE, Items.DIAMOND_PICKAXE, Items.DIAMOND_SWORD, Items.DIAMOND_SHOVEL, Items.NETHERITE_HOE));
                     addAll(toolPoolExtra.get().stream().filter(itemName -> (toolPoolRarity.get().get(toolPoolExtra.get().indexOf(itemName)) == 3)).map(itemName -> ForgeRegistries.ITEMS.getValue(new ResourceLocation(itemName))).toList());
                 }}, // Rarity 3
                 new ArrayList<>() {{
@@ -718,7 +726,7 @@ public class BTStatics {
                     addAll(toolPoolAmount.get().stream().filter(itemRange -> (toolPoolRarity.get().get(toolPoolAmount.get().indexOf(itemRange)) == 2)).toList());
                 }},
                 new ArrayList<>() {{
-                    addAll(Arrays.asList(1.1f, 1.1f, 1.1f, 1.1f, 1.1f, 1.1f));
+                    addAll(Arrays.asList(1.1f, 1.1f, 1.1f, 1.1f, 1.1f));
                     addAll(toolPoolAmount.get().stream().filter(itemRange -> (toolPoolRarity.get().get(toolPoolAmount.get().indexOf(itemRange)) == 3)).toList());
                 }},
                 new ArrayList<>() {{
@@ -726,8 +734,119 @@ public class BTStatics {
                     addAll(toolPoolAmount.get().stream().filter(itemRange -> (toolPoolRarity.get().get(toolPoolAmount.get().indexOf(itemRange)) == 4)).toList());
                 }}
         );
+
+        consumablePool = List.of(
+                new ArrayList<>() {{
+                    addAll(Arrays.asList(Items.GLASS_BOTTLE, Items.BOWL, Items.POTION)); // Potion = Bottle of Water
+                    addAll(consumablePoolExtra.get().stream().filter(itemName -> (consumablePoolRarity.get().get(consumablePoolExtra.get().indexOf(itemName)) == 0)).map(itemName -> ForgeRegistries.ITEMS.getValue(new ResourceLocation(itemName))).toList());
+                }}, // Rarity 0
+                new ArrayList<>() {{
+                    addAll(Arrays.asList(Items.WHITE_DYE, Items.COOKIE, Items.FLINT_AND_STEEL, Items.WRITABLE_BOOK));
+                    addAll(consumablePoolExtra.get().stream().filter(itemName -> (consumablePoolRarity.get().get(consumablePoolExtra.get().indexOf(itemName)) == 1)).map(itemName -> ForgeRegistries.ITEMS.getValue(new ResourceLocation(itemName))).toList());
+                }}, // Rarity 1
+                new ArrayList<>() {{
+                    addAll(Arrays.asList(Items.BEETROOT_SOUP, Items.HONEY_BOTTLE, Items.MUSHROOM_STEW, Items.MAP));
+                    addAll(consumablePoolExtra.get().stream().filter(itemName -> (consumablePoolRarity.get().get(consumablePoolExtra.get().indexOf(itemName)) == 2)).map(itemName -> ForgeRegistries.ITEMS.getValue(new ResourceLocation(itemName))).toList());
+                }}, // Rarity 2
+                new ArrayList<>() {{
+                    addAll(Arrays.asList(Items.GOLDEN_CARROT, Items.NAME_TAG, Items.RABBIT_STEW, Items.GOLDEN_APPLE));
+                    addAll(consumablePoolExtra.get().stream().filter(itemName -> (consumablePoolRarity.get().get(consumablePoolExtra.get().indexOf(itemName)) == 3)).map(itemName -> ForgeRegistries.ITEMS.getValue(new ResourceLocation(itemName))).toList());
+                }}, // Rarity 3
+                new ArrayList<>() {{
+                    addAll(Arrays.asList(Items.EXPERIENCE_BOTTLE, Items.SPLASH_POTION));
+                    addAll(consumablePoolExtra.get().stream().filter(itemName -> (consumablePoolRarity.get().get(consumablePoolExtra.get().indexOf(itemName)) == 4)).map(itemName -> ForgeRegistries.ITEMS.getValue(new ResourceLocation(itemName))).toList());
+                }} // Rarity 4
+        );
+
+        consumablePoolAmounts = List.of(
+                new ArrayList<>() {{
+                    addAll(Arrays.asList(1.3f, 2.3f, 1.2f));
+                    addAll(consumablePoolAmount.get().stream().filter(itemRange -> (consumablePoolRarity.get().get(consumablePoolAmount.get().indexOf(itemRange)) == 0)).toList());
+                }},
+                new ArrayList<>() {{
+                    addAll(Arrays.asList(2.5f, 3.7f, 1.2f, 1.2f));
+                    addAll(consumablePoolAmount.get().stream().filter(itemRange -> (consumablePoolRarity.get().get(consumablePoolAmount.get().indexOf(itemRange)) == 1)).toList());
+                }},
+                new ArrayList<>() {{
+                    addAll(Arrays.asList(1.2f, 2.4f, 1.1f, 1.1f));
+                    addAll(consumablePoolAmount.get().stream().filter(itemRange -> (consumablePoolRarity.get().get(consumablePoolAmount.get().indexOf(itemRange)) == 2)).toList());
+                }},
+                new ArrayList<>() {{
+                    addAll(Arrays.asList(1.2f, 1.1f, 1.1f, 1.2f));
+                    addAll(consumablePoolAmount.get().stream().filter(itemRange -> (consumablePoolRarity.get().get(consumablePoolAmount.get().indexOf(itemRange)) == 3)).toList());
+                }},
+                new ArrayList<>() {{
+                    addAll(Arrays.asList(2.5f, 1.2f));
+                    addAll(consumablePoolAmount.get().stream().filter(itemRange -> (consumablePoolRarity.get().get(consumablePoolAmount.get().indexOf(itemRange)) == 4)).toList());
+                }}
+        );
+
+        bedsidePool = List.of(
+                new ArrayList<>() {{
+                    addAll(Arrays.asList(Items.PAPER, Items.STICK, Items.LEATHER, Items.FEATHER));
+                    addAll(bedsidePoolExtra.get().stream().filter(itemName -> (bedsidePoolRarity.get().get(bedsidePoolExtra.get().indexOf(itemName)) == 0)).map(itemName -> ForgeRegistries.ITEMS.getValue(new ResourceLocation(itemName))).toList());
+                }}, // Rarity 0
+                new ArrayList<>() {{
+                    addAll(Arrays.asList(Items.BOWL, Items.TORCH, Items.INK_SAC, Items.FLOWER_POT));
+                    addAll(bedsidePoolExtra.get().stream().filter(itemName -> (bedsidePoolRarity.get().get(bedsidePoolExtra.get().indexOf(itemName)) == 1)).map(itemName -> ForgeRegistries.ITEMS.getValue(new ResourceLocation(itemName))).toList());
+                }}, // Rarity 1
+                new ArrayList<>() {{
+                    addAll(Arrays.asList(Items.WRITABLE_BOOK, Items.GLOW_INK_SAC, Items.BOOK));
+                    addAll(bedsidePoolExtra.get().stream().filter(itemName -> (bedsidePoolRarity.get().get(bedsidePoolExtra.get().indexOf(itemName)) == 2)).map(itemName -> ForgeRegistries.ITEMS.getValue(new ResourceLocation(itemName))).toList());
+                }}, // Rarity 2
+                new ArrayList<>() {{
+                    addAll(Arrays.asList(Items.RABBIT_FOOT, Items.CLOCK, Items.BRUSH, Items.COMPASS));
+                    addAll(bedsidePoolExtra.get().stream().filter(itemName -> (bedsidePoolRarity.get().get(bedsidePoolExtra.get().indexOf(itemName)) == 3)).map(itemName -> ForgeRegistries.ITEMS.getValue(new ResourceLocation(itemName))).toList());
+                }}, // Rarity 3
+                new ArrayList<>() {{
+                    addAll(Arrays.asList(Items.AXOLOTL_BUCKET, Items.PHANTOM_MEMBRANE,Items.SPYGLASS));
+                    addAll(bedsidePoolExtra.get().stream().filter(itemName -> (bedsidePoolRarity.get().get(bedsidePoolExtra.get().indexOf(itemName)) == 4)).map(itemName -> ForgeRegistries.ITEMS.getValue(new ResourceLocation(itemName))).toList());
+                }} // Rarity 4
+        );
+
+        bedsidePoolAmounts = List.of(
+                new ArrayList<>() {{
+                    addAll(Arrays.asList(2.4f, 2.4f, 2.4f, 2.4f));
+                    addAll(bedsidePoolAmount.get().stream().filter(itemRange -> (bedsidePoolRarity.get().get(bedsidePoolAmount.get().indexOf(itemRange)) == 0)).toList());
+                }},
+                new ArrayList<>() {{
+                    addAll(Arrays.asList(1.2f, 3.7f, 1.2f, 1.1f));
+                    addAll(bedsidePoolAmount.get().stream().filter(itemRange -> (bedsidePoolRarity.get().get(bedsidePoolAmount.get().indexOf(itemRange)) == 1)).toList());
+                }},
+                new ArrayList<>() {{
+                    addAll(Arrays.asList(1.2f, 2.4f, 1.3f));
+                    addAll(bedsidePoolAmount.get().stream().filter(itemRange -> (bedsidePoolRarity.get().get(bedsidePoolAmount.get().indexOf(itemRange)) == 2)).toList());
+                }},
+                new ArrayList<>() {{
+                    addAll(Arrays.asList(1.1f, 1.1f, 1.2f, 1.1f));
+                    addAll(bedsidePoolAmount.get().stream().filter(itemRange -> (bedsidePoolRarity.get().get(bedsidePoolAmount.get().indexOf(itemRange)) == 3)).toList());
+                }},
+                new ArrayList<>() {{
+                    addAll(Arrays.asList(1.1f, 1.3f, 1.1f));
+                    addAll(bedsidePoolAmount.get().stream().filter(itemRange -> (bedsidePoolRarity.get().get(bedsidePoolAmount.get().indexOf(itemRange)) == 4)).toList());
+                }}
+        );
+
+        lootMap = new HashMap<>();
+        lootMap.put("Meat", Pair.of(meatPool, meatPoolAmounts));
+        lootMap.put("Veggie", Pair.of(veggiePool,veggiePoolAmounts));
+        lootMap.put("Cooked", Pair.of(cookedPool, cookedPoolAmounts));
+        lootMap.put("Gems", Pair.of(gemsPool, gemsPoolAmounts));
+        lootMap.put("Metals", Pair.of(metalsPool, metalsPoolAmounts));
+        lootMap.put("Ore", Pair.of(orePool, orePoolAmounts));
+        lootMap.put("Building Blocks", Pair.of(buildingBlocksPool, buildingBlocksPoolAmounts));
+        lootMap.put("Library", Pair.of(libraryPool, libraryPoolAmounts));
+        lootMap.put("Weapon", Pair.of(weaponPool, weaponPoolAmounts));
+        lootMap.put("Armor", Pair.of(armorPool, armorPoolAmounts));
+        lootMap.put("Tools", Pair.of(toolPool, toolPoolAmounts));
+        lootMap.put("Consumables", Pair.of(consumablePool, consumablePoolAmounts));
+        lootMap.put("Bedside", Pair.of(bedsidePool, bedsidePoolAmounts));
+
+        potions = ForgeRegistries.POTIONS.getValues().stream().toList();
+        dyes = List.of(
+                Items.WHITE_DYE, Items.ORANGE_DYE, Items.MAGENTA_DYE, Items.LIGHT_BLUE_DYE, Items.YELLOW_DYE,
+                Items.LIME_DYE, Items.PINK_DYE, Items.GRAY_DYE, Items.LIGHT_GRAY_DYE, Items.CYAN_DYE, Items.PURPLE_DYE,
+                Items.BLUE_DYE, Items.BROWN_DYE, Items.GREEN_DYE, Items.RED_DYE, Items.BLACK_DYE
+        );
     }
-
-
-
 }

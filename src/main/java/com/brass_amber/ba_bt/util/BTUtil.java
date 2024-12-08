@@ -4,9 +4,11 @@ import com.brass_amber.ba_bt.init.BTBlockEntityType;
 import com.brass_amber.ba_bt.init.BTBlocks;
 import com.brass_amber.ba_bt.sound.BTSoundEvents;
 import com.google.common.collect.Lists;
+import com.mojang.datafixers.util.Pair;
 import com.mojang.logging.LogUtils;
 import net.minecraft.commands.Commands;
 import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.IntTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.sounds.SoundEvent;
@@ -14,8 +16,8 @@ import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.Container;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.*;
+import net.minecraft.world.item.alchemy.PotionUtils;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
@@ -30,22 +32,52 @@ import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 
 import java.util.*;
+import java.util.function.Supplier;
+
+import static com.brass_amber.ba_bt.util.BTStatics.*;
 
 public class BTUtil {
     static final Logger LOGGER = LogUtils.getLogger();
 
 
-    public static ListTag newIntList(int... p_20064_) {
+    public static ListTag newIntList(int... ints) {
         ListTag listtag = new ListTag();
 
-        for (int d0 : p_20064_) {
+        for (int d0 : ints) {
             listtag.add(IntTag.valueOf(d0));
         }
 
         return listtag;
     }
 
-    public static java.util.function.Supplier<SoundEvent> getTowerMusic(GolemType type) {
+
+    public static CompoundTag newStringList(List<String> strings) {
+        CompoundTag listtag = new CompoundTag();
+
+        for (int i = 0; i < strings.size(); i++) {
+            listtag.putString(String.valueOf(i), strings.get(i));
+        }
+
+        return listtag;
+    }
+
+    public static List<String> listFromTag(CompoundTag tag, Optional<List<String>> checkFrom) {
+        List<String> list = new ArrayList<>();
+
+        for (int i = 0; i < tag.getAllKeys().size(); i++) {
+            String value = tag.getString(String.valueOf(i));
+            // BABTMain.LOGGER.info("get compound value: " + value + " | is in list? " + checkFrom.get().contains(value));
+            if (checkFrom.isPresent()) {
+                list.add(checkFrom.get().contains(value) ? value : "Invalid") ;
+            } else {
+                list.add(value);
+            }
+        }
+
+        return list;
+    }
+
+    public static Supplier<SoundEvent> getTowerMusic(GolemType type) {
         return switch (type) {
             case OCEAN -> () -> BTSoundEvents.MUSIC_OCEAN_TOWER;
             case CORE -> () -> BTSoundEvents.MUSIC_CORE_TOWER;
@@ -193,22 +225,100 @@ public class BTUtil {
         removeBodyOWater(storage, position.below(), recursion + 1, level);
     }
 
+    public static Pair<List<Item>, List<Integer>> createItems(int rarity, List<String> pools, RandomSource randomSource, boolean isExtra) {
+        List<Item> items = new ArrayList<>();
+        List<Item> poolItems = new ArrayList<>();
+
+        List<Integer> amounts = new ArrayList<>();
+        List<Integer> poolMins = new ArrayList<>();
+        List<Integer> poolMaxes = new ArrayList<>();
+
+        // BABTMain.LOGGER.info("Pools " + pools);
+
+        while (pools.size() > 4) {
+            pools.remove(randomSource.nextInt(pools.size()));
+        }
+
+        for (String pool: pools) {
+            Pair<List<List<Item>>, List<List<Float>>> itemPoolAndAmounts = lootMap.getOrDefault(pool, lootMap.get("Building Blocks"));
+            for (int i = Math.max(rarity-1, 0); i < Math.min(rarity + 1, 4); i++) {
+                poolItems.addAll(itemPoolAndAmounts.getFirst().get(i));
+                List<Float> floats = itemPoolAndAmounts.getSecond().get(i);
+                for (float amount: floats) {
+                    // BABTMain.LOGGER.info("Min amount = " + (int) amount + "  Max amount = " + ((amount - Mth.floor(amount)) * 10));
+                    poolMins.add((int) amount);
+                    poolMaxes.add((int) (((amount - (int) amount) * 10)));
+                }
+                if (itemPoolAndAmounts.getFirst().get(i).size() < 4) {
+                    poolItems.addAll(itemPoolAndAmounts.getFirst().get(i));
+                    for (float amount: floats) {
+                        // BABTMain.LOGGER.info("Min amount = " + (int) amount + "  Max amount = " + ((amount - Mth.floor(amount)) * 10));
+                        poolMins.add((int) amount);
+                        poolMaxes.add((int) (((amount - (int) amount) * 10)));
+                    }
+                }
+            }
+            // Add actually rarity pool twice (higher chance)
+            poolItems.addAll(itemPoolAndAmounts.getFirst().get(rarity));
+            List<Float> floats = itemPoolAndAmounts.getSecond().get(rarity);
+            for (float amount: floats) {
+                // BABTMain.LOGGER.info("Min amount = " + (int) amount + "  Max amount = " + ((amount - Mth.floor(amount)) * 10));
+                poolMins.add((int) amount);
+                poolMaxes.add((int) (((amount - (int) amount) * 10)));
+            }
+        }
+
+        int itemAmount = isExtra ? 3 + randomSource.nextInt(5) : 13 + randomSource.nextInt(5);
+        for (int i = 0; i < itemAmount; i++) {
+            int index = randomSource.nextInt(poolItems.size()-1);
+            items.add(poolItems.get(index));
+            int min = poolMins.get(index);
+            int max = poolMaxes.get(index);
+            if (min < max) {
+                amounts.add(randomSource.nextIntBetweenInclusive(min, max));
+            } else {
+                amounts.add(min);
+            }
+        }
+
+        return Pair.of(items, amounts);
+    }
+
     public static void btListFill(List<Item> loot, List<Integer> amounts, Container container, LootContext lootContext) {
-        Random random = (Random) lootContext.getRandom();
+        Random random = new Random();
 
         // Get possible slots to put items in (empty slots) should be all for tower chests.
         List<Integer> possibleSlots = btGetAvailableSlots(container, random);
-        ItemStack addStack;
-        int randomSlot;
 
-        // Find the middle of the chest and keep the slot free for a possible key injection
-        int middleOfChest = Math.floorDiv(container.getContainerSize(), 2) + 1;
-        possibleSlots.removeIf(i -> i == middleOfChest);
-
+        List<ItemStack> chestLoot = new ArrayList<>();
         for (int i = 0; i < loot.size(); i++) {
-            randomSlot = possibleSlots.remove(random.nextInt(possibleSlots.size()));
-            addStack = new ItemStack(loot.get(i), amounts.get(i));
-            container.setItem(randomSlot, addStack);
+            Item item = loot.get(i);
+            ItemStack itemStack;
+            if (item instanceof SplashPotionItem) {
+                itemStack = getRandomPotion(lootContext.getRandom());
+            } else if (item instanceof DyeItem) {
+                itemStack = getRandomDye(lootContext.getRandom());
+            } else {
+                itemStack = new ItemStack(item);
+            }
+
+            // Alow item count to work for non-stackable items
+            if (item.getMaxStackSize(itemStack) == 1) {
+                for (int j = 0; j < amounts.get(i); j++) {
+                    chestLoot.add(itemStack);
+                }
+            } else {
+                itemStack.setCount(amounts.get(i));
+                chestLoot.add(itemStack);
+            }
+
+        }
+
+        btSplitItems(chestLoot, possibleSlots.size(), lootContext.getRandom());
+        possibleSlots = btGetAvailableSlots(container, random);
+
+        for (ItemStack itemStack : chestLoot) {
+            container.setItem(possibleSlots.remove(random.nextInt(possibleSlots.size())), itemStack);
             if (possibleSlots.isEmpty()) {
                 break;
             }
@@ -258,7 +368,7 @@ public class BTUtil {
         List<ItemStack> list = Lists.newArrayList();
         Iterator<ItemStack> iterator = itemStackList.iterator();
 
-        while(iterator.hasNext()) {
+        while (iterator.hasNext()) {
             ItemStack itemstack = iterator.next();
             if (itemstack.isEmpty()) {
                 iterator.remove();
@@ -268,7 +378,7 @@ public class BTUtil {
             }
         }
 
-        while(listSize - itemStackList.size() - list.size() > 0 && !list.isEmpty()) {
+        while (listSize - itemStackList.size() - list.size() > 0 && !list.isEmpty()) {
             ItemStack itemstack2 = list.remove(Mth.nextInt(random, 0, list.size() - 1));
             int i = Mth.nextInt(random, 1, itemstack2.getCount() / 2);
             ItemStack itemstack1 = itemstack2.split(i);
@@ -287,6 +397,48 @@ public class BTUtil {
 
         itemStackList.addAll(list);
         Collections.shuffle(itemStackList, new Random());
+    }
+
+    private static void btSplitItems(List<ItemStack> itemStackList, int listSize, RandomSource random) {
+        List<ItemStack> list = Lists.newArrayList();
+        Iterator<ItemStack> iterator = itemStackList.iterator();
+
+        while (iterator.hasNext()) {
+            ItemStack itemstack = iterator.next();
+            if (itemstack.isEmpty()) {
+                iterator.remove();
+            } else if (itemstack.getCount() > 2) {
+                list.add(itemstack);
+                iterator.remove();
+            }
+        }
+
+        while (!list.isEmpty() && list.size() + itemStackList.size() < listSize - 1) {
+            ItemStack itemstack2 = list.remove(Mth.nextInt(random, 0, list.size() - 1));
+            int i = Mth.nextInt(random, 1, itemstack2.getCount() / 2);
+            ItemStack itemstack1 = itemstack2.split(i);
+            if (itemstack2.getCount() > 3) {
+                list.add(itemstack2);
+            } else {
+                itemStackList.add(itemstack2);
+            }
+
+            if (itemstack1.getCount() > 3) {
+                list.add(itemstack1);
+            } else {
+                itemStackList.add(itemstack1);
+            }
+        }
+
+        itemStackList.addAll(list);
+    }
+
+    public static ItemStack getRandomPotion(RandomSource randomSource) {
+        return PotionUtils.setPotion(Items.POTION.getDefaultInstance(), potions.get(randomSource.nextInt(potions.size())));
+    }
+
+    public static ItemStack getRandomDye(RandomSource randomSource) {
+        return new ItemStack(dyes.get(randomSource.nextInt(dyes.size())));
     }
 
     public static void doCommand(Entity self, String command) {

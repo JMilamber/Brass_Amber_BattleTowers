@@ -169,7 +169,7 @@ public abstract class BTAbstractGolem extends Monster {
 	@Override
 	public void readAdditionalSaveData(CompoundTag compound) {
 		super.readAdditionalSaveData(compound);
-		ListTag spawnPos = compound.getList(this.spawnPosName, 6);
+		ListTag spawnPos = compound.getList(this.spawnPosName, 9);
 		int x = spawnPos.getInt(0);
 		int y = spawnPos.getInt(1);
 		int z = spawnPos.getInt(2);
