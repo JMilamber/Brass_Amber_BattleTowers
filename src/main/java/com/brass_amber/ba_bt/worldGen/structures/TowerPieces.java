@@ -94,7 +94,7 @@ public class TowerPieces {
             }
             while (usedRooms.getOrDefault(roomName, 0) == 2);
 
-            if (usedRooms.size() < 2) {
+            if (usedRooms.getOrDefault(roomName, 0) < 2) {
                 usedRooms.put(roomName, usedRooms.getOrDefault(roomName, 0)+1);
             }
 
