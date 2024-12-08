@@ -46,7 +46,7 @@ public class DataMarkerBlockEntity extends BlockEntity {
             this.containerType = "Invalid";
         }
 
-        this.lootTypes = listFromTag(compoundTag.getCompound("Loot"), Optional.of(BTStatics.lootTypes));
+        this.lootTypes = listFromTag(compoundTag.getCompound("Loot"), Optional.of(lootMap.keySet().stream().toList()));
 
         try {
             this.rarity = compoundTag.getInt("Rarity");
