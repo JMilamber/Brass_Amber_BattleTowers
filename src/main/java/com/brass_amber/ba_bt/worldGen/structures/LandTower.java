@@ -59,7 +59,6 @@ public class LandTower extends TowerStructure {
     private final HolderSet<Biome> biomesJungleTerra;
     private final HolderSet<Biome> biomesJungleBOP;
     private final HolderSet<Biome> biomesJungleBYG;
-    private Boolean monolithSpawned;
     protected LandTower(StructureSettings structureSettings, BTStructureSettings extraSettings,
                         HolderSet<Biome> biomesSandy, HolderSet<Biome> biomesSandyTerra, HolderSet<Biome> biomesSandyBOP, HolderSet<Biome> biomesSandyBYG,
                         HolderSet<Biome> biomesJungle, HolderSet<Biome> biomesJungleTerra, HolderSet<Biome> biomesJungleBOP, HolderSet<Biome> biomesJungleBYG) {
@@ -76,7 +75,6 @@ public class LandTower extends TowerStructure {
         this.towerId = 0;
         this.towerName = "land_tower";
         this.towerTypeConversion = new String[]{"normal", "overgrown", "sandy", "icy", "ruined"};
-        this.monolithSpawned = false;
     }
 
     @Override
@@ -256,9 +254,11 @@ public class LandTower extends TowerStructure {
     @Override
     public void afterPlace(WorldGenLevel worldGenLevel, StructureManager structureManager, ChunkGenerator chunkGenerator, RandomSource randomSource, BoundingBox boundingBox, ChunkPos chunkPos, PiecesContainer piecesContainer) {
         super.afterPlace(worldGenLevel, structureManager, chunkGenerator, randomSource, boundingBox, chunkPos, piecesContainer);
+
+        // After Place is called for every chunk that the structure occupies.
+        this.afterPlaceCount++;
         BoundingBox boundingbox = piecesContainer.calculateBoundingBox();
         int bbYStart = boundingbox.minY();
-        boundingbox.getCenter();
 
         BlockPos chunckCenter = chunkPos.getMiddleBlockPosition(bbYStart);
 
@@ -309,7 +309,7 @@ public class LandTower extends TowerStructure {
                 }
             }
         }
-        
+
         List<BlockState> acceptableDirtBlocks = List.of(
                 Blocks.DIRT.defaultBlockState(), Blocks.DIRT_PATH.defaultBlockState(),
                 Blocks.COARSE_DIRT.defaultBlockState(), Blocks.ROOTED_DIRT.defaultBlockState(),
@@ -354,7 +354,7 @@ public class LandTower extends TowerStructure {
             }
         }
 
-        if (!this.monolithSpawned) {
+        if (afterPlaceCount == 9) {
             BoundingBox topBB = piecesContainer.pieces().get(9).getBoundingBox();
             BlockPos center = topBB.getCenter().atY(topBB.minY()).above(3);
             ServerLevel level = worldGenLevel.getLevel();
@@ -362,10 +362,9 @@ public class LandTower extends TowerStructure {
             Entity monolith;
             monolith = new BTMonolith(BTEntityType.LAND_MONOLITH.get(), level, center.getX() + .5, center.getY(), center.getZ() + .5, Blocks.CLAY.defaultBlockState());
             worldGenLevel.addFreshEntity(monolith);
-            this.monolithSpawned = true;
             BABTMain.LOGGER.info("Spawned Monolith at " + center);
+            this.afterPlaceCount = 0;
         }
-
     }
 
     @Override
