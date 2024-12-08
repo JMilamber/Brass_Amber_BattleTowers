@@ -1,7 +1,7 @@
 package com.brass_amber.ba_bt.util;
 
 import com.brass_amber.ba_bt.init.BTBlocks;
-import net.minecraft.core.registries.BuiltInRegistries;
+import com.mojang.datafixers.util.Pair;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
@@ -16,6 +16,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -31,7 +32,7 @@ public class BTStatics {
     public static List<List<EntityType<?>>> towerMobs;
     public static final List<List<List<Integer>>> towerSpawnerData;
     public static final List<String> containerTypes;
-    public static final List<String> lootTypes;
+    public static HashMap<String, Pair<List<List<Item>>, List<List<Float>>>> lootMap;
     public static final List<Block> containerBlocks;
 
     public static final List<List<Item>> meatPool;
@@ -46,6 +47,7 @@ public class BTStatics {
     public static final List<List<Item>> armorPool;
     public static final List<List<Item>> toolPool;
     public static final List<List<Item>> consumablePool;
+    public static final List<List<Item>> bedsidePool;
 
     public static final List<List<Float>> meatPoolAmounts;
     public static final List<List<Float>> veggiePoolAmounts;
@@ -59,9 +61,8 @@ public class BTStatics {
     public static final List<List<Float>> armorPoolAmounts;
     public static final List<List<Float>> toolPoolAmounts;
     public static final List<List<Float>> consumablePoolAmounts;
-
-    public static final List<List<List<Item>>> itemPools;
-    public static final List<List<List<Float>>> itemPoolAmounts;
+    public static final List<List<Float>> bedsidePoolAmounts;
+    
 
     public static final List<Potion> potions;
     public static final List<Item> dyes;
@@ -206,8 +207,6 @@ public class BTStatics {
             addAll(Arrays.asList(Blocks.BEDROCK, Blocks.CHEST, Blocks.BARREL, Blocks.TRAPPED_CHEST));
             addAll(extraContainerBlocks.get().stream().map(blockName -> ForgeRegistries.BLOCKS.getValue(new ResourceLocation(blockName))).toList());
         }};
-
-        lootTypes = List.of("Meat", "Veggie", "Cooked", "Gems", "Metals", "Ore", "Building Blocks", "Library", "Weapon", "Armor", "Tools", "Consumables", "Bedside");
 
         meatPool = List.of(
                 new ArrayList<>() {{
@@ -756,7 +755,7 @@ public class BTStatics {
                 new ArrayList<>() {{
                     addAll(Arrays.asList(Items.EXPERIENCE_BOTTLE, Items.SPLASH_POTION));
                     addAll(consumablePoolExtra.get().stream().filter(itemName -> (consumablePoolRarity.get().get(consumablePoolExtra.get().indexOf(itemName)) == 4)).map(itemName -> ForgeRegistries.ITEMS.getValue(new ResourceLocation(itemName))).toList());
-                }} // Rarity 4   -Rabbit Stew added via config
+                }} // Rarity 4
         );
 
         consumablePoolAmounts = List.of(
@@ -782,15 +781,66 @@ public class BTStatics {
                 }}
         );
 
-        itemPools = List.of(
-                meatPool, veggiePool, cookedPool, gemsPool, metalsPool, orePool, buildingBlocksPool, libraryPool,
-                weaponPool, armorPool, toolPool, consumablePool
+        bedsidePool = List.of(
+                new ArrayList<>() {{
+                    addAll(Arrays.asList(Items.PAPER, Items.STICK, Items.LEATHER, Items.FEATHER));
+                    addAll(bedsidePoolExtra.get().stream().filter(itemName -> (bedsidePoolRarity.get().get(bedsidePoolExtra.get().indexOf(itemName)) == 0)).map(itemName -> ForgeRegistries.ITEMS.getValue(new ResourceLocation(itemName))).toList());
+                }}, // Rarity 0
+                new ArrayList<>() {{
+                    addAll(Arrays.asList(Items.BOWL, Items.TORCH, Items.INK_SAC, Items.FLOWER_POT));
+                    addAll(bedsidePoolExtra.get().stream().filter(itemName -> (bedsidePoolRarity.get().get(bedsidePoolExtra.get().indexOf(itemName)) == 1)).map(itemName -> ForgeRegistries.ITEMS.getValue(new ResourceLocation(itemName))).toList());
+                }}, // Rarity 1
+                new ArrayList<>() {{
+                    addAll(Arrays.asList(Items.WRITABLE_BOOK, Items.GLOW_INK_SAC, Items.BOOK));
+                    addAll(bedsidePoolExtra.get().stream().filter(itemName -> (bedsidePoolRarity.get().get(bedsidePoolExtra.get().indexOf(itemName)) == 2)).map(itemName -> ForgeRegistries.ITEMS.getValue(new ResourceLocation(itemName))).toList());
+                }}, // Rarity 2
+                new ArrayList<>() {{
+                    addAll(Arrays.asList(Items.RABBIT_FOOT, Items.CLOCK, Items.BRUSH, Items.COMPASS));
+                    addAll(bedsidePoolExtra.get().stream().filter(itemName -> (bedsidePoolRarity.get().get(bedsidePoolExtra.get().indexOf(itemName)) == 3)).map(itemName -> ForgeRegistries.ITEMS.getValue(new ResourceLocation(itemName))).toList());
+                }}, // Rarity 3
+                new ArrayList<>() {{
+                    addAll(Arrays.asList(Items.AXOLOTL_BUCKET, Items.PHANTOM_MEMBRANE,Items.SPYGLASS));
+                    addAll(bedsidePoolExtra.get().stream().filter(itemName -> (bedsidePoolRarity.get().get(bedsidePoolExtra.get().indexOf(itemName)) == 4)).map(itemName -> ForgeRegistries.ITEMS.getValue(new ResourceLocation(itemName))).toList());
+                }} // Rarity 4
         );
-        itemPoolAmounts = List.of(
-                meatPoolAmounts, veggiePoolAmounts, cookedPoolAmounts, gemsPoolAmounts, metalsPoolAmounts, orePoolAmounts,
-                buildingBlocksPoolAmounts, libraryPoolAmounts, weaponPoolAmounts, armorPoolAmounts, toolPoolAmounts,
-                consumablePoolAmounts
+
+        bedsidePoolAmounts = List.of(
+                new ArrayList<>() {{
+                    addAll(Arrays.asList(2.4f, 2.4f, 2.4f, 2.4f));
+                    addAll(bedsidePoolAmount.get().stream().filter(itemRange -> (bedsidePoolRarity.get().get(bedsidePoolAmount.get().indexOf(itemRange)) == 0)).toList());
+                }},
+                new ArrayList<>() {{
+                    addAll(Arrays.asList(1.2f, 3.7f, 1.2f, 1.1f));
+                    addAll(bedsidePoolAmount.get().stream().filter(itemRange -> (bedsidePoolRarity.get().get(bedsidePoolAmount.get().indexOf(itemRange)) == 1)).toList());
+                }},
+                new ArrayList<>() {{
+                    addAll(Arrays.asList(1.2f, 2.4f, 1.3f));
+                    addAll(bedsidePoolAmount.get().stream().filter(itemRange -> (bedsidePoolRarity.get().get(bedsidePoolAmount.get().indexOf(itemRange)) == 2)).toList());
+                }},
+                new ArrayList<>() {{
+                    addAll(Arrays.asList(1.1f, 1.1f, 1.2f, 1.1f));
+                    addAll(bedsidePoolAmount.get().stream().filter(itemRange -> (bedsidePoolRarity.get().get(bedsidePoolAmount.get().indexOf(itemRange)) == 3)).toList());
+                }},
+                new ArrayList<>() {{
+                    addAll(Arrays.asList(1.1f, 1.3f, 1.1f));
+                    addAll(bedsidePoolAmount.get().stream().filter(itemRange -> (bedsidePoolRarity.get().get(bedsidePoolAmount.get().indexOf(itemRange)) == 4)).toList());
+                }}
         );
+
+        lootMap = new HashMap<>();
+        lootMap.put("Meat", Pair.of(meatPool, meatPoolAmounts));
+        lootMap.put("Veggie", Pair.of(veggiePool,veggiePoolAmounts));
+        lootMap.put("Cooked", Pair.of(cookedPool, cookedPoolAmounts));
+        lootMap.put("Gems", Pair.of(gemsPool, gemsPoolAmounts));
+        lootMap.put("Metals", Pair.of(metalsPool, metalsPoolAmounts));
+        lootMap.put("Ore", Pair.of(orePool, orePoolAmounts));
+        lootMap.put("Building Blocks", Pair.of(buildingBlocksPool, buildingBlocksPoolAmounts));
+        lootMap.put("Library", Pair.of(libraryPool, libraryPoolAmounts));
+        lootMap.put("Weapon", Pair.of(weaponPool, weaponPoolAmounts));
+        lootMap.put("Armor", Pair.of(armorPool, armorPoolAmounts));
+        lootMap.put("Tools", Pair.of(toolPool, toolPoolAmounts));
+        lootMap.put("Consumables", Pair.of(consumablePool, consumablePoolAmounts));
+        lootMap.put("Bedside", Pair.of(bedsidePool, bedsidePoolAmounts));
 
         potions = ForgeRegistries.POTIONS.getValues().stream().toList();
         dyes = List.of(

@@ -240,18 +240,27 @@ public class BTUtil {
         }
 
         for (String pool: pools) {
+            Pair<List<List<Item>>, List<List<Float>>> itemPoolAndAmounts = lootMap.getOrDefault(pool, lootMap.get("Building Blocks"));
             for (int i = Math.max(rarity-1, 0); i < Math.min(rarity + 1, 4); i++) {
-                poolItems.addAll(itemPools.get(lootTypes.indexOf(pool)).get(i));
-                List<Float> floats = itemPoolAmounts.get(lootTypes.indexOf(pool)).get(i);
+                poolItems.addAll(itemPoolAndAmounts.getFirst().get(i));
+                List<Float> floats = itemPoolAndAmounts.getSecond().get(i);
                 for (float amount: floats) {
                     // BABTMain.LOGGER.info("Min amount = " + (int) amount + "  Max amount = " + ((amount - Mth.floor(amount)) * 10));
                     poolMins.add((int) amount);
                     poolMaxes.add((int) (((amount - (int) amount) * 10)));
                 }
+                if (itemPoolAndAmounts.getFirst().get(i).size() < 4) {
+                    poolItems.addAll(itemPoolAndAmounts.getFirst().get(i));
+                    for (float amount: floats) {
+                        // BABTMain.LOGGER.info("Min amount = " + (int) amount + "  Max amount = " + ((amount - Mth.floor(amount)) * 10));
+                        poolMins.add((int) amount);
+                        poolMaxes.add((int) (((amount - (int) amount) * 10)));
+                    }
+                }
             }
             // Add actually rarity pool twice (higher chance)
-            poolItems.addAll(itemPools.get(lootTypes.indexOf(pool)).get(rarity));
-            List<Float> floats = itemPoolAmounts.get(lootTypes.indexOf(pool)).get(rarity);
+            poolItems.addAll(itemPoolAndAmounts.getFirst().get(rarity));
+            List<Float> floats = itemPoolAndAmounts.getSecond().get(rarity);
             for (float amount: floats) {
                 // BABTMain.LOGGER.info("Min amount = " + (int) amount + "  Max amount = " + ((amount - Mth.floor(amount)) * 10));
                 poolMins.add((int) amount);
@@ -259,7 +268,7 @@ public class BTUtil {
             }
         }
 
-        int itemAmount = isExtra ? 1 + randomSource.nextInt(17) : 13 + randomSource.nextInt(5);
+        int itemAmount = isExtra ? 5 + randomSource.nextInt(12) : 13 + randomSource.nextInt(5);
         for (int i = 0; i < itemAmount; i++) {
             int index = randomSource.nextInt(poolItems.size()-1);
             items.add(poolItems.get(index));
@@ -398,7 +407,7 @@ public class BTUtil {
             ItemStack itemstack = iterator.next();
             if (itemstack.isEmpty()) {
                 iterator.remove();
-            } else if (itemstack.getCount() > 3) {
+            } else if (itemstack.getCount() > 2) {
                 list.add(itemstack);
                 iterator.remove();
             }
@@ -408,13 +417,13 @@ public class BTUtil {
             ItemStack itemstack2 = list.remove(Mth.nextInt(random, 0, list.size() - 1));
             int i = Mth.nextInt(random, 1, itemstack2.getCount() / 2);
             ItemStack itemstack1 = itemstack2.split(i);
-            if (itemstack2.getCount() > 4) {
+            if (itemstack2.getCount() > 3) {
                 list.add(itemstack2);
             } else {
                 itemStackList.add(itemstack2);
             }
 
-            if (itemstack1.getCount() > 4) {
+            if (itemstack1.getCount() > 3) {
                 list.add(itemstack1);
             } else {
                 itemStackList.add(itemstack1);
