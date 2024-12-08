@@ -268,7 +268,7 @@ public class BTUtil {
             }
         }
 
-        int itemAmount = isExtra ? 5 + randomSource.nextInt(12) : 13 + randomSource.nextInt(5);
+        int itemAmount = isExtra ? 3 + randomSource.nextInt(5) : 13 + randomSource.nextInt(5);
         for (int i = 0; i < itemAmount; i++) {
             int index = randomSource.nextInt(poolItems.size()-1);
             items.add(poolItems.get(index));
